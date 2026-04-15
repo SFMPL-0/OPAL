@@ -1,0 +1,2555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+╔══════════════════════════════════════════════════════════════════════╗
+║  SFMPL TMS v5 — Full Workflow Edition (Supabase Backend)            ║
+║  Transformed from GAS v7.1 logic → Supabase + TMS UI Style         ║
+╠══════════════════════════════════════════════════════════════════════╣
+║  ROLES:                                                             ║
+║  SUPERADMIN — Edit / Delete any record across all modules           ║
+║  ADMIN      — Full access + User Management, no delete              ║
+║  USER       — Assigned modules only, read+write                     ║
+╠══════════════════════════════════════════════════════════════════════╣
+║  SETUP:                                                             ║
+║  1. Replace SUPABASE_URL and SUPABASE_ANON below                    ║
+║  2. Run the SQL schema in Supabase SQL Editor                       ║
+║  3. Login: superadmin / superadmin123                               ║
+╚══════════════════════════════════════════════════════════════════════╝
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SFMPL TMS v5 — Full Workflow</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0d1117;--ink2:#24292f;--ink3:#57606a;--ink4:#8c959f;
+  --canvas:#f6f8fa;--surface:#ffffff;--border:#d0d7de;--border2:#b0b7be;--divider:#eaeef2;
+  --sb-bg:#13233a;--sb-hover:#1c3151;--sb-active:#1f4068;--sb-text:#cdd9e5;--sb-muted:#768390;--sb-accent:#539bf5;--sb-border:#1b3050;--sb-w:230px;
+  --blue:#0969da;--blue-lt:#ddf4ff;--blue-dk:#0550ae;
+  --green:#1a7f37;--green-lt:#dafbe1;
+  --amber:#9a6700;--amber-lt:#fff8c5;
+  --red:#cf222e;--red-lt:#ffebe9;
+  --purple:#6639ba;--purple-lt:#fbefff;
+  --gold:#b08800;--gold-lt:#fff3cd;
+  --mono:'Consolas','Courier New',monospace;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+}
+body{font-family:var(--sans);background:var(--canvas);color:var(--ink);display:flex;height:100vh;overflow:hidden;font-size:13px;line-height:1.5}
+
+/* ── LOGIN ── */
+#login-screen{position:fixed;inset:0;background:var(--sb-bg);display:flex;align-items:center;justify-content:center;z-index:99999}
+.login-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:36px 40px;width:390px;box-shadow:0 12px 40px rgba(0,0,0,.45)}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.login-badge{width:44px;height:44px;background:var(--sb-accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;font-family:var(--mono);flex-shrink:0}
+.login-title{font-size:15px;font-weight:700;color:var(--ink)}
+.login-sub{font-size:10px;color:var(--ink4)}
+.login-field{margin-bottom:14px}
+.login-field label{display:block;font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+.login-field input{width:100%;border:1px solid var(--border);border-radius:4px;padding:9px 11px;font-size:13px;color:var(--ink);background:var(--surface);outline:none;font-family:var(--sans)}
+.login-field input:focus{border-color:var(--blue);outline:2px solid #b6d4fb;outline-offset:0}
+.login-btn{width:100%;padding:11px;background:var(--sb-bg);color:#fff;border:none;border-radius:4px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--sans);letter-spacing:.02em}
+.login-btn:hover{background:#1c3151}
+.login-error{background:var(--red-lt);color:var(--red);border:1px solid #ffcecb;border-radius:3px;padding:8px 11px;font-size:12px;font-weight:600;margin-bottom:14px;display:none}
+
+/* ── SIDEBAR ── */
+#sidebar{width:var(--sb-w);background:var(--sb-bg);border-right:1px solid var(--sb-border);display:flex;flex-direction:column;flex-shrink:0;z-index:10;overflow:hidden}
+.sidebar-logo{padding:14px 16px 12px;border-bottom:1px solid var(--sb-border)}
+.logo-wordmark{display:flex;align-items:center;gap:10px}
+.logo-badge{width:32px;height:32px;background:var(--sb-accent);border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff;font-family:var(--mono);flex-shrink:0}
+.logo-name{font-size:13px;font-weight:700;color:#fff;line-height:1.2}
+.logo-tag{font-size:10px;color:var(--sb-muted);font-weight:400;margin-top:1px}
+nav{flex:1;overflow-y:auto;padding:6px 0}
+nav::-webkit-scrollbar{width:3px}
+nav::-webkit-scrollbar-thumb{background:var(--sb-border);border-radius:2px}
+.nav-group-label{padding:10px 16px 4px;font-size:9px;font-weight:700;color:var(--sb-muted);text-transform:uppercase;letter-spacing:.12em}
+.nav-item{display:flex;align-items:center;gap:8px;padding:7px 16px;cursor:pointer;color:var(--sb-text);font-size:12px;font-weight:500;border-left:3px solid transparent;border-right:none;background:none;border-top:none;border-bottom:none;width:100%;text-align:left}
+.nav-item:hover{background:var(--sb-hover);color:#e6edf3}
+.nav-item.active{background:var(--sb-active);color:#fff;border-left-color:var(--sb-accent);font-weight:600}
+.nav-icon{font-size:12px;width:16px;text-align:center;flex-shrink:0;opacity:.8}
+.nav-item.active .nav-icon{opacity:1}
+.nav-divider{height:1px;background:var(--sb-border);margin:5px 0}
+.sidebar-footer{padding:10px 16px;border-top:1px solid var(--sb-border);font-size:10px;color:var(--sb-muted)}
+
+/* ── MAIN ── */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;height:50px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar-left{display:flex;align-items:center;gap:8px}
+.page-title{font-size:14px;font-weight:700;color:var(--ink)}
+.page-sub{font-size:11px;color:var(--ink4);margin-left:8px;padding-left:8px;border-left:1px solid var(--border)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.user-chip{display:flex;align-items:center;gap:7px;background:var(--canvas);padding:4px 10px 4px 4px;border-radius:3px;border:1px solid var(--border)}
+.user-avatar{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;font-family:var(--mono);flex-shrink:0}
+.avatar-sa{background:#6639ba}
+.avatar-admin{background:var(--sb-bg)}
+.avatar-user{background:var(--blue)}
+.user-name{font-size:11px;font-weight:700;color:var(--ink2)}
+.role-badge{font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em}
+.rb-sa{background:var(--purple-lt);color:var(--purple);border:1px solid #d0b0ff}
+.rb-admin{background:var(--gold-lt);color:var(--gold);border:1px solid #ffc107}
+.rb-user{background:var(--blue-lt);color:var(--blue-dk);border:1px solid #b6d4fb}
+
+#content{flex:1;overflow-y:auto;padding:18px 20px}
+#content::-webkit-scrollbar{width:5px}
+#content::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ── SECTIONS ── */
+.section{display:none}
+.section.active{display:block}
+
+/* ── CARDS ── */
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px 18px;margin-bottom:14px}
+.section-title{font-size:12px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--divider);display:flex;align-items:center;gap:8px;justify-content:space-between}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:14px 16px;border-top:3px solid var(--blue)}
+.stat-card.green{border-top-color:var(--green)}.stat-card.amber{border-top-color:var(--amber)}.stat-card.red{border-top-color:var(--red)}.stat-card.purple{border-top-color:var(--purple)}
+.stat-label{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.stat-value{font-size:26px;font-weight:700;color:var(--ink);font-family:var(--mono);line-height:1;letter-spacing:-.02em}
+
+/* ── FORMS ── */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(186px,1fr));gap:10px}
+.fgrid-2{grid-template-columns:repeat(2,1fr)}.fgrid-3{grid-template-columns:repeat(3,1fr)}.fgrid-4{grid-template-columns:repeat(4,1fr)}
+.fg{display:flex;flex-direction:column;gap:3px}
+.fg.full{grid-column:1/-1}
+.fg label{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em}
+.fg input,.fg select,.fg textarea{padding:7px 10px;background:var(--canvas);border:1px solid var(--border);border-radius:3px;color:var(--ink);font-family:var(--sans);font-size:12px;width:100%;outline:none}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue);outline:2px solid #b6d4fb;outline-offset:0}
+.fg input[readonly],.fg textarea[readonly]{background:#f0f0f0;color:var(--ink3);cursor:default}
+.fg input.cmp{background:#f0fff4!important;border-color:#b7e4c7!important;color:var(--green)!important;font-weight:700;font-family:var(--mono)!important}
+.fg textarea{resize:vertical;min-height:60px}
+.sub-panel{display:none;background:var(--amber-lt);border:1px solid #f0dc8a;border-radius:4px;padding:10px;margin-top:4px}
+.sub-panel.open{display:block}
+.cbg{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--canvas);border:1px solid var(--border);border-radius:3px;cursor:pointer;user-select:none}
+.cbg input[type=checkbox]{accent-color:var(--blue);cursor:pointer;width:14px;height:14px}
+.cbg span{font-size:12px;color:var(--ink2)}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:3px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;font-family:var(--sans);text-transform:uppercase;letter-spacing:.04em}
+.btn:active{transform:scale(.97)}.btn:disabled{opacity:.38;cursor:not-allowed}
+.btn-primary{background:var(--blue);color:#fff;border-color:var(--blue-dk)}.btn-primary:hover:not(:disabled){background:var(--blue-dk)}
+.btn-outline{background:var(--surface);color:var(--ink2);border-color:var(--border2)}.btn-outline:hover{background:var(--canvas)}
+.btn-success{background:var(--green);color:#fff;border-color:#116329}.btn-success:hover{background:#116329}
+.btn-danger{background:var(--red);color:#fff;border-color:#a40e26}.btn-danger:hover{background:#a40e26}
+.btn-warn{background:var(--amber);color:#fff;border-color:#7a5200}.btn-warn:hover{filter:brightness(1.1)}
+.btn-purple{background:var(--purple);color:#fff;border-color:#4d2a9c}.btn-purple:hover{filter:brightness(1.1)}
+.btn-sm{padding:4px 10px;font-size:11px}
+.actions{display:flex;gap:8px;padding:12px 0 0;flex-wrap:wrap}
+
+/* ── TABLES ── */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:4px}
+.scroll-table-wrap{overflow-x:auto;overflow-y:auto;border:1px solid var(--border);border-radius:4px;max-height:320px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead tr{background:var(--sb-bg)}
+thead.sticky th{position:sticky;top:0;z-index:2}
+th{padding:8px 10px;text-align:left;font-weight:700;color:var(--sb-text);font-size:10px;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;border-bottom:none}
+td{padding:7px 10px;border-bottom:1px solid var(--divider);color:var(--ink2);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:#fafbfc}
+tbody tr:hover td{background:var(--blue-lt)}
+
+/* ── BADGES ── */
+.badge{padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;display:inline-block}
+.b-ok{background:var(--green-lt);color:var(--green);border-color:#b7e4c7}
+.b-pend{background:var(--red-lt);color:var(--red);border-color:#ffcecb}
+.b-balp{background:var(--amber-lt);color:var(--amber);border-color:#f0dc8a}
+.b-info{background:var(--blue-lt);color:var(--blue-dk);border-color:#b6d4fb}
+.b-purple{background:var(--purple-lt);color:var(--purple);border-color:#d0b0ff}
+.b-new{background:var(--blue-lt);color:var(--blue-dk);border-color:#b6d4fb}
+.b-upd{background:var(--amber-lt);color:var(--amber);border-color:#f0dc8a}
+
+/* ── TOAST ── */
+#toast-container{position:fixed;top:14px;right:14px;z-index:9999;display:flex;flex-direction:column;gap:6px;pointer-events:none}
+.toast{padding:9px 14px;border-radius:4px;font-size:12px;font-weight:700;min-width:200px;border-left:4px solid transparent;pointer-events:auto}
+.toast-success{background:var(--surface);color:var(--green);border:1px solid #b7e4c7;border-left-color:var(--green)}
+.toast-error{background:var(--surface);color:var(--red);border:1px solid #ffcecb;border-left-color:var(--red)}
+.toast-info{background:var(--surface);color:var(--blue);border:1px solid #b6d4fb;border-left-color:var(--blue)}
+
+/* ── LOADING ── */
+.loading{text-align:center;padding:28px;color:var(--ink4);font-size:12px}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin-right:6px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+#ldr{position:fixed;top:0;left:0;right:0;height:3px;background:var(--blue);transform:scaleX(0);transform-origin:left;opacity:0;z-index:9999;transition:opacity .2s}
+#ldr.on{opacity:1;animation:ldrA 1.2s ease-in-out infinite}
+@keyframes ldrA{0%{transform:scaleX(0)}60%{transform:scaleX(.7)}100%{transform:scaleX(1);opacity:0}}
+
+/* ── MODAL ── */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;align-items:center;justify-content:center;padding:16px}
+.ov.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:6px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto}
+.modal-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--canvas)}
+.modal-hd h3{font-size:13px;font-weight:700;color:var(--ink2)}
+.modal-x{background:none;border:none;color:var(--ink3);cursor:pointer;font-size:18px;line-height:1;padding:0 4px}
+.modal-bd{padding:16px;display:flex;flex-direction:column;gap:12px}
+.modal-ft{display:flex;gap:8px;justify-content:flex-end;padding:12px 16px;border-top:1px solid var(--border);background:var(--canvas)}
+
+/* ── SUPERADMIN EDIT PANEL ── */
+.sa-edit-bar{display:none;background:#fbefff;border:1px solid #d0b0ff;border-radius:4px;padding:8px 14px;margin-bottom:12px;align-items:center;gap:10px;font-size:11px;font-weight:700;color:var(--purple)}
+.sa-edit-bar.show{display:flex}
+.sa-editing-badge{background:var(--purple);color:#fff;padding:2px 8px;border-radius:3px;font-size:10px;letter-spacing:.05em}
+
+/* ── GC PROGRESS ── */
+.gc-prog{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--blue-lt);border:1px solid #b6d4fb;border-radius:4px;margin-bottom:10px;font-size:11px;color:var(--blue-dk)}
+.gc-pbar{flex:1;height:5px;background:var(--border2);border-radius:3px;overflow:hidden}
+.gc-pfill{height:100%;background:var(--blue);border-radius:3px;transition:width .35s ease}
+.gc-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.gc-tbl th{background:var(--canvas);color:var(--ink3);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:7px 10px;text-align:left;white-space:nowrap}
+.gc-tbl td{padding:6px 10px;border-bottom:1px solid var(--divider);vertical-align:middle}
+.gc-tbl tr:last-child td{border-bottom:none}
+
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;gap:8px;margin-bottom:12px;align-items:flex-end;flex-wrap:wrap}
+.filter-bar .fg{flex:1;min-width:140px}
+.srch{position:relative}
+.srch input{padding-left:24px!important}
+.srch-ic{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--ink4);font-size:11px;pointer-events:none}
+.sbox{position:absolute;top:calc(100% + 2px);left:0;right:0;background:var(--surface);border:1px solid var(--border2);border-radius:4px;z-index:300;max-height:200px;overflow-y:auto;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.si{padding:7px 12px;font-size:12px;cursor:pointer;color:var(--ink2);border-bottom:1px solid var(--border)}
+.si:last-child{border-bottom:none}
+.si:hover,.si.hi{background:var(--canvas);color:var(--ink)}
+
+/* ── CLOCK ── */
+.hdr-clock{font-size:10px;color:var(--ink3);text-align:right;line-height:1.6}
+.hdr-clock .tc{font-size:12px;font-weight:700;color:var(--ink);font-family:var(--mono)}
+
+/* ── REPORT SECTIONS ── */
+.rpt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin-bottom:14px}
+.rpt-card{background:var(--canvas);border:1px solid var(--border);border-radius:4px;padding:10px 14px}
+.rpt-label{font-size:10px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.rpt-val{font-size:13px;font-weight:700;color:var(--ink);font-family:var(--mono)}
+.rpt-val.hl-green{color:var(--green)}.rpt-val.hl-red{color:var(--red)}.rpt-val.hl-blue{color:var(--blue)}.rpt-val.hl-amber{color:var(--amber)}
+
+/* ── USER ROLE BADGES ── */
+.urb-sa{background:#fbefff;color:var(--purple);border:1px solid #d0b0ff}
+.urb-admin{background:var(--gold-lt);color:var(--gold);border:1px solid #ffc107}
+.urb-user{background:var(--blue-lt);color:var(--blue-dk);border:1px solid #b6d4fb}
+</style>
+</head>
+<body>
+<div id="ldr"></div>
+<div id="toast-container"></div>
+
+<!-- ═══════════════════ LOGIN SCREEN ═══════════════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-badge">SF</div>
+      <div>
+        <div class="login-title">SFMPL OPPAL TMS</div>
+        <div class="login-sub">Full Workflow Edition</div>
+      </div>
+    </div>
+    <div class="login-error" id="login-error"></div>
+    <div class="login-field">
+      <label>Username</label>
+      <input type="text" id="login-username" placeholder="Enter username" autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="login-password" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="login-btn" onclick="doLogin()" id="login-btn">Sign In</button>
+    <div style="text-align:center;margin-top:14px;font-size:10px;color:var(--ink4)">SFMPL TMS v5 · Supabase Edition</div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<div id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-wordmark">
+      <div class="logo-badge">SF</div>
+      <div>
+        <div class="logo-name">SFMPL TMS</div>
+        <div class="logo-tag">v5 · Full Workflow</div>
+      </div>
+    </div>
+  </div>
+  <nav id="main-nav">
+    <div class="nav-group-label">Main</div>
+    <button class="nav-item active" onclick="navigate('dashboard')" id="nav-dashboard">
+      <span class="nav-icon">📊</span>Dashboard
+    </button>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-label">Workflow</div>
+    <button class="nav-item" onclick="navigate('u1')" id="nav-u1">
+      <span class="nav-icon">📦</span>User 1 — Booking
+    </button>
+    <button class="nav-item" onclick="navigate('u2')" id="nav-u2">
+      <span class="nav-icon">📋</span>User 2 — Dispatch
+    </button>
+    <button class="nav-item" onclick="navigate('u3')" id="nav-u3">
+      <span class="nav-icon">💰</span>User 3 — Settlement
+    </button>
+    <button class="nav-item" onclick="navigate('u4')" id="nav-u4">
+      <span class="nav-icon">🔖</span>User 4 — Eway Bill
+    </button>
+    <button class="nav-item" onclick="navigate('u5')" id="nav-u5">
+      <span class="nav-icon">📅</span>User 5 — Advise
+    </button>
+    <button class="nav-item" onclick="navigate('u6')" id="nav-u6">
+      <span class="nav-icon">📤</span>User 6 — OPPAL
+    </button>
+    <button class="nav-item" onclick="navigate('u7')" id="nav-u7">
+      <span class="nav-icon">🧾</span>User 7 — Final Bill
+    </button>
+    <button class="nav-item" onclick="navigate('u8')" id="nav-u8">
+      <span class="nav-icon">📊</span>User 8 — Accounts
+    </button>
+    <button class="nav-item" onclick="navigate('u9')" id="nav-u9">
+      <span class="nav-icon">✅</span>User 9 — Final Check
+    </button>
+    <button class="nav-item" onclick="navigate('u10')" id="nav-u10">
+      <span class="nav-icon">📑</span>User 10 — GC Tracker
+    </button>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-label">Reports</div>
+    <button class="nav-item" onclick="navigate('balance')" id="nav-balance">
+      <span class="nav-icon">⚖️</span>Balance Report
+    </button>
+    <button class="nav-item" onclick="navigate('tptreport')" id="nav-tptreport">
+      <span class="nav-icon">🚛</span>Transport Report
+    </button>
+    <button class="nav-item" onclick="navigate('masterreport')" id="nav-masterreport">
+      <span class="nav-icon">📥</span>Master Report
+    </button>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-label">Masters</div>
+    <button class="nav-item" onclick="navigate('masters')" id="nav-masters">
+      <span class="nav-icon">🗄️</span>Master Data
+    </button>
+
+    <div class="nav-divider"></div>
+    <div class="nav-group-label" id="nav-admin-group" style="display:none">Admin</div>
+    <button class="nav-item" onclick="navigate('usermgmt')" id="nav-usermgmt" style="display:none">
+      <span class="nav-icon">👤</span>User Management
+    </button>
+  </nav>
+  <div class="sidebar-footer" id="sidebar-footer">SFMPL TMS v5 · Supabase</div>
+</div>
+
+<!-- ═══════════════════ MAIN AREA ═══════════════════ -->
+<div id="main">
+  <div id="topbar">
+    <div class="topbar-left">
+      <div class="page-title" id="page-title">Dashboard</div>
+      <div class="page-sub" id="page-sub"></div>
+    </div>
+    <div class="topbar-right">
+      <div class="hdr-clock"><div id="clk-date"></div><div class="tc" id="clk-time"></div></div>
+      <div class="user-chip">
+        <div class="user-avatar" id="topbar-avatar">U</div>
+        <div>
+          <div class="user-name" id="topbar-username">User</div>
+          <div class="role-badge" id="topbar-rolebadge">USER</div>
+        </div>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="doLogout()">⏻ Logout</button>
+    </div>
+  </div>
+  <div id="content">
+
+    <!-- ─── DASHBOARD ─── -->
+    <div class="section active" id="sec-dashboard">
+      <div class="loading"><span class="spinner"></span>Loading dashboard...</div>
+    </div>
+
+    <!-- ─── USER 1 BOOKING ─── -->
+    <div class="section" id="sec-u1">
+      <div class="section-card">
+        <div class="section-title">
+          <span>📦 Booking Entry — User 1</span>
+          <button class="btn btn-outline btn-sm" onclick="viewRecords('u1')">📋 View Records</button>
+        </div>
+        <div id="sa-u1-bar" class="sa-edit-bar">
+          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span>Editing row ID: <strong id="sa-u1-id"></strong></span>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u1')">✕ Cancel Edit</button>
+        </div>
+        <div class="fgrid">
+          <div class="fg"><label>Order Date *</label><input type="date" id="u1_od" oninput="calcU1Status()"></div>
+          <div class="fg"><label>Order Time *</label><input type="time" id="u1_ot" oninput="calcU1Status()"></div>
+          <div class="fg"><label>SO No *</label><input type="text" id="u1_so" placeholder="e.g. SO-2025-001" autocomplete="off"></div>
+          <div class="fg"><label>Entry Date *</label><input type="date" id="u1_ed" oninput="calcU1Status()"></div>
+          <div class="fg"><label>Entry Time *</label><input type="time" id="u1_et" oninput="calcU1Status()"></div>
+          <div class="fg"><label>Status (Auto)</label><input type="text" id="u1_status" class="cmp" readonly></div>
+          <div class="fg"><label>Hours Load (Auto)</label><input type="text" id="u1_hl" class="cmp" readonly></div>
+          <div class="fg"><label>Lorry No *</label><input type="text" id="u1_lorry" placeholder="e.g. KA01AB1234" autocomplete="off"></div>
+          <div class="fg"><label>Consignor *<button class="btn btn-outline btn-sm" style="margin-left:6px;padding:1px 6px;font-size:9px" onclick="openAddModal('customer','u1_consignor')">+ Add</button></label>
+            <select id="u1_consignor"><option value="">Select Consignor</option></select></div>
+          <div class="fg"><label>Consignee *<button class="btn btn-outline btn-sm" style="margin-left:6px;padding:1px 6px;font-size:9px" onclick="openAddModal('customer','u1_consignee')">+ Add</button></label>
+            <select id="u1_consignee"><option value="">Select Consignee</option></select></div>
+          <div class="fg"><label>From *</label><input type="text" id="u1_from" placeholder="Origin Place" autocomplete="off"></div>
+          <div class="fg"><label>Destination *<button class="btn btn-outline btn-sm" style="margin-left:6px;padding:1px 6px;font-size:9px" onclick="openAddModal('destination','u1_dest')">+ Add</button></label>
+            <select id="u1_dest"><option value="">Select Destination</option></select></div>
+          <div class="fg"><label>Broker *<button class="btn btn-outline btn-sm" style="margin-left:6px;padding:1px 6px;font-size:9px" onclick="openAddModal('broker','')">+ Add</button></label>
+            <select id="u1_broker" onchange="fillBrokerDetails()"><option value="">Select Broker</option></select></div>
+          <div class="fg"><label>Adv Account No *</label><input type="text" id="u1_advAcc" placeholder="Advance A/C No" autocomplete="off"></div>
+          <div class="fg"><label>Adv IFSC *</label><input type="text" id="u1_advIfsc" placeholder="IFSC Code" autocomplete="off"></div>
+          <div class="fg"><label>Adv Holder Name *</label><input type="text" id="u1_advHolder" placeholder="Holder Name" autocomplete="off"></div>
+          <div class="fg"><label>Bal Account No</label><input type="text" id="u1_balAcc" placeholder="Balance A/C No" autocomplete="off"></div>
+          <div class="fg"><label>Bal IFSC</label><input type="text" id="u1_balIfsc" placeholder="IFSC Code" autocomplete="off"></div>
+          <div class="fg"><label>Broker Contact</label><input type="text" id="u1_brkContact" placeholder="Mobile No" autocomplete="off"></div>
+          <div class="fg"><label>Driver Contact</label><input type="text" id="u1_dcontact" placeholder="Mobile No" autocomplete="off"></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="u1_btn" onclick="saveU1()">💾 Save Booking</button>
+          <button class="btn btn-outline" onclick="clearForm('u1')">✕ Clear</button>
+        </div>
+      </div>
+      <div class="section-card" id="u1-records-card" style="display:none">
+        <div class="section-title"><span>📋 Booking Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u1-records-card').style.display='none'">✕ Close</button></div>
+        <div class="table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>Order Date</th><th>Lorry</th><th>Consignor</th><th>Consignee</th><th>From</th><th>Dest</th><th>Broker</th><th>Status</th><th>Hours</th><th id="u1-act-th" style="display:none">Actions</th></tr></thead><tbody id="u1-tbody"></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ─── USER 2 DISPATCH ─── -->
+    <div class="section" id="sec-u2">
+      <div class="section-card">
+        <div class="section-title">
+          <span>📋 Dispatch Entry — User 2</span>
+          <button class="btn btn-outline btn-sm" onclick="viewRecords('u2')">📋 View Records</button>
+        </div>
+        <div id="sa-u2-bar" class="sa-edit-bar">
+          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span>Editing row ID: <strong id="sa-u2-id"></strong></span>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u2')">✕ Cancel Edit</button>
+        </div>
+        <div class="fgrid">
+          <div class="fg"><label>SO No * (Pending)</label><select id="u2_so" onchange="loadU2()"><option value="">Select SO</option></select></div>
+          <div class="fg"><label>Lorry No (Auto)</label><input type="text" id="u2_lorry" class="cmp" readonly></div>
+          <div class="fg"><label>Loading Date *</label><input type="date" id="u2_ld"></div>
+          <div class="fg"><label>OPPAL GC No *</label><input type="text" id="u2_oppal" placeholder="GC Number(s)" autocomplete="off"></div>
+          <div class="fg"><label>Invoice No *</label><input type="text" id="u2_inv" placeholder="Invoice Number" autocomplete="off"></div>
+          <div class="fg"><label>Eway Bill *</label><input type="text" id="u2_eway" placeholder="Eway Bill No" autocomplete="off"></div>
+          <div class="fg"><label>Eway Expiry *</label><input type="date" id="u2_ewayexpiry"></div>
+          <div class="fg"><label>Destination as per GC *</label><select id="u2_destgc"><option value="">Select Dest</option></select></div>
+          <div class="fg"><label>Items *<button class="btn btn-outline btn-sm" style="margin-left:6px;padding:1px 6px;font-size:9px" onclick="openAddModal('item','u2_items')">+ Add</button></label>
+            <select id="u2_items"><option value="">Select Item</option></select></div>
+          <div class="fg"><label>PKGS *</label><input type="text" id="u2_pkgs" placeholder="e.g. 10 Bags" autocomplete="off"></div>
+          <div class="fg"><label>No of Articles *</label><input type="number" id="u2_art" placeholder="0" oninput="calcMT()"></div>
+          <div class="fg"><label>MT (Auto)</label><input type="text" id="u2_mt" class="cmp" readonly></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="u2_btn" onclick="saveU2()">💾 Save Dispatch</button>
+          <button class="btn btn-outline" onclick="clearForm('u2')">✕ Clear</button>
+        </div>
+      </div>
+      <div class="section-card" id="u2-records-card" style="display:none">
+        <div class="section-title"><span>📋 Dispatch Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u2-records-card').style.display='none'">✕ Close</button></div>
+        <div class="table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>Lorry</th><th>L Date</th><th>OPPAL GC</th><th>Invoice</th><th>Eway Bill</th><th>Expiry</th><th>Dest GC</th><th>Items</th><th>PKGS</th><th>Articles</th><th>MT</th><th id="u2-act-th" style="display:none">Actions</th></tr></thead><tbody id="u2-tbody"></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ─── USER 3 SETTLEMENT ─── -->
+    <div class="section" id="sec-u3">
+      <div class="section-card">
+        <div class="section-title">
+          <span>💰 Settlement Entry — User 3</span>
+          <button class="btn btn-outline btn-sm" onclick="viewRecords('u3')">📋 View Records</button>
+        </div>
+        <div id="sa-u3-bar" class="sa-edit-bar">
+          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span>Editing row ID: <strong id="sa-u3-id"></strong></span>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u3')">✕ Cancel Edit</button>
+        </div>
+        <div class="fgrid">
+          <div class="fg"><label>SO No * (Pending)</label><select id="u3_so" onchange="loadU3()"><option value="">Select SO</option></select></div>
+          <div class="fg"><label>Lorry No (Auto)</label><input type="text" id="u3_lorry" class="cmp" readonly></div>
+          <div class="fg"><label>Broker (Auto)</label><input type="text" id="u3_broker" class="cmp" readonly></div>
+          <div class="fg"><label>MF No *</label><input type="text" id="u3_mf" placeholder="MF Number" autocomplete="off"></div>
+          <div class="fg"><label>Destination as per MF *</label><select id="u3_destmf"><option value="">Select Dest</option></select></div>
+          <div class="fg"><label>PMT Rate *</label><input type="number" id="u3_rate" step=".01" placeholder="0.00" oninput="cFreight()"></div>
+          <div class="fg"><label>Total Freight (Auto)</label><input type="text" id="u3_tf" class="cmp" readonly></div>
+          <div class="fg"><label>Other Expense</label><input type="number" id="u3_oe" step=".01" value="0" oninput="cFreightMF()"></div>
+          <div class="fg"><label>Particular</label><input type="text" id="u3_part" placeholder="Particular" autocomplete="off"></div>
+          <div class="fg"><label>L/M</label><input type="number" id="u3_lm" step=".01" value="0" oninput="cFreightMF()"></div>
+          <div class="fg"><label>P/M</label><input type="number" id="u3_pm" step=".01" value="0" oninput="cFreightMF()"></div>
+          <div class="fg"><label>Freight MF (Auto)</label><input type="text" id="u3_fmf" class="cmp" readonly></div>
+          <div class="fg"><label>Advance</label><input type="number" id="u3_adv" step=".01" value="0" oninput="cBal()"></div>
+          <div class="fg"><label>Diesel</label><input type="number" id="u3_dsl" step=".01" value="0" oninput="cBal()"></div>
+          <div class="fg"><label>Other</label><input type="number" id="u3_oth" step=".01" value="0" oninput="cBal()"></div>
+          <div class="fg"><label>Balance (Auto)</label><input type="text" id="u3_bal" class="cmp" readonly></div>
+          <div class="fg full" style="margin:6px 0 4px">
+            <div class="cbg" onclick="toggleDslPanel()">
+              <input type="checkbox" id="u3_dslpaid"> <span>Diesel Paid?</span>
+            </div>
+            <div class="sub-panel" id="dslPanel">
+              <div class="fgrid fgrid-3" style="margin-top:6px">
+                <div class="fg"><label>Payment Type</label><select id="u3_dsltype" onchange="toggleDslFields()"><option value="CASH">Cash</option><option value="CARD">Card</option><option value="NEFT">NEFT</option></select></div>
+                <div class="fg" id="dslRefF"><label id="dslRefL">Reference No</label><input type="text" id="u3_dslref" autocomplete="off"></div>
+                <div class="fg" id="dslCardF" style="display:none"><label>Card No</label><select id="u3_dslcard"><option value="">Select Card</option></select></div>
+              </div>
+            </div>
+          </div>
+          <div class="fg"><label>Loading Labour</label><input type="number" id="u3_ll" step=".01" value="0" oninput="cExp()"></div>
+          <div class="fg"><label>Fooding</label><input type="number" id="u3_food" step=".01" value="0" oninput="cExp()"></div>
+          <div class="fg"><label>CON</label><input type="number" id="u3_con" step=".01" value="0" oninput="cExp()"></div>
+          <div class="fg"><label>Unloading</label><input type="number" id="u3_unl" step=".01" value="0" oninput="cExp()"></div>
+          <div class="fg"><label>Xerox</label><input type="number" id="u3_xerox" step=".01" value="0" oninput="cExp()"></div>
+          <div class="fg"><label>Detention</label><input type="number" id="u3_det" step=".01" value="0" oninput="cExp()"></div>
+          <div class="fg"><label>Extra Point/Weight</label><input type="number" id="u3_ep" step=".01" value="0" oninput="cExp()"></div>
+          <div class="fg"><label>Other Chrg</label><input type="number" id="u3_ochrg" step=".01" value="0" oninput="cExp()"></div>
+          <div class="fg"><label>Total Exp (Auto)</label><input type="text" id="u3_te" class="cmp" readonly></div>
+          <div class="fg"><label>Extra Labour</label><input type="number" id="u3_el" step=".01" value="0" oninput="cTotalCost()"></div>
+          <div class="fg"><label>Total Cost (Auto)</label><input type="text" id="u3_tc" class="cmp" readonly></div>
+          <div class="fg"><label>MT (Auto / Manual if M)</label>
+            <input type="text" id="u3_mt" class="cmp" readonly>
+            <input type="number" id="u3_mmt" step=".001" style="display:none;margin-top:4px;width:100%;padding:7px 10px;background:var(--canvas);border:1px solid var(--border);border-radius:3px;font-size:12px" placeholder="Enter MT manually" oninput="applyMT()">
+          </div>
+          <div class="fg"><label>Bill PMT</label><input type="number" id="u3_bpmt" step=".01" placeholder="0.00" oninput="cBilti()"></div>
+          <div class="fg"><label>Bilti Freight (Auto)</label><input type="text" id="u3_bf" class="cmp" readonly></div>
+          <div class="fg"><label>Adv Account No</label><input type="text" id="u3_advAcc" placeholder="Adv A/C" autocomplete="off"></div>
+          <div class="fg"><label>Adv IFSC</label><input type="text" id="u3_advIfsc" placeholder="IFSC" autocomplete="off"></div>
+          <div class="fg"><label>Bal Account No</label><input type="text" id="u3_balAcc" placeholder="Bal A/C" autocomplete="off"></div>
+          <div class="fg"><label>Bal IFSC</label><input type="text" id="u3_balIfsc" placeholder="IFSC" autocomplete="off"></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="u3_btn" onclick="saveU3()">💾 Save Settlement</button>
+          <button class="btn btn-outline" onclick="clearForm('u3')">✕ Clear</button>
+        </div>
+      </div>
+      <div class="section-card" id="u3-records-card" style="display:none">
+        <div class="section-title"><span>📋 Settlement Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u3-records-card').style.display='none'">✕ Close</button></div>
+        <div class="scroll-table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>MF No</th><th>Lorry</th><th>Broker</th><th>PMT Rate</th><th>Total Freight</th><th>Freight MF</th><th>Advance</th><th>Balance</th><th>Total Cost</th><th>Bilti Freight</th><th id="u3-act-th" style="display:none">Actions</th></tr></thead><tbody id="u3-tbody"></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ─── USER 4 EWAY BILL ─── -->
+    <div class="section" id="sec-u4">
+      <div class="section-card">
+        <div class="section-title">
+          <span>🔖 Eway Bill Tracker — User 4</span>
+          <button class="btn btn-outline btn-sm" onclick="loadU4()">🔄 Refresh</button>
+        </div>
+        <div class="scroll-table-wrap">
+          <table><thead class="sticky"><tr><th>SO No</th><th>MF No</th><th>Broker</th><th>Broker Contact</th><th>Driver Contact</th><th>Lorry No</th><th>Eway Bill</th><th>Eway Expiry</th><th>Unloading Date</th><th>Action</th></tr></thead>
+          <tbody id="u4-tbody"><tr><td colspan="10" class="loading">Click Refresh to load</td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── USER 5 ADVISE ─── -->
+    <div class="section" id="sec-u5">
+      <div class="section-card">
+        <div class="section-title"><span>📅 Advise Date — User 5 (Multi-GC)</span></div>
+        <div style="background:var(--blue-lt);border:1px solid #b6d4fb;border-radius:4px;padding:8px 12px;margin-bottom:12px;font-size:11px;color:var(--blue-dk)">
+          📅 Each GC gets its own Advise Date. First date is <b>LOCKED</b> after save. SO clears only when <b>ALL GCs are advised</b>.
+        </div>
+        <div class="fgrid fgrid-3" style="margin-bottom:12px">
+          <div class="fg"><label>SO No * (Pending)</label><select id="u5_so" onchange="loadU5()"><option value="">Select Pending SO</option></select></div>
+          <div class="fg"><label>MF No (Auto)</label><input type="text" id="u5_mf" class="cmp" readonly></div>
+          <div class="fg"><label>ENT Date (Auto)</label><input type="text" id="u5_entdate" class="cmp" readonly></div>
+        </div>
+        <div id="u5_progress" style="display:none">
+          <div class="gc-prog"><span id="u5_pt">0 / 0 GCs Advised</span><div class="gc-pbar"><div class="gc-pfill" id="u5_pf" style="width:0%"></div></div></div>
+          <div class="table-wrap"><table class="gc-tbl"><thead><tr><th>#</th><th>GC Number</th><th>Advise Date</th><th>Diff Days</th><th>Status</th><th>Action</th></tr></thead><tbody id="u5_tbody"></tbody></table></div>
+        </div>
+        <div id="u5_noSO" style="color:var(--ink4);font-size:12px;text-align:center;padding:24px">Select a pending SO above to view GC numbers</div>
+      </div>
+    </div>
+
+    <!-- ─── USER 6 OPPAL ─── -->
+    <div class="section" id="sec-u6">
+      <div class="section-card">
+        <div class="section-title"><span>📤 Bill Submit to OPPAL — User 6</span></div>
+        <div id="sa-u6-bar" class="sa-edit-bar">
+          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span>Editing row ID: <strong id="sa-u6-id"></strong></span>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u6')">✕ Cancel Edit</button>
+        </div>
+        <div class="fgrid fgrid-3">
+          <div class="fg"><label>SO No * (Pending)</label><select id="u6_so" onchange="loadU6()"><option value="">Select SO</option></select></div>
+          <div class="fg"><label>MF No (Auto)</label><input type="text" id="u6_mf" class="cmp" readonly></div>
+          <div class="fg"><label>First Advise Date (Auto)</label><input type="text" id="u6_advdate" class="cmp" readonly></div>
+          <div class="fg"><label>Bill Submit to OPPAL Date *</label><input type="date" id="u6_oppaldate" onchange="calcU6Diff()"></div>
+          <div class="fg"><label>OPPAL Diff Days (Auto)</label><input type="text" id="u6_diff" class="cmp" readonly></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="u6_btn" onclick="saveU6()">💾 Save OPPAL Date</button>
+          <button class="btn btn-outline" onclick="clearForm('u6')">✕ Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── USER 7 FINAL BILL ─── -->
+    <div class="section" id="sec-u7">
+      <div class="section-card">
+        <div class="section-title"><span>🧾 Final Bill Entry — User 7</span></div>
+        <div id="sa-u7-bar" class="sa-edit-bar">
+          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span>Editing row ID: <strong id="sa-u7-id"></strong></span>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u7')">✕ Cancel Edit</button>
+        </div>
+        <div class="fgrid fgrid-4">
+          <div class="fg"><label>SO No * (Pending)</label><select id="u7_so" onchange="loadU7()"><option value="">Select SO</option></select></div>
+          <div class="fg"><label>MF No (Auto)</label><input type="text" id="u7_mf" class="cmp" readonly></div>
+          <div class="fg"><label>OPPAL Date (Auto)</label><input type="text" id="u7_oppaldate" class="cmp" readonly></div>
+          <div class="fg"><label>Final Bill Date *</label><input type="date" id="u7_finalbilldate" onchange="calcU7Diff()"></div>
+          <div class="fg"><label>Bill No *</label><input type="text" id="u7_billno" placeholder="Bill Number" autocomplete="off"></div>
+          <div class="fg"><label>Bill Date *</label><input type="date" id="u7_billdate" onchange="calcU7Diff()"></div>
+          <div class="fg"><label>Diff Final Bill − OPPAL (Auto)</label><input type="text" id="u7_diff1" class="cmp" readonly></div>
+          <div class="fg"><label>Diff Bill − Final Bill (Auto)</label><input type="text" id="u7_diff2" class="cmp" readonly></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="u7_btn" onclick="saveU7()">💾 Save Final Bill</button>
+          <button class="btn btn-outline" onclick="clearForm('u7')">✕ Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── USER 8 ACCOUNTS ─── -->
+    <div class="section" id="sec-u8">
+      <div class="section-card">
+        <div class="section-title">
+          <span>📊 Accounts Entry — User 8</span>
+          <button class="btn btn-outline btn-sm" onclick="viewRecords('u8')">📋 View Records</button>
+        </div>
+        <div id="sa-u8-bar" class="sa-edit-bar">
+          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span>Editing row ID: <strong id="sa-u8-id"></strong></span>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u8')">✕ Cancel Edit</button>
+        </div>
+        <div class="fgrid fgrid-4">
+          <div class="fg"><label>SO No * (Completed)</label><select id="u8_so" onchange="loadU8()"><option value="">Select SO</option></select></div>
+          <div class="fg"><label>MF No (Auto)</label><input type="text" id="u8_mf" class="cmp" readonly></div>
+          <div class="fg"><label>Entry Date (Auto)</label><input type="text" id="u8_ed" class="cmp" readonly></div>
+          <div class="fg"><label>Extra Charge</label><input type="number" id="u8_ec" step=".01" value="0" oninput="calcU8()"></div>
+          <div class="fg"><label>Total RENV (Auto)</label><input type="text" id="u8_tr" class="cmp" readonly></div>
+          <div class="fg"><label>Gross Profit (Auto)</label><input type="text" id="u8_gp" class="cmp" readonly></div>
+          <div class="fg"><label>Deduction</label><input type="number" id="u8_ded" step=".01" value="0" oninput="calcU8()"></div>
+          <div class="fg"><label>PMT Rec Date</label><input type="date" id="u8_prd" onchange="calcU8()"></div>
+          <div class="fg"><label>INT (Auto)</label><input type="text" id="u8_int" class="cmp" readonly></div>
+          <div class="fg"><label>TAX 1% (Auto)</label><input type="text" id="u8_tax" class="cmp" readonly></div>
+          <div class="fg"><label>GP on Sale (Auto)</label><input type="text" id="u8_gps" class="cmp" readonly></div>
+          <div class="fg"><label>GP on Purchase (Auto)</label><input type="text" id="u8_gpp" class="cmp" readonly></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="u8_btn" onclick="saveU8()">💾 Save Accounts</button>
+          <button class="btn btn-outline" onclick="clearForm('u8')">✕ Clear</button>
+        </div>
+      </div>
+      <div class="section-card" id="u8-records-card" style="display:none">
+        <div class="section-title"><span>📋 Accounts Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u8-records-card').style.display='none'">✕ Close</button></div>
+        <div class="scroll-table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>MF No</th><th>Total RENV</th><th>Gross Profit</th><th>GP on Sale</th><th>GP on Purch</th><th>PMT Date</th><th>Status</th><th id="u8-act-th" style="display:none">Actions</th></tr></thead><tbody id="u8-tbody"></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ─── USER 9 FINAL CHECK ─── -->
+    <div class="section" id="sec-u9">
+      <div class="section-card">
+        <div class="section-title">
+          <span>✅ Final Account Check — User 9</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span id="u9badge"></span>
+            <button class="btn btn-outline btn-sm" onclick="viewRecords('u9')">📋 View Records</button>
+          </div>
+        </div>
+        <div id="sa-u9-bar" class="sa-edit-bar">
+          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span>Editing row ID: <strong id="sa-u9-id"></strong></span>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u9')">✕ Cancel Edit</button>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px">
+          <div class="fg" style="max-width:280px"><label>New MF No (Dropdown)</label><select id="u9_newso" onchange="if(this.value)selectU9MF(this.value)"><option value="">Select New MF No...</option></select></div>
+          <div class="fg" style="max-width:280px;flex:1"><label>Search / Update Existing MF No</label>
+            <div class="srch"><span class="srch-ic">🔍</span><input type="text" id="u9_search" placeholder="Type MF No to search..." autocomplete="off" oninput="u9OnSearch()" onkeydown="u9OnKey(event)"><div class="sbox" id="u9Suggest" style="display:none"></div></div>
+          </div>
+        </div>
+        <div class="fgrid fgrid-4">
+          <div class="fg"><label>MF No (Auto)</label><input type="text" id="u9_mf" class="cmp" readonly></div>
+          <div class="fg"><label>SO No (Auto)</label><input type="text" id="u9_so" class="cmp" readonly></div>
+          <div class="fg"><label>Lorry No (Auto)</label><input type="text" id="u9_lorry" class="cmp" readonly></div>
+          <div class="fg"><label>Broker (Auto)</label><input type="text" id="u9_broker" class="cmp" readonly></div>
+          <div class="fg"><label>Adv Account No (Auto)</label><input type="text" id="u9_advAcc" class="cmp" readonly></div>
+          <div class="fg"><label>Adv IFSC (Auto)</label><input type="text" id="u9_advIfsc" class="cmp" readonly></div>
+          <div class="fg"><label>Bal Account No (Auto)</label><input type="text" id="u9_balAcc" class="cmp" readonly></div>
+          <div class="fg"><label>Bal IFSC (Auto)</label><input type="text" id="u9_balIfsc" class="cmp" readonly></div>
+          <div class="fg"><label>Advance Amount (Auto)</label><input type="text" id="u9_advamt" class="cmp" readonly></div>
+          <div class="fg"><label>Amount Paid (Manual)</label><input type="number" id="u9_amount" step=".01" value="0" oninput="calcU9()"></div>
+          <div class="fg"><label>Advance Diff (Auto)</label><input type="text" id="u9_advdiff" class="cmp" readonly></div>
+          <div class="fg"><label>Transaction ID</label><input type="text" id="u9_txid" placeholder="Adv Tx ID" autocomplete="off"></div>
+          <div class="fg"><label>Balance Amount (Auto)</label><input type="text" id="u9_balamt" class="cmp" readonly></div>
+          <div class="fg"><label>Balance Paid (Manual)</label><input type="number" id="u9_balance" step=".01" value="0" oninput="calcU9()"></div>
+          <div class="fg"><label>Bal Diff (Auto)</label><input type="text" id="u9_baldiff" class="cmp" readonly></div>
+          <div class="fg"><label>Bal Transaction ID</label><input type="text" id="u9_baltxid" placeholder="Bal Tx ID" autocomplete="off"></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="u9_btnNew" onclick="saveU9('new')">💾 Save NEW</button>
+          <button class="btn btn-warn" id="u9_btnUpd" onclick="saveU9('update')" disabled>✏️ Update</button>
+          <button class="btn btn-outline" onclick="clearForm('u9')">✕ Clear</button>
+        </div>
+      </div>
+      <div class="section-card" id="u9-records-card" style="display:none">
+        <div class="section-title">
+          <span>📋 Final Check Records</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input type="text" id="u9tfilter" placeholder="Filter MF/SO..." style="padding:5px 9px;background:var(--canvas);border:1px solid var(--border);border-radius:3px;color:var(--ink);font-size:12px;width:160px" oninput="filterU9Table()">
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('u9-records-card').style.display='none'">✕</button>
+          </div>
+        </div>
+        <div class="scroll-table-wrap"><table><thead class="sticky"><tr><th>MF No</th><th>SO No</th><th>Lorry</th><th>Broker</th><th>Adv Acc</th><th>Adv IFSC</th><th>Bal Acc</th><th>Bal IFSC</th><th>Adv Amt</th><th>Paid</th><th>Adv Diff</th><th>Tx ID</th><th>Bal Amt</th><th>Balance</th><th>Bal Diff</th><th>Bal Tx</th><th>Type</th><th>Status</th><th id="u9-act-th" style="display:none">Actions</th></tr></thead><tbody id="u9-tbody"></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ─── USER 10 GC TRACKER ─── -->
+    <div class="section" id="sec-u10">
+      <div class="section-card">
+        <div class="section-title">
+          <span>📑 GC Number Tracker — User 10</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span id="u10badge"></span>
+            <button class="btn btn-outline btn-sm" onclick="viewRecords('u10')">📋 View Records</button>
+          </div>
+        </div>
+        <div id="sa-u10-bar" class="sa-edit-bar">
+          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span>Editing row ID: <strong id="sa-u10-id"></strong></span>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u10')">✕ Cancel Edit</button>
+        </div>
+        <div style="background:var(--blue-lt);border:1px solid #b6d4fb;border-radius:4px;padding:8px 12px;margin-bottom:12px;font-size:11px;color:var(--blue-dk)">
+          📑 Select any dispatched SO. OPPAL GC and MF No auto-fill. Enter Branch GC manually.
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px">
+          <div class="fg" style="max-width:280px"><label>Select SO</label><select id="u10_sosel" onchange="if(this.value)selectU10SO(this.value)"><option value="">Select SO...</option></select></div>
+          <div class="fg" style="max-width:280px;flex:1"><label>Or Search SO</label>
+            <div class="srch"><span class="srch-ic">🔍</span><input type="text" id="u10_search" placeholder="Type SO to search..." autocomplete="off" oninput="u10OnSearch()" onkeydown="u10OnKey(event)"><div class="sbox" id="u10Suggest" style="display:none"></div></div>
+          </div>
+        </div>
+        <div class="fgrid fgrid-3">
+          <div class="fg"><label>SO No (Auto)</label><input type="text" id="u10_so" class="cmp" readonly></div>
+          <div class="fg" style="grid-column:span 2"><label>OPPAL GC No (Auto from User 2)</label><textarea id="u10_oppal" class="cmp" readonly style="min-height:48px"></textarea></div>
+          <div class="fg" style="grid-column:span 2"><label>MF No (Auto from User 3)</label><input type="text" id="u10_mf" class="cmp" readonly></div>
+          <div class="fg" style="grid-column:span 2"><label>GC No (Branch — Manual) *</label><input type="text" id="u10_gc" placeholder="Enter branch GC number" autocomplete="off"></div>
+          <div class="fg"><label>Entry Date</label><input type="date" id="u10_entrydate"></div>
+          <div class="fg" style="grid-column:span 2"><label>Remarks</label><input type="text" id="u10_remarks" placeholder="Any remarks" autocomplete="off"></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="u10_btn" onclick="saveU10()">💾 Save GC Record</button>
+          <button class="btn btn-outline" onclick="clearForm('u10')">✕ Clear</button>
+        </div>
+      </div>
+      <div class="section-card" id="u10-records-card" style="display:none">
+        <div class="section-title">
+          <span>📋 GC Tracker Records</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input type="text" id="u10tfilter" placeholder="Filter SO..." style="padding:5px 9px;background:var(--canvas);border:1px solid var(--border);border-radius:3px;color:var(--ink);font-size:12px;width:160px" oninput="filterU10Table()">
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('u10-records-card').style.display='none'">✕</button>
+          </div>
+        </div>
+        <div class="scroll-table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>OPPAL GC</th><th>MF No</th><th>Branch GC</th><th>Entry Date</th><th>Remarks</th><th>Status</th><th id="u10-act-th" style="display:none">Actions</th></tr></thead><tbody id="u10-tbody"></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ─── BALANCE REPORT ─── -->
+    <div class="section" id="sec-balance">
+      <div class="section-card">
+        <div class="section-title"><span>⚖️ Balance Report</span><button class="btn btn-outline btn-sm" onclick="loadBalanceReport()">🔄 Refresh</button></div>
+        <div class="filter-bar">
+          <div class="fg"><label>From Date</label><input type="date" id="br_from"></div>
+          <div class="fg"><label>To Date</label><input type="date" id="br_to"></div>
+          <div class="fg"><label>Filter SO</label><input type="text" id="br_fso" placeholder="SO No..." oninput="filterBR()"></div>
+          <div class="fg"><label>Filter Broker</label><input type="text" id="br_fbroker" placeholder="Broker name..." oninput="filterBR()"></div>
+          <div class="fg"><label>Status</label><select id="br_fstatus" onchange="filterBR()"><option value="All">All</option><option>PENDING</option><option>BAL PENDING</option><option>SETTLED</option></select></div>
+          <button class="btn btn-primary" onclick="loadBalanceReport()">🔍 Filter</button>
+          <button class="btn btn-outline" onclick="exportBalanceCSV()">⬇ CSV</button>
+        </div>
+        <div class="rpt-grid" id="br-stats-wrap">
+          <div class="rpt-card"><div class="rpt-label">Total Records</div><div class="rpt-val hl-blue" id="br_s1">—</div></div>
+          <div class="rpt-card"><div class="rpt-label">Total Advance</div><div class="rpt-val hl-amber" id="br_s2">—</div></div>
+          <div class="rpt-card"><div class="rpt-label">Total Balance</div><div class="rpt-val hl-blue" id="br_s3">—</div></div>
+          <div class="rpt-card"><div class="rpt-label">Settled</div><div class="rpt-val hl-green" id="br_s4">—</div></div>
+          <div class="rpt-card"><div class="rpt-label">Bal Pending</div><div class="rpt-val hl-amber" id="br_s5">—</div></div>
+          <div class="rpt-card"><div class="rpt-label">Pending</div><div class="rpt-val hl-red" id="br_s6">—</div></div>
+        </div>
+        <div class="scroll-table-wrap">
+          <table><thead class="sticky"><tr><th>SO No</th><th>MF No</th><th>Truck</th><th>Broker</th><th>Adv Account</th><th>Adv IFSC</th><th>Bal Account</th><th>Bal IFSC</th><th>Advance (₹)</th><th>Balance (₹)</th><th>Status</th><th>Settlement Date</th></tr></thead>
+          <tbody id="br_tbody"><tr><td colspan="12" class="loading">Click Filter to load</td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── TRANSPORT PAYMENT REPORT ─── -->
+    <div class="section" id="sec-tptreport">
+      <div class="section-card">
+        <div class="section-title"><span>🚛 Transport Payment Report</span></div>
+        <div class="filter-bar">
+          <div class="fg"><label>From Date</label><input type="date" id="tpr_from"></div>
+          <div class="fg"><label>To Date</label><input type="date" id="tpr_to"></div>
+          <button class="btn btn-primary" onclick="genTPReport()">📊 Generate</button>
+        </div>
+        <div id="tpr-body" style="display:none">
+          <div style="text-align:center;margin-bottom:12px"><div style="font-size:14px;font-weight:700;color:var(--ink)">MONTH OF <span id="tpr-month"></span></div><div style="font-size:11px;color:var(--ink3)" id="tpr-range"></div></div>
+          <div class="table-wrap" style="margin-bottom:12px">
+            <table><thead><tr><th>Transport Name</th><th style="text-align:right">Total Advance (₹)</th><th style="text-align:right">Total Balance (₹)</th><th style="text-align:right">Total (₹)</th></tr></thead>
+            <tbody id="tpr-tbody"></tbody>
+            <tfoot><tr style="background:var(--sb-bg)"><td style="padding:8px 10px;color:var(--sb-text);font-weight:700;font-size:11px">TOTAL</td><td id="tpr-grand-adv" style="padding:8px 10px;color:var(--sb-accent);font-weight:700;text-align:right;font-family:var(--mono)"></td><td id="tpr-grand-bal" style="padding:8px 10px;color:var(--sb-accent);font-weight:700;text-align:right;font-family:var(--mono)"></td><td id="tpr-grand-tot" style="padding:8px 10px;color:var(--sb-accent);font-weight:700;text-align:right;font-family:var(--mono)"></td></tr></tfoot></table>
+          </div>
+          <div style="display:flex;justify-content:flex-end">
+            <div class="section-card" style="min-width:260px;margin-bottom:0">
+              <div style="display:grid;gap:4px">
+                <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--ink3)">HIGHEST</span><strong id="tpr-high" style="font-family:var(--mono)"></strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--ink3)">LOWEST</span><strong id="tpr-low" style="font-family:var(--mono)"></strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--ink3)">AVERAGE</span><strong id="tpr-avg" style="font-family:var(--mono)"></strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="tpr-nodata" style="display:none;text-align:center;color:var(--ink4);padding:24px;font-size:12px">No records found for selected date range.</div>
+      </div>
+    </div>
+
+    <!-- ─── MASTER REPORT ─── -->
+    <div class="section" id="sec-masterreport">
+      <div class="section-card">
+        <div class="section-title"><span>📥 Master Report</span></div>
+        <div class="filter-bar">
+          <div class="fg"><label>Search SO</label><input type="text" id="mr_so" placeholder="SO No..." oninput="filterMR()"></div>
+          <div class="fg"><label>Search Lorry</label><input type="text" id="mr_lorry" placeholder="Lorry No..." oninput="filterMR()"></div>
+          <button class="btn btn-primary" onclick="loadMasterReport()">▶ Run Report</button>
+          <button class="btn btn-outline" onclick="exportMRCSV()">⬇ CSV</button>
+        </div>
+        <div id="mr-loading" class="loading" style="display:none"><span class="spinner"></span>Loading master report...</div>
+        <div class="scroll-table-wrap" id="mr-table-wrap" style="display:none">
+          <table><thead class="sticky"><tr>
+            <th>Order Date</th><th>SO No</th><th>Lorry</th><th>Consignor</th><th>Consignee</th>
+            <th>From</th><th>Dest</th><th>Broker</th><th>MF No</th><th>GC No</th>
+            <th>L Date</th><th>OPPAL GC</th><th>Invoice</th><th>Eway Bill</th>
+            <th>Items</th><th>PKGS</th><th>MT</th>
+            <th>PMT Rate</th><th>Total Freight</th><th>Freight MF</th>
+            <th>Advance</th><th>Balance</th><th>Total Cost</th><th>Bilti Freight</th>
+            <th>Total RENV</th><th>Gross Profit</th><th>GP Sale</th><th>GP Purch</th>
+            <th>Status</th>
+          </tr></thead><tbody id="mr-tbody"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── MASTERS ─── -->
+    <div class="section" id="sec-masters">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <!-- Customers -->
+        <div class="section-card">
+          <div class="section-title"><span>👤 Customer / Consignor DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('customer','')">+ Add</button></div>
+          <div class="scroll-table-wrap" style="max-height:220px"><table><thead><tr><th>Customer Name</th><th>Added On</th></tr></thead><tbody id="cust-tbody"><tr><td colspan="2" class="loading"><span class="spinner"></span></td></tr></tbody></table></div>
+        </div>
+        <!-- Destinations -->
+        <div class="section-card">
+          <div class="section-title"><span>📍 Destination DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('destination','')">+ Add</button></div>
+          <div class="scroll-table-wrap" style="max-height:220px"><table><thead><tr><th>Destination</th><th>Added On</th></tr></thead><tbody id="dest-tbody"><tr><td colspan="2" class="loading"><span class="spinner"></span></td></tr></tbody></table></div>
+        </div>
+        <!-- Items -->
+        <div class="section-card">
+          <div class="section-title"><span>📦 Items DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('item','')">+ Add</button></div>
+          <div class="scroll-table-wrap" style="max-height:220px"><table><thead><tr><th>Item Name</th><th>Added On</th></tr></thead><tbody id="items-tbody"><tr><td colspan="2" class="loading"><span class="spinner"></span></td></tr></tbody></table></div>
+        </div>
+        <!-- Brokers / Account DB -->
+        <div class="section-card">
+          <div class="section-title"><span>🏦 Broker / Account DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('broker','')">+ Add</button></div>
+          <div class="scroll-table-wrap" style="max-height:220px"><table><thead><tr><th>Broker Name</th><th>Bal A/C</th><th>IFSC</th><th>Contact</th></tr></thead><tbody id="broker-tbody"><tr><td colspan="4" class="loading"><span class="spinner"></span></td></tr></tbody></table></div>
+        </div>
+        <!-- Cards -->
+        <div class="section-card">
+          <div class="section-title"><span>💳 Cards DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('card','')">+ Add</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Card Number</th><th>Added On</th></tr></thead><tbody id="cards-tbody"><tr><td colspan="2" class="loading"><span class="spinner"></span></td></tr></tbody></table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── USER MANAGEMENT ─── -->
+    <div class="section" id="sec-usermgmt">
+      <div class="section-card">
+        <div class="section-title"><span>👤 User Management</span><button class="btn btn-primary btn-sm" onclick="showAddUserForm()">+ Add User</button></div>
+        <div id="user-form-wrap" style="display:none;margin-bottom:16px;padding:14px;background:var(--canvas);border:1px solid var(--border);border-radius:4px">
+          <div style="font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;margin-bottom:10px" id="user-form-title">Add New User</div>
+          <div class="fgrid fgrid-3">
+            <div class="fg"><label>Username *</label><input type="text" id="uf-username" placeholder="e.g. rahul123"></div>
+            <div class="fg"><label>Display Name *</label><input type="text" id="uf-displayname" placeholder="e.g. Rahul Sharma"></div>
+            <div class="fg"><label id="uf-pw-label">Password *</label><input type="password" id="uf-password" placeholder="Enter password"></div>
+            <div class="fg"><label>Role</label>
+              <select id="uf-role">
+                <option value="USER">USER</option>
+                <option value="ADMIN">ADMIN</option>
+                <option value="SUPERADMIN">SUPERADMIN</option>
+              </select>
+            </div>
+            <div class="fg"><label>Status</label><select id="uf-status"><option value="ACTIVE">ACTIVE</option><option value="INACTIVE">INACTIVE</option></select></div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-outline" onclick="cancelUserForm()">Cancel</button>
+            <button class="btn btn-primary" onclick="saveUser()">Save User</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table><thead><tr><th>ID</th><th>Username</th><th>Display Name</th><th>Role</th><th>Status</th><th>Created</th><th style="text-align:right">Actions</th></tr></thead>
+          <tbody id="um-tbody"><tr><td colspan="7" class="loading"><span class="spinner"></span></td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<!-- ─── ADD MODAL ─── -->
+<div class="ov" id="addOv">
+  <div class="modal">
+    <div class="modal-hd"><h3 id="addTitle">Add New</h3><button class="modal-x" onclick="closeAddModal()">×</button></div>
+    <div class="modal-bd">
+      <div id="addSimple">
+        <div class="fg"><label id="addLabel">Name</label><input type="text" id="addVal" autocomplete="off" onkeydown="if(event.key==='Enter')doAdd()"></div>
+      </div>
+      <div id="addBrokerForm" style="display:none">
+        <div class="fg"><label>Broker Name *</label><input type="text" id="addBroker" autocomplete="off"></div>
+        <div class="fg"><label>Balance Account No *</label><input type="text" id="addBalAcc" autocomplete="off"></div>
+        <div class="fg"><label>Balance IFSC Code *</label><input type="text" id="addBalIfsc" autocomplete="off"></div>
+        <div class="fg"><label>Advance Holder Name *</label><input type="text" id="addAdvHolder" autocomplete="off"></div>
+        <div class="fg"><label>Contact No</label><input type="tel" id="addContact" autocomplete="off"></div>
+      </div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-outline" onclick="closeAddModal()">Cancel</button><button class="btn btn-primary" onclick="doAdd()">Save</button></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  SUPABASE CONFIG — Replace with your project credentials
+// ═══════════════════════════════════════════════════════════════
+const SUPABASE_URL  = 'https://oswzwanptjcmulkqlcwu.supabase.co';
+const SUPABASE_ANON = 'sb_publishable_P0LP9gaznl25JlXJq97X1Q_5BGV2Sxu';
+
+async function sb(table, method, body, query) {
+  query = query || '';
+  const url = SUPABASE_URL + '/rest/v1/' + table + query;
+  const headers = {
+    'Content-Type':  'application/json',
+    'apikey':        SUPABASE_ANON,
+    'Authorization': 'Bearer ' + SUPABASE_ANON,
+    'Prefer':        method === 'POST' ? 'return=representation' : (method === 'PATCH' ? 'return=representation' : '')
+  };
+  const res = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  if (!res.ok) { const t = await res.text(); throw new Error(t); }
+  const txt = await res.text();
+  return txt ? JSON.parse(txt) : [];
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  AUTH SYSTEM
+// ═══════════════════════════════════════════════════════════════
+const auth = {
+  user: null,
+  isSuperAdmin() { return this.user && this.user.role === 'SUPERADMIN'; },
+  isAdmin()      { return this.user && (this.user.role === 'ADMIN' || this.user.role === 'SUPERADMIN'); },
+  isUser()       { return this.user != null; }
+};
+
+async function doLogin() {
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errEl    = document.getElementById('login-error');
+  const btn      = document.getElementById('login-btn');
+  errEl.style.display = 'none';
+  if (!username || !password) { errEl.textContent = 'Enter username and password'; errEl.style.display = 'block'; return; }
+  btn.disabled = true; btn.textContent = 'Signing in...';
+  try {
+    const rows = await sb('user_master', 'GET', null, '?username=eq.' + encodeURIComponent(username) + '&status=eq.ACTIVE&limit=1');
+    if (!rows.length || rows[0].password_hash !== password) {
+      errEl.textContent = 'Invalid username or password'; errEl.style.display = 'block';
+      btn.disabled = false; btn.textContent = 'Sign In'; return;
+    }
+    auth.user = rows[0];
+    try { sessionStorage.setItem('tms5_auth', JSON.stringify(auth.user)); } catch(e) {}
+    applyAuthToUI();
+    document.getElementById('login-screen').style.display = 'none';
+    await initApp();
+    navigate('dashboard');
+  } catch(e) {
+    errEl.textContent = 'Connection error: ' + e.message; errEl.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'Sign In';
+  }
+}
+
+function applyAuthToUI() {
+  const u = auth.user;
+  const initials = (u.display_name||'U').split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'U';
+  document.getElementById('topbar-avatar').textContent = initials;
+  document.getElementById('topbar-username').textContent = u.display_name || u.username;
+
+  const roleMap = { SUPERADMIN: ['rb-sa','SUPERADMIN'], ADMIN: ['rb-admin','ADMIN'], USER: ['rb-user','USER'] };
+  const [cls, label] = roleMap[u.role] || ['rb-user','USER'];
+  const rb = document.getElementById('topbar-rolebadge');
+  rb.className = 'role-badge ' + cls; rb.textContent = label;
+
+  const av = document.getElementById('topbar-avatar');
+  av.className = 'user-avatar ' + (u.role==='SUPERADMIN'?'avatar-sa':u.role==='ADMIN'?'avatar-admin':'avatar-user');
+
+  // Show admin/superadmin nav items
+  if (auth.isAdmin()) {
+    document.getElementById('nav-admin-group').style.display = 'block';
+    document.getElementById('nav-usermgmt').style.display    = 'block';
+  }
+
+  // SuperAdmin mode hint in sidebar
+  if (auth.isSuperAdmin()) {
+    document.getElementById('sidebar-footer').innerHTML = '<span style="color:#d0b0ff;font-weight:700">⚡ SUPERADMIN MODE</span><br>Edit any record';
+  }
+
+  // Show action columns in tables for SuperAdmin
+  ['u1','u2','u3','u8','u9','u10'].forEach(m => {
+    const th = document.getElementById(m + '-act-th');
+    if (th && auth.isSuperAdmin()) th.style.display = '';
+  });
+}
+
+function doLogout() {
+  try { sessionStorage.removeItem('tms5_auth'); } catch(e) {}
+  auth.user = null;
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-username').value = '';
+  document.getElementById('login-password').value = '';
+  document.getElementById('login-error').style.display = 'none';
+  document.getElementById('login-btn').disabled = false;
+  document.getElementById('login-btn').textContent = 'Sign In';
+  document.getElementById('nav-admin-group').style.display = 'none';
+  document.getElementById('nav-usermgmt').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  GLOBALS
+// ═══════════════════════════════════════════════════════════════
+let _dd = { customers:[], destinations:[], brokers:[], items:[], cards:[] };
+let _u9List=[], _u9AllList=[], _u10AllList=[];
+let _brData=[], _brFiltered=[];
+let _mrData=[], _mrFiltered=[];
+let _u8cache = null;
+let _saEditId = {}; // { u1: id, u2: id ... }
+
+// ═══════════════════════════════════════════════════════════════
+//  UTILITIES
+// ═══════════════════════════════════════════════════════════════
+function gv(id){ const e=document.getElementById(id); return e?e.value.trim():''; }
+function sv(id,v){ const e=document.getElementById(id); if(e) e.value=(v==null)?'':v; }
+function se(id,v){ const e=document.getElementById(id); if(e) e.textContent=(v==null)?'':v; }
+function gel(id){ return document.getElementById(id); }
+function esc(s){ if(s==null) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmt2(n){ if(n===''||n==null) return ''; const x=parseFloat(n); return isNaN(x)?'':(x.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})); }
+function fmtN(n){ if(n===''||n==null) return '0'; const x=parseFloat(n); return isNaN(x)?'0':x.toLocaleString('en-IN',{maximumFractionDigits:2}); }
+function fmtDate(d){ if(!d) return '—'; try{ return new Date(d).toLocaleDateString('en-IN'); } catch(e){ return d; } }
+
+function toast(msg, type='success') {
+  const w=gel('toast-container'); if(!w) return;
+  const d=document.createElement('div');
+  d.className='toast toast-'+(type==='error'?'error':type==='info'?'info':'success');
+  d.textContent=msg; w.appendChild(d);
+  setTimeout(()=>{ d.style.opacity='0'; d.style.transition='opacity .3s'; setTimeout(()=>d.parentNode&&d.parentNode.removeChild(d),300); },3500);
+}
+
+function loader(on) {
+  const l=gel('ldr');
+  if(l){ l.className=on?'on':''; }
+}
+
+// Clock
+function updateClock(){
+  const now=new Date();
+  const e1=gel('clk-date'); const e2=gel('clk-time');
+  if(e1) e1.textContent=now.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  if(e2) e2.textContent=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+setInterval(updateClock,1000); updateClock();
+
+// Navigation
+function navigate(page) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
+  const sec=gel('sec-'+page); if(sec) sec.classList.add('active');
+  const nav=gel('nav-'+page); if(nav) nav.classList.add('active');
+  const titles={dashboard:'Dashboard',u1:'Booking — User 1',u2:'Dispatch — User 2',u3:'Settlement — User 3',
+    u4:'Eway Bill — User 4',u5:'Advise — User 5',u6:'OPPAL — User 6',u7:'Final Bill — User 7',
+    u8:'Accounts — User 8',u9:'Final Check — User 9',u10:'GC Tracker — User 10',
+    balance:'Balance Report',tptreport:'Transport Payment Report',masterreport:'Master Report',
+    masters:'Master Data',usermgmt:'User Management'};
+  gel('page-title').textContent = titles[page]||page;
+  gel('page-sub').textContent   = auth.isSuperAdmin() ? '⚡ SuperAdmin Mode — Edit Enabled' : '';
+
+  if(page==='masters') loadMastersPage();
+  if(page==='usermgmt') renderUserMgmt();
+  if(page==='u4') loadU4();
+  if(page==='dashboard') renderDashboard();
+}
+
+// Fill select helper
+function fillSelect(id, arr, first){
+  const el=gel(id); if(!el||!arr) return;
+  const f = first || (el.options[0]?el.options[0].text:'Select');
+  el.innerHTML='<option value="">'+f+'</option>';
+  arr.forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; el.appendChild(o); });
+}
+
+function hideSuggest(id){ const el=gel(id); if(el) el.style.display='none'; }
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.srch')){ hideSuggest('u9Suggest'); hideSuggest('u10Suggest'); }
+  if(e.target.id==='addOv') closeAddModal();
+});
+
+// ═══════════════════════════════════════════════════════════════
+//  INIT APP
+// ═══════════════════════════════════════════════════════════════
+async function initApp() {
+  loader(true);
+  try {
+    const [custs, dests, brokers, items, cards,
+           pendU2, pendU3, pendU5, pendU6, pendU7, pendU8, mfList, allSO] = await Promise.all([
+      sb('customer_db','GET',null,'?order=customer_name.asc'),
+      sb('destination_db','GET',null,'?order=destination.asc'),
+      sb('account_db','GET',null,'?order=broker_name.asc'),
+      sb('items_db','GET',null,'?order=item_name.asc'),
+      sb('cards_db','GET',null,''),
+      getPendingSOForUser2(),
+      getPendingSOForUser3(),
+      getPendingSOForUser5(),
+      getPendingSOForUser6(),
+      getPendingSOForUser7(),
+      getCompletedSOForUser8(),
+      getMFNoList(),
+      getAllSOForUser10()
+    ]);
+    _dd.customers    = custs.map(r=>r.customer_name);
+    _dd.destinations = dests.map(r=>r.destination);
+    _dd.brokers      = brokers;
+    _dd.items        = items.map(r=>r.item_name);
+    _dd.cards        = cards.map(r=>r.card_number);
+    _u10AllList      = allSO;
+
+    fillSelect('u1_consignor', _dd.customers, 'Select Consignor');
+    fillSelect('u1_consignee', _dd.customers, 'Select Consignee');
+    fillSelect('u1_dest',      _dd.destinations, 'Select Destination');
+    fillSelect('u2_destgc',    _dd.destinations, 'Select Dest');
+    fillSelect('u3_destmf',    _dd.destinations, 'Select Dest');
+    fillSelect('u2_items',     _dd.items, 'Select Item');
+    fillSelect('u3_dslcard',   _dd.cards, 'Select Card');
+    fillSelect('u10_sosel',    allSO, 'Select SO...');
+    fillBrokerDropdown();
+
+    fillSelect('u2_so', pendU2, 'Select Pending SO');
+    fillSelect('u3_so', pendU3, 'Select Pending SO');
+    fillSelect('u5_so', pendU5, 'Select Pending SO');
+    fillSelect('u6_so', pendU6, 'Select SO');
+    fillSelect('u7_so', pendU7, 'Select SO');
+    fillSelect('u8_so', pendU8, 'Select Completed SO');
+
+    // U9 MF lists
+    const mfForNew = await getSOForUser9();
+    _u9List    = mfForNew;
+    _u9AllList = mfList;
+    fillSelect('u9_newso', _u9List, 'Select New MF No...');
+    updU9Badge(); updU10Badge();
+  } catch(e) {
+    toast('Init error: '+e.message, 'error');
+  }
+  loader(false);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SUPABASE HELPER — PENDING SO QUEUES (mirrors Code.gs logic)
+// ═══════════════════════════════════════════════════════════════
+async function _soSet(table, col) {
+  const rows = await sb(table,'GET',null,'?select='+col);
+  const set = {};
+  rows.forEach(r=>{ if(r[col]) set[r[col]]=1; });
+  return set;
+}
+
+async function getPendingSOForUser2() {
+  try {
+    const [u1rows, doneSet] = await Promise.all([
+      sb('user1_booking','GET',null,'?select=so_no&order=id.desc'),
+      _soSet('user2_dispatch','so_no')
+    ]);
+    return u1rows.map(r=>r.so_no).filter(s=>s&&!doneSet[s]);
+  } catch(e) { return []; }
+}
+
+async function getPendingSOForUser3() {
+  try {
+    const [u2rows, doneSet] = await Promise.all([
+      sb('user2_dispatch','GET',null,'?select=so_no'),
+      _soSet('user3_settlement','so_no')
+    ]);
+    return u2rows.map(r=>r.so_no).filter(s=>s&&!doneSet[s]);
+  } catch(e) { return []; }
+}
+
+async function getPendingSOForUser5() {
+  try {
+    const [u3rows, u2rows, u5rows] = await Promise.all([
+      sb('user3_settlement','GET',null,'?select=so_no'),
+      sb('user2_dispatch','GET',null,'?select=so_no,oppal_gc_no'),
+      sb('user5_advise','GET',null,'?select=so_no,gc_no')
+    ]);
+    const settledSOs = u3rows.map(r=>r.so_no).filter(Boolean);
+    const oppalMap = {};
+    u2rows.forEach(r=>{ if(r.so_no) oppalMap[r.so_no]=r.oppal_gc_no||''; });
+    const advisedSet = {};
+    u5rows.forEach(r=>{ if(r.so_no&&r.gc_no) advisedSet[r.so_no+'|||'+r.gc_no]=1; });
+    const seen={}, pending=[];
+    settledSOs.forEach(soNo=>{
+      if(seen[soNo]) return; seen[soNo]=1;
+      const gcStr=oppalMap[soNo]||'';
+      if(!gcStr) return;
+      const gcList=gcStr.split(/[\r\n,;]+/).map(g=>g.trim()).filter(Boolean);
+      if(gcList.some(gc=>!advisedSet[soNo+'|||'+gc])) pending.push(soNo);
+    });
+    return pending;
+  } catch(e) { return []; }
+}
+
+async function getPendingSOForUser6() {
+  try {
+    const [u5rows, doneSet] = await Promise.all([
+      sb('user5_advise','GET',null,'?select=so_no'),
+      _soSet('user6_oppal','so_no')
+    ]);
+    const seen={}, res=[];
+    u5rows.forEach(r=>{ if(r.so_no&&!seen[r.so_no]&&!doneSet[r.so_no]){seen[r.so_no]=1;res.push(r.so_no);} });
+    return res;
+  } catch(e) { return []; }
+}
+
+async function getPendingSOForUser7() {
+  try {
+    const [u6rows, doneSet] = await Promise.all([
+      sb('user6_oppal','GET',null,'?select=so_no'),
+      _soSet('user7_finalbill','so_no')
+    ]);
+    return u6rows.map(r=>r.so_no).filter(s=>s&&!doneSet[s]);
+  } catch(e) { return []; }
+}
+
+async function getCompletedSOForUser8() {
+  try {
+    const [u3rows, doneSet] = await Promise.all([
+      sb('user3_settlement','GET',null,'?select=so_no'),
+      _soSet('user8_accounts','so_no')
+    ]);
+    return u3rows.map(r=>r.so_no).filter(s=>s&&!doneSet[s]);
+  } catch(e) { return []; }
+}
+
+async function getMFNoList() {
+  try { const rows = await sb('user3_settlement','GET',null,'?select=mf_no&order=id.desc'); return rows.map(r=>r.mf_no).filter(Boolean); }
+  catch(e) { return []; }
+}
+
+async function getSOForUser9() {
+  try {
+    const [mfList, u9rows] = await Promise.all([
+      getMFNoList(),
+      sb('user9_finalcheck','GET',null,'?select=mf_no,status')
+    ]);
+    const settledMap={}, balPendMap={};
+    u9rows.forEach(r=>{ if(!r.mf_no) return; if(r.status==='SETTLED') settledMap[r.mf_no]=1; else if(r.status==='BAL PENDING'||r.status==='BOTH PENDING') balPendMap[r.mf_no]=1; });
+    return mfList.map(mf=>{ if(settledMap[mf]) return null; if(balPendMap[mf]) return mf+' – BAL PEND'; return mf; }).filter(Boolean);
+  } catch(e) { return []; }
+}
+
+async function getAllSOForUser10() {
+  try { const rows = await sb('user2_dispatch','GET',null,'?select=so_no&order=id.desc'); return rows.map(r=>r.so_no).filter(Boolean); }
+  catch(e) { return []; }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════════════════════════════
+async function renderDashboard() {
+  const sec=gel('sec-dashboard');
+  sec.innerHTML='<div class="loading"><span class="spinner"></span>Loading dashboard...</div>';
+  try {
+    const [u1, u2, u3, u8, u9] = await Promise.all([
+      sb('user1_booking','GET',null,'?select=id'),
+      sb('user2_dispatch','GET',null,'?select=id'),
+      sb('user3_settlement','GET',null,'?select=mf_no,advance,balance,total_cost,bilti_freight'),
+      sb('user8_accounts','GET',null,'?select=total_renv,gross_profit,status'),
+      sb('user9_finalcheck','GET',null,'?select=status')
+    ]);
+    const totalSO=u1.length, dispatched=u2.length;
+    const settled=u3.length;
+    const completed=u8.filter(r=>r.status==='COMPLETED').length;
+    const totalRenv=u8.reduce((s,r)=>s+(parseFloat(r.total_renv)||0),0);
+    const totalProfit=u8.reduce((s,r)=>s+(parseFloat(r.gross_profit)||0),0);
+    const settledPayments=u9.filter(r=>r.status==='SETTLED').length;
+    const pendPayments=u9.filter(r=>r.status!=='SETTLED').length;
+    const totalAdv=u3.reduce((s,r)=>s+(parseFloat(r.advance)||0),0);
+    const totalBal=u3.reduce((s,r)=>s+(parseFloat(r.balance)||0),0);
+
+    sec.innerHTML = `
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-label">Total Bookings</div><div class="stat-value">${totalSO}</div></div>
+        <div class="stat-card green"><div class="stat-label">Dispatched</div><div class="stat-value">${dispatched}</div></div>
+        <div class="stat-card amber"><div class="stat-label">Settled (MF)</div><div class="stat-value">${settled}</div></div>
+        <div class="stat-card"><div class="stat-label">Accounts Done</div><div class="stat-value">${completed}</div></div>
+        <div class="stat-card green"><div class="stat-label">Total Revenue</div><div class="stat-value" style="font-size:18px;font-family:var(--mono)">₹${fmtN(totalRenv)}</div></div>
+        <div class="stat-card purple"><div class="stat-label">Total Profit</div><div class="stat-value" style="font-size:18px;color:var(--purple);font-family:var(--mono)">₹${fmtN(totalProfit)}</div></div>
+        <div class="stat-card amber"><div class="stat-label">Payments Pending</div><div class="stat-value">${pendPayments}</div></div>
+        <div class="stat-card green"><div class="stat-label">Payments Settled</div><div class="stat-value">${settledPayments}</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="section-card">
+          <div class="section-title">💰 Advance / Balance Summary</div>
+          <div class="rpt-grid" style="grid-template-columns:1fr 1fr">
+            <div class="rpt-card"><div class="rpt-label">Total Advance</div><div class="rpt-val hl-amber">₹${fmtN(totalAdv)}</div></div>
+            <div class="rpt-card"><div class="rpt-label">Total Balance</div><div class="rpt-val hl-blue">₹${fmtN(totalBal)}</div></div>
+          </div>
+        </div>
+        <div class="section-card">
+          <div class="section-title">⚡ Quick Actions</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <button class="btn btn-primary" onclick="navigate('u1')">📦 New Booking</button>
+            <button class="btn btn-outline" onclick="navigate('u2')">📋 Dispatch</button>
+            <button class="btn btn-outline" onclick="navigate('balance')">⚖️ Balance Report</button>
+            <button class="btn btn-outline" onclick="navigate('u9')">✅ Final Check</button>
+          </div>
+        </div>
+      </div>`;
+  } catch(e) {
+    sec.innerHTML = `<div class="loading" style="color:var(--red)">Dashboard error: ${e.message}</div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  BROKER DROPDOWN
+// ═══════════════════════════════════════════════════════════════
+function fillBrokerDropdown() {
+  const el=gel('u1_broker'); if(!el) return;
+  el.innerHTML='<option value="">Select Broker</option>';
+  (_dd.brokers||[]).forEach(b=>{
+    const o=document.createElement('option');
+    o.value=[b.broker_name||'',b.bal_account_no||'',b.bal_ifsc_code||'',b.contact_no||'',b.adv_holder_name||''].join('|||');
+    o.textContent=b.broker_name||'';
+    el.appendChild(o);
+  });
+}
+
+function fillBrokerDetails() {
+  const el=gel('u1_broker'); if(!el) return;
+  const parts=el.value.split('|||');
+  sv('u1_balAcc',  parts[1]||'');
+  sv('u1_balIfsc', parts[2]||'');
+  sv('u1_brkContact', parts[3]||'');
+  sv('u1_advHolder', parts[4]||'');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  USER 1 — BOOKING
+// ═══════════════════════════════════════════════════════════════
+function calcU1Status() {
+  const od=gv('u1_od'), ot=gv('u1_ot'), ed=gv('u1_ed'), et=gv('u1_et');
+  if(!od||!ot||!ed||!et){ sv('u1_status',''); sv('u1_hl',''); return; }
+  const o=new Date(od+'T'+ot), e=new Date(ed+'T'+et);
+  const h=(e-o)/3600000;
+  if(isNaN(h)){ sv('u1_status',''); sv('u1_hl',''); return; }
+  sv('u1_status', h<0?'Late Entry':h.toFixed(2)+' hrs');
+  let hl='';
+  if(h<0) hl='Before';
+  else if(h<=12) hl='0-12 Hrs'; else if(h<=24) hl='13-24 Hrs';
+  else if(h<=36) hl='25-36 Hrs'; else if(h<=48) hl='37-48 Hrs';
+  else if(h<=60) hl='49-60 Hrs'; else if(h<=72) hl='61-72 Hrs';
+  else if(h<=84) hl='73-84 Hrs'; else if(h<=96) hl='85-96 Hrs';
+  else hl='Over 96 Hrs';
+  sv('u1_hl',hl);
+}
+
+async function saveU1() {
+  const fd = {
+    order_date: gv('u1_od'), order_time: gv('u1_ot'), so_no: gv('u1_so'),
+    entry_date: gv('u1_ed'), entry_time: gv('u1_et'), status: gv('u1_status'),
+    hours_load: gv('u1_hl'), lorry_no: gv('u1_lorry'),
+    consignor: gv('u1_consignor'), consignee: gv('u1_consignee'),
+    from_place: gv('u1_from'), destination: gv('u1_dest'),
+    broker_name: (gv('u1_broker').split('|||')[0]||''),
+    adv_account_no: gv('u1_advAcc'), adv_ifsc_code: gv('u1_advIfsc'),
+    adv_holder_name: gv('u1_advHolder'), bal_account_no: gv('u1_balAcc'),
+    bal_ifsc_code: gv('u1_balIfsc'), broker_contact_no: gv('u1_brkContact'),
+    driver_contact_no: gv('u1_dcontact'), created_by: auth.user?.username||'admin'
+  };
+  if(!fd.so_no||!fd.lorry_no||!fd.consignor||!fd.consignee||!fd.from_place||!fd.destination||!fd.broker_name||!fd.adv_account_no||!fd.adv_ifsc_code){
+    toast('Please fill all required fields','error'); return;
+  }
+  loader(true);
+  const btn=gel('u1_btn'); if(btn) btn.disabled=true;
+  try {
+    if(_saEditId.u1) {
+      await sb('user1_booking','PATCH',fd,'?id=eq.'+_saEditId.u1);
+      toast('✅ Booking updated! (SuperAdmin)');
+      cancelSAEdit('u1');
+    } else {
+      await sb('user1_booking','POST',fd);
+      toast('✅ Booking saved!');
+    }
+    clearForm('u1'); await initApp();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false); if(btn) btn.disabled=false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  USER 2 — DISPATCH
+// ═══════════════════════════════════════════════════════════════
+async function loadU2() {
+  const so=gv('u2_so'); if(!so) return;
+  try {
+    const rows=await sb('user1_booking','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1');
+    if(rows.length) sv('u2_lorry', rows[0].lorry_no||'');
+  } catch(e) {}
+}
+
+function calcMT() {
+  const art=parseInt(gv('u2_art'))||0;
+  sv('u2_mt', art>=1&&art<=17?'M':(art>0?(art*0.025).toFixed(3):''));
+}
+
+async function saveU2() {
+  const art=parseInt(gv('u2_art'))||0;
+  const mt=art>=1&&art<=17?'M':(art>0?(art*0.025).toFixed(3):'');
+  const fd = {
+    so_no: gv('u2_so'), lorry_no: gv('u2_lorry'), loading_date: gv('u2_ld'),
+    oppal_gc_no: gv('u2_oppal'), invoice_no: gv('u2_inv'), eway_bill: gv('u2_eway'),
+    eway_bill_expiry: gv('u2_ewayexpiry'), destination_gc: gv('u2_destgc'),
+    items: gv('u2_items'), pkgs: gv('u2_pkgs'), no_of_article: art, mt,
+    status: 'Dispatched', created_by: auth.user?.username||'admin'
+  };
+  if(!fd.so_no||!fd.loading_date||!fd.oppal_gc_no||!fd.invoice_no||!fd.eway_bill||!fd.destination_gc||!fd.items||!fd.pkgs||!fd.no_of_article){
+    toast('Please fill all required fields','error'); return;
+  }
+  loader(true); const btn=gel('u2_btn'); if(btn) btn.disabled=true;
+  try {
+    if(_saEditId.u2) {
+      await sb('user2_dispatch','PATCH',fd,'?id=eq.'+_saEditId.u2);
+      toast('✅ Dispatch updated! (SuperAdmin)'); cancelSAEdit('u2');
+    } else {
+      await sb('user2_dispatch','POST',fd);
+      // Auto-create eway bill tracker entry
+      try {
+        const u1=await sb('user1_booking','GET',null,'?so_no=eq.'+encodeURIComponent(fd.so_no)+'&limit=1');
+        const b=u1[0]||{};
+        await sb('user4_eway','POST',{so_no:fd.so_no,lorry_no:fd.lorry_no,broker_name:b.broker_name||'',broker_contact_no:b.broker_contact_no||'',driver_contact_no:b.driver_contact_no||'',eway_bill:fd.eway_bill,eway_bill_expiry:fd.eway_bill_expiry,status:'ACTIVE',created_by:auth.user?.username||'admin'});
+      } catch(e2) {}
+      toast('✅ Dispatch saved!');
+    }
+    clearForm('u2'); await initApp();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false); if(btn) btn.disabled=false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  USER 3 — SETTLEMENT
+// ═══════════════════════════════════════════════════════════════
+async function loadU3() {
+  const so=gv('u3_so'); if(!so) return;
+  try {
+    const [u1rows, u2rows] = await Promise.all([
+      sb('user1_booking','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1'),
+      sb('user2_dispatch','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1')
+    ]);
+    const u1=u1rows[0]||{}, u2=u2rows[0]||{};
+    sv('u3_lorry',u1.lorry_no||''); sv('u3_broker',u1.broker_name||'');
+    sv('u3_advAcc',u1.adv_account_no||''); sv('u3_advIfsc',u1.adv_ifsc_code||'');
+    sv('u3_balAcc',u1.bal_account_no||''); sv('u3_balIfsc',u1.bal_ifsc_code||'');
+    const mt=u2.mt||'M'; sv('u3_mt',mt);
+    const mmt=gel('u3_mmt');
+    if(mmt){ const isM=mt==='M'; mmt.style.display=isM?'':'none'; if(!isM) mmt.value=mt; else mmt.value=''; }
+    cFreight();
+  } catch(e) {}
+}
+
+function cFreight(){
+  const rate=parseFloat(gv('u3_rate'))||0;
+  let mt=parseFloat(gv('u3_mt'))||0;
+  if(!mt){ const mmt=gel('u3_mmt'); if(mmt&&mmt.value) mt=parseFloat(mmt.value)||0; }
+  sv('u3_tf',fmt2(rate*mt)); cFreightMF();
+}
+
+function cFreightMF(){
+  const tf=parseFloat(gv('u3_tf').replace(/,/g,''))||0;
+  const lm=parseFloat(gv('u3_lm'))||0, pm=parseFloat(gv('u3_pm'))||0, oe=parseFloat(gv('u3_oe'))||0;
+  sv('u3_fmf',fmt2(tf-lm-pm+oe)); cBal();
+}
+
+function cBal(){
+  const fmf=parseFloat(gv('u3_fmf').replace(/,/g,''))||0;
+  const adv=parseFloat(gv('u3_adv'))||0, dsl=parseFloat(gv('u3_dsl'))||0, oth=parseFloat(gv('u3_oth'))||0;
+  sv('u3_bal',fmt2(fmf-adv-dsl+oth));
+}
+
+function cExp(){
+  const te=['u3_ll','u3_food','u3_con','u3_unl','u3_xerox','u3_det','u3_ep','u3_ochrg']
+    .reduce((s,id)=>s+(parseFloat(gv(id))||0),0);
+  sv('u3_te',fmt2(te)); cTotalCost();
+}
+
+function cTotalCost(){
+  const fmf=parseFloat(gv('u3_fmf').replace(/,/g,''))||0;
+  const te=parseFloat(gv('u3_te').replace(/,/g,''))||0;
+  const el=parseFloat(gv('u3_el'))||0;
+  sv('u3_tc',fmt2(fmf+te+el));
+}
+
+function toggleDslPanel(){
+  const cb=gel('u3_dslpaid'); if(!cb) return;
+  const p=gel('dslPanel'); if(p) p.className='sub-panel'+(cb.checked?'':' open');
+  cb.checked=!cb.checked;
+  if(p) p.className='sub-panel'+(cb.checked?' open':'');
+}
+
+function toggleDslFields(){
+  const t=gv('u3_dsltype');
+  const rf=gel('dslRefF'), cf=gel('dslCardF');
+  if(t==='CARD'){ if(rf) rf.style.display='none'; if(cf) cf.style.display=''; }
+  else { if(rf) rf.style.display=''; if(cf) cf.style.display='none'; }
+}
+
+function applyMT(){
+  const mmt=gel('u3_mmt'), mt=gel('u3_mt');
+  if(mmt&&mt){ mt.value=mmt.value||'M'; cFreight(); cBilti(); }
+}
+
+function cBilti(){
+  let mt=parseFloat(gv('u3_mt'))||0;
+  if(!mt){ const mmt=gel('u3_mmt'); if(mmt&&mmt.value) mt=parseFloat(mmt.value)||0; }
+  sv('u3_bf',fmt2(mt*(parseFloat(gv('u3_bpmt'))||0)));
+}
+
+async function saveU3() {
+  const so=gv('u3_so'); if(!so){ toast('Select SO No','error'); return; }
+  const mf=gv('u3_mf'), destmf=gv('u3_destmf'), rate=gv('u3_rate');
+  if(!mf||!destmf||!rate){ toast('MF No, Destination, and PMT Rate are required','error'); return; }
+  let mt=parseFloat(gv('u3_mt'))||0;
+  const mmt=gel('u3_mmt');
+  if(mmt&&mmt.style.display!=='none'&&mmt.value) mt=parseFloat(mmt.value)||0;
+  if(!mt||isNaN(mt)){ toast('MT is M — Please enter MT value manually','error'); return; }
+  const r=parseFloat(rate), tf=r*mt;
+  const lm=parseFloat(gv('u3_lm'))||0, pm=parseFloat(gv('u3_pm'))||0, oe=parseFloat(gv('u3_oe'))||0;
+  const fmf=tf-lm-pm+oe;
+  const adv=parseFloat(gv('u3_adv'))||0, dsl=parseFloat(gv('u3_dsl'))||0, oth=parseFloat(gv('u3_oth'))||0;
+  const bal=fmf-adv-dsl+oth;
+  const te=['u3_ll','u3_food','u3_con','u3_unl','u3_xerox','u3_det','u3_ep','u3_ochrg']
+    .reduce((s,id)=>s+(parseFloat(gv(id))||0),0);
+  const el=parseFloat(gv('u3_el'))||0, tc=fmf+te+el;
+  const bpmt=parseFloat(gv('u3_bpmt'))||0, bf=mt*bpmt;
+  const fd = {
+    so_no:so, lorry_no:gv('u3_lorry'), broker_name:gv('u3_broker'), mf_no:mf,
+    destination_mf:destmf, pmt_rate:r, total_freight:tf, other_expense:oe||0,
+    particular:gv('u3_part'), lm, pm, freight_mf:fmf,
+    advance:adv, diesel:dsl, diesel_paid:gel('u3_dslpaid')?.checked?'YES':'NO',
+    diesel_type:gv('u3_dsltype'), diesel_ref:gv('u3_dslref'), diesel_card:gv('u3_dslcard'),
+    other:oth, balance:bal,
+    loading_labour:parseFloat(gv('u3_ll'))||0, fooding:parseFloat(gv('u3_food'))||0,
+    con:parseFloat(gv('u3_con'))||0, unloading:parseFloat(gv('u3_unl'))||0,
+    xerox:parseFloat(gv('u3_xerox'))||0, detention:parseFloat(gv('u3_det'))||0,
+    extra_point:parseFloat(gv('u3_ep'))||0, other_chrg:parseFloat(gv('u3_ochrg'))||0,
+    total_exp:te, extra_labour:el, total_cost:tc, mt, bill_pmt:bpmt, bilti_freight:bf,
+    adv_account_no:gv('u3_advAcc'), adv_ifsc_code:gv('u3_advIfsc'),
+    bal_account_no:gv('u3_balAcc'), bal_ifsc_code:gv('u3_balIfsc'),
+    settlement_status:'Settled', created_by:auth.user?.username||'admin'
+  };
+  loader(true); const btn=gel('u3_btn'); if(btn) btn.disabled=true;
+  try {
+    if(_saEditId.u3) {
+      await sb('user3_settlement','PATCH',fd,'?id=eq.'+_saEditId.u3);
+      toast('✅ Settlement updated! (SuperAdmin)'); cancelSAEdit('u3');
+    } else {
+      await sb('user3_settlement','POST',fd);
+      // Update eway tracker with MF No
+      try { await sb('user4_eway','PATCH',{mf_no:mf},'?so_no=eq.'+encodeURIComponent(so)); } catch(e2){}
+      toast('✅ Settlement saved!');
+    }
+    clearForm('u3'); await initApp();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false); if(btn) btn.disabled=false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  USER 4 — EWAY BILL TRACKER
+// ═══════════════════════════════════════════════════════════════
+async function loadU4() {
+  loader(true);
+  try {
+    const rows = await sb('user4_eway','GET',null,'?order=id.desc');
+    const tb=gel('u4-tbody'); if(!tb) return;
+    if(!rows.length){ tb.innerHTML='<tr><td colspan="10" class="loading">No active eway bills</td></tr>'; loader(false); return; }
+    const today=new Date();
+    tb.innerHTML=rows.map(r=>{
+      const exp=r.eway_bill_expiry?new Date(r.eway_bill_expiry):null;
+      const expired=exp&&exp<today;
+      return `<tr>
+        <td><strong>${esc(r.so_no)}</strong></td>
+        <td>${esc(r.mf_no||'—')}</td>
+        <td>${esc(r.broker_name||'—')}</td>
+        <td>${esc(r.broker_contact_no||'—')}</td>
+        <td>${esc(r.driver_contact_no||'—')}</td>
+        <td>${esc(r.lorry_no||'—')}</td>
+        <td style="font-family:var(--mono)">${esc(r.eway_bill||'—')}</td>
+        <td><span class="badge ${expired?'b-pend':'b-info'}">${esc(r.eway_bill_expiry||'—')}</span></td>
+        <td>${esc(r.unloading_date||'—')}</td>
+        <td><input type="date" style="padding:4px 7px;background:var(--canvas);border:1px solid var(--border);border-radius:3px;font-size:11px" id="ew_${r.id}">
+            <button style="padding:4px 9px;background:var(--green);color:#fff;border:none;border-radius:3px;font-size:11px;cursor:pointer;margin-top:3px" onclick="updEway(${r.id},'${esc(r.so_no)}')">✔</button></td>
+      </tr>`;
+    }).join('');
+  } catch(e) { toast('Error loading eway bills: '+e.message,'error'); }
+  loader(false);
+}
+
+async function updEway(id, soNo) {
+  const di=gel('ew_'+id); if(!di||!di.value){ toast('Select unloading date','error'); return; }
+  loader(true);
+  try {
+    await sb('user4_eway','PATCH',{unloading_date:di.value,status:'UNLOADED'},'?id=eq.'+id);
+    toast('✅ Unloading date saved!'); loadU4();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  USER 5 — ADVISE DATE (Multi-GC)
+// ═══════════════════════════════════════════════════════════════
+async function loadU5() {
+  const so=gv('u5_so');
+  if(!so){ gel('u5_progress').style.display='none'; gel('u5_noSO').style.display='block'; return; }
+  loader(true);
+  try {
+    const [u1rows, u2rows, u3rows, u5rows] = await Promise.all([
+      sb('user1_booking','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1'),
+      sb('user2_dispatch','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1'),
+      sb('user3_settlement','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1'),
+      sb('user5_advise','GET',null,'?so_no=eq.'+encodeURIComponent(so))
+    ]);
+    const u1=u1rows[0]||{}, u2=u2rows[0]||{}, u3=u3rows[0]||{};
+    sv('u5_mf', u3.mf_no||'');
+    sv('u5_entdate', u1.entry_date||'');
+    const gcStr=u2.oppal_gc_no||'';
+    const gcList=gcStr.split(/[\r\n,;]+/).map(g=>g.trim()).filter(Boolean);
+    if(!gcList.length){ gel('u5_progress').style.display='none'; gel('u5_noSO').style.display='block'; gel('u5_noSO').textContent='No GC records found for this SO.'; loader(false); return; }
+    const advisedMap={};
+    u5rows.forEach(r=>{ if(r.gc_no) advisedMap[r.gc_no]={adviseDate:r.advise_date,diffDays:r.diff_days}; });
+    const done=gcList.filter(gc=>advisedMap[gc]).length;
+    gel('u5_progress').style.display='block'; gel('u5_noSO').style.display='none';
+    gel('u5_pt').textContent=done+' / '+gcList.length+' GCs Advised';
+    gel('u5_pf').style.width=(gcList.length?Math.round(done/gcList.length*100):0)+'%';
+    const entDate=u1.entry_date||'';
+    gel('u5_tbody').innerHTML=gcList.map((gc,i)=>{
+      const adv=advisedMap[gc];
+      if(adv){ return `<tr><td>${i+1}</td><td style="font-family:var(--mono);font-weight:700">${esc(gc)}</td><td><input type="date" value="${esc(adv.adviseDate||'')}" disabled style="padding:4px 7px;border:1px solid var(--border);border-radius:3px;background:#f0f0f0;font-size:12px;width:140px"></td><td>${esc(adv.diffDays||'')}</td><td><span class="badge b-ok">ADVISED</span></td><td><span class="badge b-ok">DONE</span></td></tr>`; }
+      return `<tr><td>${i+1}</td><td style="font-family:var(--mono);font-weight:700">${esc(gc)}</td><td><input type="date" id="gc_d_${i}" style="padding:4px 7px;border:1px solid var(--border);border-radius:3px;font-size:12px;width:140px"></td><td id="gc_diff_${i}">—</td><td><span class="badge b-pend">PENDING</span></td><td><button style="padding:4px 10px;background:var(--blue);color:#fff;border:none;border-radius:3px;font-size:11px;font-weight:700;cursor:pointer" onclick="saveGC('${esc(so)}','${esc(gc)}',${i},'${esc(entDate)}','${esc(u3.mf_no||'')}')">💾 Save</button></td></tr>`;
+    }).join('');
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false);
+}
+
+async function saveGC(soNo, gcNo, idx, entDate, mfNo) {
+  const di=gel('gc_d_'+idx);
+  if(!di||!di.value){ toast('Select advise date','error'); return; }
+  let diffDays='';
+  if(entDate&&di.value){ const d=Math.ceil((new Date(di.value)-new Date(entDate))/86400000); diffDays=d+' days'; }
+  loader(true);
+  try {
+    // Check if this GC exists
+    const existing=await sb('user5_advise','GET',null,'?so_no=eq.'+encodeURIComponent(soNo)+'&gc_no=eq.'+encodeURIComponent(gcNo)+'&limit=1');
+    if(existing.length){
+      await sb('user5_advise','PATCH',{advise_date:di.value,diff_days:diffDays,status:'ADVISED'},'?so_no=eq.'+encodeURIComponent(soNo)+'&gc_no=eq.'+encodeURIComponent(gcNo));
+    } else {
+      await sb('user5_advise','POST',{so_no:soNo,mf_no:mfNo,gc_no:gcNo,advise_date:di.value,diff_days:diffDays,status:'ADVISED',created_by:auth.user?.username||'admin'});
+    }
+    toast('✅ GC saved!'); loadU5(); await initApp();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  USER 6 — OPPAL
+// ═══════════════════════════════════════════════════════════════
+async function loadU6() {
+  const so=gv('u6_so'); if(!so) return;
+  loader(true);
+  try {
+    const [u3rows, u5rows] = await Promise.all([
+      sb('user3_settlement','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1'),
+      sb('user5_advise','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&order=advise_date.asc&limit=1')
+    ]);
+    sv('u6_mf', (u3rows[0]||{}).mf_no||'');
+    sv('u6_advdate', (u5rows[0]||{}).advise_date||'');
+    calcU6Diff();
+  } catch(e) {}
+  loader(false);
+}
+
+function calcU6Diff() {
+  const adv=gv('u6_advdate'), oppal=gv('u6_oppaldate');
+  if(adv&&oppal){ sv('u6_diff', Math.ceil((new Date(oppal)-new Date(adv))/86400000)+' days'); }
+  else { sv('u6_diff',''); }
+}
+
+async function saveU6() {
+  const so=gv('u6_so'), oppal=gv('u6_oppaldate');
+  if(!so||!oppal){ toast('SO and OPPAL Date required','error'); return; }
+  const fd={so_no:so, mf_no:gv('u6_mf'), bill_submit_date:oppal, diff_days:gv('u6_diff'), status:'OPPAL SUBMITTED', created_by:auth.user?.username||'admin'};
+  loader(true); const btn=gel('u6_btn'); if(btn) btn.disabled=true;
+  try {
+    if(_saEditId.u6){
+      await sb('user6_oppal','PATCH',fd,'?id=eq.'+_saEditId.u6);
+      toast('✅ OPPAL updated! (SuperAdmin)'); cancelSAEdit('u6');
+    } else {
+      await sb('user6_oppal','POST',fd); toast('✅ OPPAL date saved!');
+    }
+    clearForm('u6'); await initApp();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false); if(btn) btn.disabled=false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  USER 7 — FINAL BILL
+// ═══════════════════════════════════════════════════════════════
+async function loadU7() {
+  const so=gv('u7_so'); if(!so) return;
+  loader(true);
+  try {
+    const [u3rows, u6rows] = await Promise.all([
+      sb('user3_settlement','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1'),
+      sb('user6_oppal','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1')
+    ]);
+    sv('u7_mf', (u3rows[0]||{}).mf_no||'');
+    sv('u7_oppaldate', (u6rows[0]||{}).bill_submit_date||'');
+    calcU7Diff();
+  } catch(e) {}
+  loader(false);
+}
+
+function calcU7Diff() {
+  const oppal=gv('u7_oppaldate'), fb=gv('u7_finalbilldate'), bd=gv('u7_billdate');
+  if(oppal&&fb) sv('u7_diff1', Math.ceil((new Date(fb)-new Date(oppal))/86400000)+' days');
+  if(fb&&bd) sv('u7_diff2', Math.ceil((new Date(bd)-new Date(fb))/86400000)+' days');
+}
+
+async function saveU7() {
+  const so=gv('u7_so'), fb=gv('u7_finalbilldate'), bn=gv('u7_billno'), bd=gv('u7_billdate');
+  if(!so||!fb||!bn||!bd){ toast('Please fill all required fields','error'); return; }
+  const fd={so_no:so, mf_no:gv('u7_mf'), final_bill_date:fb, bill_no:bn, bill_date:bd, diff_final_oppal:gv('u7_diff1'), diff_bill_final:gv('u7_diff2'), status:'COMPLETED', created_by:auth.user?.username||'admin'};
+  loader(true); const btn=gel('u7_btn'); if(btn) btn.disabled=true;
+  try {
+    if(_saEditId.u7){
+      await sb('user7_finalbill','PATCH',fd,'?id=eq.'+_saEditId.u7);
+      toast('✅ Final Bill updated! (SuperAdmin)'); cancelSAEdit('u7');
+    } else {
+      await sb('user7_finalbill','POST',fd); toast('✅ Final Bill saved!');
+    }
+    clearForm('u7'); await initApp();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false); if(btn) btn.disabled=false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  USER 8 — ACCOUNTS
+// ═══════════════════════════════════════════════════════════════
+async function loadU8() {
+  const so=gv('u8_so'); if(!so) return;
+  loader(true);
+  try {
+    const [u1rows, u3rows, u7rows] = await Promise.all([
+      sb('user1_booking','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1'),
+      sb('user3_settlement','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1'),
+      sb('user7_finalbill','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1')
+    ]);
+    const u1=u1rows[0]||{}, u3=u3rows[0]||{};
+    _u8cache={entDate:u1.entry_date||'', mfNo:u3.mf_no||'', biltiFreight:parseFloat(u3.bilti_freight)||0, totalCost:parseFloat(u3.total_cost)||0, freightMF:parseFloat(u3.freight_mf)||0};
+    sv('u8_mf', _u8cache.mfNo); sv('u8_ed', _u8cache.entDate);
+    calcU8();
+  } catch(e) {}
+  loader(false);
+}
+
+function calcU8() {
+  if(!_u8cache) return;
+  const bf=_u8cache.biltiFreight, tc=_u8cache.totalCost;
+  const ec=parseFloat(gv('u8_ec'))||0, ded=parseFloat(gv('u8_ded'))||0;
+  const totalRenv=bf+ec;
+  const grossProfit=bf-tc-ded;
+  const prd=gv('u8_prd'), entDate=_u8cache.entDate;
+  let intVal=0, payDays=0;
+  if(prd&&entDate){ payDays=Math.ceil((new Date(prd)-new Date(entDate))/86400000); intVal=((payDays*bf*0.12)/365); }
+  const tax=totalRenv>0?((totalRenv*0.01).toFixed(2)):0;
+  const gpSale=totalRenv>0?Math.round(((totalRenv-tc)/totalRenv)*100)+'%':'0%';
+  const gpPurch=tc>0?Math.round((grossProfit/tc)*100)+'%':'0%';
+  sv('u8_tr',fmt2(totalRenv)); sv('u8_gp',fmt2(grossProfit));
+  sv('u8_int',fmt2(intVal)); sv('u8_tax',fmt2(tax));
+  sv('u8_gps',gpSale); sv('u8_gpp',gpPurch);
+}
+
+async function saveU8() {
+  const so=gv('u8_so'); if(!so){ toast('Select SO','error'); return; }
+  if(!_u8cache){ toast('Load SO data first','error'); return; }
+  const bf=_u8cache.biltiFreight, tc=_u8cache.totalCost;
+  const ec=parseFloat(gv('u8_ec'))||0, ded=parseFloat(gv('u8_ded'))||0;
+  const totalRenv=bf+ec, grossProfit=bf-tc-ded;
+  const prd=gv('u8_prd'), entDate=_u8cache.entDate;
+  let intVal=0;
+  if(prd&&entDate){ const pd=Math.ceil((new Date(prd)-new Date(entDate))/86400000); intVal=((pd*bf*0.12)/365); }
+  const tax=totalRenv>0?(totalRenv*0.01):0;
+  const gpSale=totalRenv>0?Math.round(((totalRenv-tc)/totalRenv)*100)+'%':'0%';
+  const gpPurch=tc>0?Math.round((grossProfit/tc)*100)+'%':'0%';
+  const fd={so_no:so, mf_no:_u8cache.mfNo, extra_charge:ec, total_renv:totalRenv,
+    gross_profit:grossProfit, deduction:ded, int_value:intVal, tax_1pct:tax,
+    gp_on_sale:gpSale, gp_on_purchase:gpPurch, pmt_rec_date:prd||null,
+    status:'COMPLETED', created_by:auth.user?.username||'admin'};
+  loader(true); const btn=gel('u8_btn'); if(btn) btn.disabled=true;
+  try {
+    if(_saEditId.u8){
+      await sb('user8_accounts','PATCH',fd,'?id=eq.'+_saEditId.u8);
+      toast('✅ Accounts updated! (SuperAdmin)'); cancelSAEdit('u8');
+    } else {
+      await sb('user8_accounts','POST',fd); toast('✅ Accounts saved!');
+    }
+    clearForm('u8'); _u8cache=null; await initApp();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false); if(btn) btn.disabled=false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  USER 9 — FINAL CHECK
+// ═══════════════════════════════════════════════════════════════
+function updU9Badge(){ const b=gel('u9badge'); if(!b) return; const n=_u9List.length; b.innerHTML=n>0?`<span class="badge b-pend">${n} Pending</span>`:'<span class="badge b-ok">All Clear</span>'; }
+
+async function selectU9MF(mfRaw) {
+  const mf=mfRaw.replace(' – BAL PEND','').trim();
+  sv('u9_search', mfRaw); hideSuggest('u9Suggest');
+  loader(true);
+  try {
+    const [u3rows, u1rows, u9rows] = await Promise.all([
+      sb('user3_settlement','GET',null,'?mf_no=eq.'+encodeURIComponent(mf)+'&limit=1'),
+      sb('user1_booking','GET',null,''),
+      sb('user9_finalcheck','GET',null,'?mf_no=eq.'+encodeURIComponent(mf)+'&limit=1')
+    ]);
+    const u3=u3rows[0]||{};
+    const u1=(u1rows.find(r=>r.so_no===u3.so_no))||{};
+    sv('u9_mf',mf); sv('u9_so',u3.so_no||''); sv('u9_lorry',u3.lorry_no||u1.lorry_no||'');
+    sv('u9_broker',u3.broker_name||u1.broker_name||'');
+    sv('u9_advAcc',u3.adv_account_no||u1.adv_account_no||'');
+    sv('u9_advIfsc',u3.adv_ifsc_code||u1.adv_ifsc_code||'');
+    sv('u9_balAcc',u3.bal_account_no||u1.bal_account_no||'');
+    sv('u9_balIfsc',u3.bal_ifsc_code||u1.bal_ifsc_code||'');
+    sv('u9_advamt',fmt2(u3.advance||0));
+    sv('u9_balamt',fmt2(u3.balance||0));
+    const existing=u9rows[0];
+    if(existing){
+      sv('u9_amount',existing.amount_paid||0); sv('u9_txid',existing.transaction_id||'');
+      sv('u9_balance',existing.balance_paid||0); sv('u9_baltxid',existing.bal_transaction_id||'');
+      gel('u9_btnNew').disabled=true; gel('u9_btnUpd').disabled=false;
+    } else {
+      sv('u9_amount',0); sv('u9_txid',''); sv('u9_balance',0); sv('u9_baltxid','');
+      gel('u9_btnNew').disabled=false; gel('u9_btnUpd').disabled=true;
+    }
+    calcU9();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false);
+}
+
+function u9OnSearch(){
+  const q=gv('u9_search').toLowerCase(), sb2=gel('u9Suggest'); if(!sb2) return;
+  if(!q){ sb2.style.display='none'; return; }
+  const hits=(_u9AllList||[]).filter(v=>v.toLowerCase().includes(q)).slice(0,10);
+  if(!hits.length){ sb2.style.display='none'; return; }
+  sb2.innerHTML=hits.map(v=>`<div class="si" onclick="selectU9MF('${esc(v)}')">${esc(v)}</div>`).join('');
+  sb2.style.display='block';
+}
+
+function u9OnKey(e){
+  const sb2=gel('u9Suggest'); if(!sb2||sb2.style.display==='none') return;
+  const items=sb2.querySelectorAll('.si'); let hi=-1;
+  items.forEach((el,i)=>{ if(el.classList.contains('hi')) hi=i; });
+  if(e.key==='ArrowDown'){ e.preventDefault(); hi=Math.min(hi+1,items.length-1); }
+  else if(e.key==='ArrowUp'){ e.preventDefault(); hi=Math.max(hi-1,0); }
+  else if(e.key==='Enter'){ if(hi>=0) selectU9MF(items[hi].textContent); return; }
+  else if(e.key==='Escape'){ hideSuggest('u9Suggest'); return; }
+  items.forEach((el,i)=>el.classList.toggle('hi',i===hi));
+}
+
+function calcU9(){
+  const adv=parseFloat(gv('u9_advamt').replace(/,/g,''))||0, paid=parseFloat(gv('u9_amount'))||0;
+  sv('u9_advdiff',fmt2(adv-paid));
+  const bal=parseFloat(gv('u9_balamt').replace(/,/g,''))||0, bpaid=parseFloat(gv('u9_balance'))||0;
+  sv('u9_baldiff',fmt2(bal-bpaid));
+}
+
+function _u9Status(ad,bd){ if(ad===0&&bd===0) return 'SETTLED'; if(ad!==0&&bd===0) return 'ADV PENDING'; if(ad===0&&bd!==0) return 'BAL PENDING'; return 'BOTH PENDING'; }
+
+async function saveU9(type) {
+  const mf=gv('u9_mf'); if(!mf){ toast('Select an MF No first','error'); return; }
+  const advAmt=parseFloat(gv('u9_advamt').replace(/,/g,''))||0;
+  const paid=parseFloat(gv('u9_amount'))||0, advDiff=advAmt-paid;
+  const balAmt=parseFloat(gv('u9_balamt').replace(/,/g,''))||0;
+  const bpaid=parseFloat(gv('u9_balance'))||0, balDiff=balAmt-bpaid;
+  const status=_u9Status(advDiff,balDiff);
+  const fd={so_no:gv('u9_so'), mf_no:mf, lorry_no:gv('u9_lorry'), broker_name:gv('u9_broker'),
+    adv_account_no:gv('u9_advAcc'), adv_ifsc:gv('u9_advIfsc'), bal_account_no:gv('u9_balAcc'), bal_ifsc:gv('u9_balIfsc'),
+    advance_amount:advAmt, amount_paid:paid, advance_diff:advDiff, transaction_id:gv('u9_txid'),
+    balance_amount:balAmt, balance_paid:bpaid, balance_diff:balDiff, bal_transaction_id:gv('u9_baltxid'),
+    entry_type:type==='update'?'UPDATE':'NEW', status, created_by:auth.user?.username||'admin'};
+  loader(true);
+  const btn=gel(type==='update'?'u9_btnUpd':'u9_btnNew'); if(btn) btn.disabled=true;
+  try {
+    if(_saEditId.u9){
+      await sb('user9_finalcheck','PATCH',fd,'?id=eq.'+_saEditId.u9);
+      toast('✅ Final Check updated! (SuperAdmin)'); cancelSAEdit('u9');
+    } else if(type==='update'){
+      await sb('user9_finalcheck','PATCH',fd,'?mf_no=eq.'+encodeURIComponent(mf));
+      toast('✅ Record updated!');
+    } else {
+      await sb('user9_finalcheck','POST',fd); toast('✅ Final Check saved!');
+    }
+    clearForm('u9'); sv('u9_search',''); await initApp();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false); if(btn) btn.disabled=false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  USER 10 — GC TRACKER
+// ═══════════════════════════════════════════════════════════════
+function updU10Badge(){ const b=gel('u10badge'); if(!b) return; b.innerHTML=''; }
+
+async function selectU10SO(so) {
+  sv('u10_search',so); hideSuggest('u10Suggest');
+  loader(true);
+  try {
+    const [u2rows, u3rows, u10rows] = await Promise.all([
+      sb('user2_dispatch','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1'),
+      sb('user3_settlement','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1'),
+      sb('user10_gctracker','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1')
+    ]);
+    sv('u10_so',so);
+    sv('u10_oppal',(u2rows[0]||{}).oppal_gc_no||'');
+    sv('u10_mf',(u3rows[0]||{}).mf_no||'');
+    const today=new Date().toISOString().slice(0,10);
+    if(u10rows[0]){ const e=u10rows[0]; sv('u10_gc',e.gc_no||''); sv('u10_entrydate',e.entry_date||today); sv('u10_remarks',e.remarks||''); gel('u10_btn').textContent='✏️ Update GC'; }
+    else { sv('u10_gc',''); sv('u10_entrydate',today); sv('u10_remarks',''); gel('u10_btn').textContent='💾 Save GC Record'; }
+  } catch(e) {}
+  loader(false);
+}
+
+function u10OnSearch(){
+  const q=gv('u10_search').toLowerCase(), sb2=gel('u10Suggest'); if(!sb2) return;
+  if(!q){ sb2.style.display='none'; return; }
+  const hits=(_u10AllList||[]).filter(v=>v.toLowerCase().includes(q)).slice(0,10);
+  if(!hits.length){ sb2.style.display='none'; return; }
+  sb2.innerHTML=hits.map(v=>`<div class="si" onclick="selectU10SO('${esc(v)}')">${esc(v)}</div>`).join('');
+  sb2.style.display='block';
+}
+
+function u10OnKey(e){
+  const sb2=gel('u10Suggest'); if(!sb2||sb2.style.display==='none') return;
+  const items=sb2.querySelectorAll('.si'); let hi=-1;
+  items.forEach((el,i)=>{ if(el.classList.contains('hi')) hi=i; });
+  if(e.key==='ArrowDown'){ e.preventDefault(); hi=Math.min(hi+1,items.length-1); }
+  else if(e.key==='ArrowUp'){ e.preventDefault(); hi=Math.max(hi-1,0); }
+  else if(e.key==='Enter'){ if(hi>=0) selectU10SO(items[hi].textContent); return; }
+  else if(e.key==='Escape'){ hideSuggest('u10Suggest'); return; }
+  items.forEach((el,i)=>el.classList.toggle('hi',i===hi));
+}
+
+async function saveU10() {
+  const so=gv('u10_so'); if(!so){ toast('Select an SO first','error'); return; }
+  const gc=gv('u10_gc'), mf=gv('u10_mf');
+  const status=mf&&gc?'COMPLETE':mf?'GC PENDING':'MF PENDING';
+  const fd={so_no:so, oppal_gc_no:gv('u10_oppal'), mf_no:mf, gc_no:gc,
+    entry_date:gv('u10_entrydate')||new Date().toISOString().slice(0,10),
+    remarks:gv('u10_remarks'), status, created_by:auth.user?.username||'admin'};
+  loader(true); const btn=gel('u10_btn'); if(btn) btn.disabled=true;
+  try {
+    if(_saEditId.u10){
+      await sb('user10_gctracker','PATCH',fd,'?id=eq.'+_saEditId.u10);
+      toast('✅ GC Tracker updated! (SuperAdmin)'); cancelSAEdit('u10');
+    } else {
+      const existing=await sb('user10_gctracker','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1');
+      if(existing.length){ await sb('user10_gctracker','PATCH',fd,'?so_no=eq.'+encodeURIComponent(so)); toast('✅ GC Tracker updated!'); }
+      else { await sb('user10_gctracker','POST',fd); toast('✅ GC Tracker saved!'); }
+    }
+    clearForm('u10'); sv('u10_search',''); await initApp();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false); if(btn) btn.disabled=false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  VIEW RECORDS (all modules)
+// ═══════════════════════════════════════════════════════════════
+async function viewRecords(mod) {
+  const card=gel(mod+'-records-card'); if(!card){ return; }
+  card.style.display='block'; loader(true);
+  try {
+    switch(mod) {
+      case 'u1': {
+        const rows=await sb('user1_booking','GET',null,'?order=id.desc&limit=200');
+        const tb=gel('u1-tbody');
+        tb.innerHTML=rows.map(r=>`<tr>
+          <td><strong style="font-family:var(--mono)">${esc(r.so_no)}</strong></td>
+          <td>${esc(r.order_date)}</td><td>${esc(r.lorry_no)}</td>
+          <td>${esc(r.consignor)}</td><td>${esc(r.consignee)}</td>
+          <td>${esc(r.from_place)}</td><td>${esc(r.destination)}</td>
+          <td>${esc(r.broker_name)}</td>
+          <td><span class="badge b-info">${esc(r.status||'')}</span></td>
+          <td style="font-family:var(--mono)">${esc(r.hours_load||'')}</td>
+          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u1',${r.id})">✏️ Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user1_booking',${r.id},'u1')">✗</button></td>`:''}
+        </tr>`).join('');
+        break;
+      }
+      case 'u2': {
+        const rows=await sb('user2_dispatch','GET',null,'?order=id.desc&limit=200');
+        const tb=gel('u2-tbody');
+        tb.innerHTML=rows.map(r=>`<tr>
+          <td><strong style="font-family:var(--mono)">${esc(r.so_no)}</strong></td>
+          <td>${esc(r.lorry_no)}</td><td>${esc(r.loading_date)}</td>
+          <td style="font-family:var(--mono)">${esc(r.oppal_gc_no)}</td>
+          <td>${esc(r.invoice_no)}</td><td style="font-family:var(--mono)">${esc(r.eway_bill)}</td>
+          <td><span class="badge ${r.eway_bill_expiry&&new Date(r.eway_bill_expiry)<new Date()?'b-pend':'b-ok'}">${esc(r.eway_bill_expiry)}</span></td>
+          <td>${esc(r.destination_gc)}</td><td>${esc(r.items)}</td><td>${esc(r.pkgs)}</td>
+          <td>${esc(r.no_of_article)}</td><td>${esc(r.mt)}</td>
+          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u2',${r.id})">✏️ Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user2_dispatch',${r.id},'u2')">✗</button></td>`:''}
+        </tr>`).join('');
+        break;
+      }
+      case 'u3': {
+        const rows=await sb('user3_settlement','GET',null,'?order=id.desc&limit=200');
+        const tb=gel('u3-tbody');
+        tb.innerHTML=rows.map(r=>`<tr>
+          <td><strong style="font-family:var(--mono)">${esc(r.so_no)}</strong></td>
+          <td style="font-family:var(--mono)">${esc(r.mf_no)}</td>
+          <td>${esc(r.lorry_no)}</td><td>${esc(r.broker_name)}</td>
+          <td class="mono">₹${fmtN(r.pmt_rate)}</td>
+          <td class="mono">₹${fmtN(r.total_freight)}</td>
+          <td class="mono">₹${fmtN(r.freight_mf)}</td>
+          <td class="mono">₹${fmtN(r.advance)}</td>
+          <td class="mono">₹${fmtN(r.balance)}</td>
+          <td class="mono">₹${fmtN(r.total_cost)}</td>
+          <td class="mono">₹${fmtN(r.bilti_freight)}</td>
+          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u3',${r.id})">✏️ Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user3_settlement',${r.id},'u3')">✗</button></td>`:''}
+        </tr>`).join('');
+        break;
+      }
+      case 'u8': {
+        const rows=await sb('user8_accounts','GET',null,'?order=id.desc&limit=200');
+        const tb=gel('u8-tbody');
+        tb.innerHTML=rows.map(r=>`<tr>
+          <td><strong style="font-family:var(--mono)">${esc(r.so_no)}</strong></td>
+          <td style="font-family:var(--mono)">${esc(r.mf_no)}</td>
+          <td class="mono">₹${fmtN(r.total_renv)}</td>
+          <td class="mono" style="color:var(--green);font-weight:700">₹${fmtN(r.gross_profit)}</td>
+          <td>${esc(r.gp_on_sale)}</td><td>${esc(r.gp_on_purchase)}</td>
+          <td>${esc(r.pmt_rec_date||'—')}</td>
+          <td><span class="badge b-ok">${esc(r.status)}</span></td>
+          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u8',${r.id})">✏️ Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user8_accounts',${r.id},'u8')">✗</button></td>`:''}
+        </tr>`).join('');
+        break;
+      }
+      case 'u9': {
+        const rows=await sb('user9_finalcheck','GET',null,'?order=id.desc&limit=200');
+        renderU9Table(rows);
+        break;
+      }
+      case 'u10': {
+        const rows=await sb('user10_gctracker','GET',null,'?order=id.desc&limit=200');
+        renderU10Table(rows);
+        break;
+      }
+    }
+  } catch(e) { toast('Error loading records: '+e.message,'error'); }
+  loader(false);
+}
+
+function renderU9Table(rows){
+  const tb=gel('u9-tbody'); if(!tb) return;
+  if(!rows.length){ tb.innerHTML='<tr><td colspan="19" class="loading">No records</td></tr>'; return; }
+  tb.innerHTML=rows.map(r=>{
+    const st=r.status||''; const tag=st==='SETTLED'?'b-ok':st==='BAL PENDING'?'b-balp':'b-pend';
+    const type=r.entry_type||''; const ttag=type==='UPDATE'?'b-upd':'b-new';
+    return `<tr>
+      <td style="font-family:var(--mono)">${esc(r.mf_no)}</td><td>${esc(r.so_no)}</td><td>${esc(r.lorry_no)}</td><td>${esc(r.broker_name)}</td>
+      <td style="font-family:var(--mono);font-size:11px">${esc(r.adv_account_no)}</td><td style="font-family:var(--mono);font-size:11px">${esc(r.adv_ifsc)}</td>
+      <td style="font-family:var(--mono);font-size:11px">${esc(r.bal_account_no)}</td><td style="font-family:var(--mono);font-size:11px">${esc(r.bal_ifsc)}</td>
+      <td class="mono">₹${fmtN(r.advance_amount)}</td><td class="mono">₹${fmtN(r.amount_paid)}</td>
+      <td class="mono">${fmtN(r.advance_diff)}</td><td>${esc(r.transaction_id)}</td>
+      <td class="mono">₹${fmtN(r.balance_amount)}</td><td class="mono">₹${fmtN(r.balance_paid)}</td>
+      <td class="mono">${fmtN(r.balance_diff)}</td><td>${esc(r.bal_transaction_id)}</td>
+      <td><span class="badge ${ttag}">${esc(type)}</span></td>
+      <td><span class="badge ${tag}">${esc(st)}</span></td>
+      ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u9',${r.id})">✏️</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user9_finalcheck',${r.id},'u9')">✗</button></td>`:''}
+    </tr>`;
+  }).join('');
+}
+
+function renderU10Table(rows){
+  const tb=gel('u10-tbody'); if(!tb) return;
+  if(!rows.length){ tb.innerHTML='<tr><td colspan="8" class="loading">No records</td></tr>'; return; }
+  tb.innerHTML=rows.map(r=>{
+    const st=r.status||''; const tag=st==='COMPLETE'?'b-ok':'b-pend';
+    return `<tr>
+      <td><strong>${esc(r.so_no)}</strong></td>
+      <td style="font-family:var(--mono)">${esc(r.oppal_gc_no)}</td>
+      <td style="font-family:var(--mono)">${esc(r.mf_no)}</td>
+      <td style="font-family:var(--mono)">${esc(r.gc_no)}</td>
+      <td>${esc(r.entry_date)}</td><td>${esc(r.remarks||'')}</td>
+      <td><span class="badge ${tag}">${esc(st)}</span></td>
+      ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u10',${r.id});navigate('u10')">✏️ Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user10_gctracker',${r.id},'u10')">✗</button></td>`:''}
+    </tr>`;
+  }).join('');
+}
+
+async function filterU9Table(){
+  const q=gv('u9tfilter').toLowerCase();
+  const rows=await sb('user9_finalcheck','GET',null,'?order=id.desc&limit=200');
+  const filtered=rows.filter(r=>(r.mf_no||'').toLowerCase().includes(q)||(r.so_no||'').toLowerCase().includes(q));
+  renderU9Table(filtered);
+}
+
+async function filterU10Table(){
+  const q=gv('u10tfilter').toLowerCase();
+  const rows=await sb('user10_gctracker','GET',null,'?order=id.desc&limit=200');
+  const filtered=rows.filter(r=>(r.so_no||'').toLowerCase().includes(q));
+  renderU10Table(filtered);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SUPERADMIN — EDIT & DELETE
+// ═══════════════════════════════════════════════════════════════
+async function saEdit(mod, id) {
+  if(!auth.isSuperAdmin()){ toast('SuperAdmin only','error'); return; }
+  const tableMap={u1:'user1_booking',u2:'user2_dispatch',u3:'user3_settlement',u6:'user6_oppal',u7:'user7_finalbill',u8:'user8_accounts',u9:'user9_finalcheck',u10:'user10_gctracker'};
+  const table=tableMap[mod]; if(!table) return;
+  loader(true);
+  try {
+    const rows=await sb(table,'GET',null,'?id=eq.'+id+'&limit=1');
+    if(!rows.length){ toast('Record not found','error'); loader(false); return; }
+    const r=rows[0];
+    _saEditId[mod]=id;
+    navigate(mod);
+    // Fill form based on module
+    const barEl=gel('sa-'+mod+'-bar'); if(barEl){ barEl.classList.add('show'); gel('sa-'+mod+'-id').textContent=id; }
+    if(mod==='u1'){
+      sv('u1_od',r.order_date);sv('u1_ot',r.order_time);sv('u1_so',r.so_no);
+      sv('u1_ed',r.entry_date);sv('u1_et',r.entry_time);sv('u1_lorry',r.lorry_no);
+      sv('u1_from',r.from_place);sv('u1_advAcc',r.adv_account_no);sv('u1_advIfsc',r.adv_ifsc_code);
+      sv('u1_advHolder',r.adv_holder_name);sv('u1_balAcc',r.bal_account_no);sv('u1_balIfsc',r.bal_ifsc_code);
+      sv('u1_brkContact',r.broker_contact_no);sv('u1_dcontact',r.driver_contact_no);
+    } else if(mod==='u2'){
+      sv('u2_ld',r.loading_date);sv('u2_oppal',r.oppal_gc_no);sv('u2_inv',r.invoice_no);
+      sv('u2_eway',r.eway_bill);sv('u2_ewayexpiry',r.eway_bill_expiry);sv('u2_pkgs',r.pkgs);
+      sv('u2_art',r.no_of_article);calcMT();
+    } else if(mod==='u3'){
+      sv('u3_mf',r.mf_no);sv('u3_rate',r.pmt_rate);sv('u3_oe',r.other_expense);
+      sv('u3_part',r.particular);sv('u3_lm',r.lm);sv('u3_pm',r.pm);
+      sv('u3_adv',r.advance);sv('u3_dsl',r.diesel);sv('u3_oth',r.other);
+      sv('u3_ll',r.loading_labour);sv('u3_food',r.fooding);sv('u3_con',r.con);
+      sv('u3_unl',r.unloading);sv('u3_xerox',r.xerox);sv('u3_det',r.detention);
+      sv('u3_ep',r.extra_point);sv('u3_ochrg',r.other_chrg);sv('u3_el',r.extra_labour);
+      sv('u3_bpmt',r.bill_pmt);sv('u3_advAcc',r.adv_account_no);sv('u3_advIfsc',r.adv_ifsc_code);
+      sv('u3_balAcc',r.bal_account_no);sv('u3_balIfsc',r.bal_ifsc_code);
+      sv('u3_lorry',r.lorry_no);sv('u3_broker',r.broker_name);
+      sv('u3_mt',r.mt);cFreight();cExp();
+    } else if(mod==='u8'){
+      sv('u8_ec',r.extra_charge);sv('u8_ded',r.deduction);sv('u8_prd',r.pmt_rec_date);
+      sv('u8_mf',r.mf_no);sv('u8_ed',r.entry_date);
+      _u8cache={entDate:r.entry_date||'',mfNo:r.mf_no||'',biltiFreight:0,totalCost:0,freightMF:0};
+      calcU8();
+    } else if(mod==='u9'){
+      sv('u9_mf',r.mf_no);sv('u9_so',r.so_no);sv('u9_lorry',r.lorry_no);sv('u9_broker',r.broker_name);
+      sv('u9_advAcc',r.adv_account_no);sv('u9_advIfsc',r.adv_ifsc);
+      sv('u9_balAcc',r.bal_account_no);sv('u9_balIfsc',r.bal_ifsc);
+      sv('u9_advamt',fmt2(r.advance_amount));sv('u9_amount',r.amount_paid);
+      sv('u9_txid',r.transaction_id);sv('u9_balamt',fmt2(r.balance_amount));
+      sv('u9_balance',r.balance_paid);sv('u9_baltxid',r.bal_transaction_id);
+      calcU9();
+    } else if(mod==='u10'){
+      sv('u10_so',r.so_no);sv('u10_oppal',r.oppal_gc_no);sv('u10_mf',r.mf_no);
+      sv('u10_gc',r.gc_no);sv('u10_entrydate',r.entry_date);sv('u10_remarks',r.remarks);
+    }
+    toast('⚡ SuperAdmin edit mode — record #'+id,'info');
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false);
+}
+
+async function saDelete(table, id, mod) {
+  if(!auth.isSuperAdmin()){ toast('SuperAdmin only','error'); return; }
+  if(!confirm(`DELETE record #${id} from ${table}?\n\n⚠️ This CANNOT be undone.`)) return;
+  loader(true);
+  try {
+    await sb(table,'DELETE',null,'?id=eq.'+id);
+    toast('✅ Record deleted (SuperAdmin)');
+    viewRecords(mod); await initApp();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false);
+}
+
+function cancelSAEdit(mod) {
+  _saEditId[mod]=null;
+  const bar=gel('sa-'+mod+'-bar'); if(bar) bar.classList.remove('show');
+  clearForm(mod);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  BALANCE REPORT
+// ═══════════════════════════════════════════════════════════════
+async function loadBalanceReport() {
+  loader(true);
+  try {
+    const [u3rows, u1rows, u9rows] = await Promise.all([
+      sb('user3_settlement','GET',null,'?order=id.desc'),
+      sb('user1_booking','GET',null,'?select=so_no,lorry_no,adv_account_no,adv_ifsc_code,bal_account_no,bal_ifsc_code'),
+      sb('user9_finalcheck','GET',null,'?select=so_no,mf_no,status')
+    ]);
+    const u1Map={};
+    u1rows.forEach(r=>{ u1Map[r.so_no]=r; });
+    const u9Map={};
+    u9rows.forEach(r=>{ u9Map[r.so_no]={status:r.status}; });
+    _brData=u3rows.map(r=>{
+      const u1=u1Map[r.so_no]||{}, u9=u9Map[r.so_no]||{status:'PENDING'};
+      return [r.so_no, r.mf_no, u1.lorry_no||r.lorry_no||'', r.broker_name,
+        u1.adv_account_no||r.adv_account_no||'', u1.adv_ifsc_code||r.adv_ifsc_code||'',
+        u1.bal_account_no||r.bal_account_no||'', u1.bal_ifsc_code||r.bal_ifsc_code||'',
+        parseFloat(r.advance)||0, parseFloat(r.balance)||0,
+        u9.status||'PENDING', ''];
+    });
+    filterBR();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false);
+}
+
+function filterBR(){
+  const fso=gv('br_fso').toLowerCase(), fbr=gv('br_fbroker').toLowerCase(), fst=gv('br_fstatus');
+  _brFiltered=_brData.filter(r=>{
+    if(fso&&!(r[0]||'').toLowerCase().includes(fso)) return false;
+    if(fbr&&!(r[3]||'').toLowerCase().includes(fbr)) return false;
+    if(fst&&fst!=='All'&&(r[10]||'')!==fst) return false;
+    return true;
+  });
+  renderBR();
+}
+
+function renderBR(){
+  const tb=gel('br_tbody'); if(!tb) return;
+  se('br_s1',_brFiltered.length);
+  se('br_s2','₹'+fmtN(_brFiltered.reduce((s,r)=>s+(parseFloat(r[8])||0),0)));
+  se('br_s3','₹'+fmtN(_brFiltered.reduce((s,r)=>s+(parseFloat(r[9])||0),0)));
+  se('br_s4',_brFiltered.filter(r=>r[10]==='SETTLED').length);
+  se('br_s5',_brFiltered.filter(r=>r[10]==='BAL PENDING').length);
+  se('br_s6',_brFiltered.filter(r=>r[10]==='PENDING').length);
+  if(!_brFiltered.length){ tb.innerHTML='<tr><td colspan="12" class="loading">No records found</td></tr>'; return; }
+  tb.innerHTML=_brFiltered.map(r=>{
+    const tag=r[10]==='SETTLED'?'b-ok':r[10]==='BAL PENDING'?'b-balp':'b-pend';
+    return `<tr><td><strong>${esc(r[0])}</strong></td><td style="font-family:var(--mono)">${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td>
+      <td style="font-family:var(--mono);font-size:11px">${esc(r[4])}</td><td style="font-family:var(--mono);font-size:11px">${esc(r[5])}</td>
+      <td style="font-family:var(--mono);font-size:11px">${esc(r[6])}</td><td style="font-family:var(--mono);font-size:11px">${esc(r[7])}</td>
+      <td style="font-family:var(--mono);font-weight:700;color:var(--amber)">₹${fmtN(r[8])}</td>
+      <td style="font-family:var(--mono);font-weight:700;color:var(--blue)">₹${fmtN(r[9])}</td>
+      <td><span class="badge ${tag}">${esc(r[10])}</span></td><td>${esc(r[11])}</td></tr>`;
+  }).join('');
+}
+
+function exportBalanceCSV(){
+  if(!_brFiltered.length){ toast('No data to export','error'); return; }
+  const hdr=['SO No','MF No','Truck','Broker','Adv Account','Adv IFSC','Bal Account','Bal IFSC','Advance','Balance','Status','Settlement Date'];
+  const csv=[hdr,..._brFiltered].map(r=>r.map(c=>{ const s=String(c||''); return s.includes(',')?'"'+s+'"':s; }).join(',')).join('\n');
+  const a=document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='Balance_Report_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  TRANSPORT PAYMENT REPORT
+// ═══════════════════════════════════════════════════════════════
+async function genTPReport() {
+  const from=gv('tpr_from'), to=gv('tpr_to');
+  if(!from&&!to){ toast('Select date range','error'); return; }
+  loader(true);
+  try {
+    let query='?order=id.desc';
+    if(from) query+='&entry_date=gte.'+from;
+    if(to) query+='&entry_date=lte.'+to+'T23:59:59';
+    const [u3rows, u1rows] = await Promise.all([
+      sb('user3_settlement','GET',null,''),
+      sb('user1_booking','GET',null,'?select=so_no,entry_date')
+    ]);
+    const entMap={};
+    u1rows.forEach(r=>{ entMap[r.so_no]=r.entry_date; });
+    const fd=from?new Date(from):null, td=to?new Date(to+'T23:59:59'):null;
+    const brokerMap={};
+    u3rows.forEach(r=>{
+      const br=(r.broker_name||'').trim(); if(!br) return;
+      if(fd||td){ const ed=entMap[r.so_no]?new Date(entMap[r.so_no]):null; if(!ed) return; if(fd&&ed<fd) return; if(td&&ed>td) return; }
+      if(!brokerMap[br]) brokerMap[br]={adv:0,bal:0};
+      brokerMap[br].adv+=parseFloat(r.advance)||0;
+      brokerMap[br].bal+=parseFloat(r.balance)||0;
+    });
+    const rows=Object.keys(brokerMap).sort().map(name=>([name,brokerMap[name].adv,brokerMap[name].bal,brokerMap[name].adv+brokerMap[name].bal]));
+    if(!rows.length){ gel('tpr-body').style.display='none'; gel('tpr-nodata').style.display='block'; loader(false); return; }
+    const months=['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+    const fd2=from?new Date(from):to?new Date(to):new Date();
+    const label=months[fd2.getMonth()]+' '+fd2.getFullYear();
+    const rangeTxt=(from&&to)?`From ${from} To ${to}`:from?`From ${from}`:to?`Until ${to}`:'';
+    se('tpr-month',label); se('tpr-range',rangeTxt);
+    const totAdv=rows.reduce((s,r)=>s+r[1],0), totBal=rows.reduce((s,r)=>s+r[2],0);
+    const totals=rows.map(r=>r[3]);
+    gel('tpr-tbody').innerHTML=rows.map((r,i)=>`<tr style="background:${i%2?'#fafbfc':'#fff'}">
+      <td style="padding:7px 10px;font-weight:600;color:var(--blue-dk)">${esc(r[0])}</td>
+      <td style="padding:7px 10px;text-align:right;font-family:var(--mono)">₹${fmtN(r[1])}</td>
+      <td style="padding:7px 10px;text-align:right;font-family:var(--mono)">₹${fmtN(r[2])}</td>
+      <td style="padding:7px 10px;text-align:right;font-family:var(--mono);font-weight:700">₹${fmtN(r[3])}</td>
+    </tr>`).join('');
+    se('tpr-grand-adv','₹'+fmtN(totAdv));
+    se('tpr-grand-bal','₹'+fmtN(totBal));
+    se('tpr-grand-tot','₹'+fmtN(totAdv+totBal));
+    se('tpr-high','₹'+fmtN(Math.max(...totals)));
+    se('tpr-low','₹'+fmtN(Math.min(...totals)));
+    se('tpr-avg','₹'+fmtN(totals.reduce((s,v)=>s+v,0)/totals.length));
+    gel('tpr-body').style.display='block'; gel('tpr-nodata').style.display='none';
+  } catch(e) { toast('Error: '+e.message,'error'); }
+  loader(false);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  MASTER REPORT
+// ═══════════════════════════════════════════════════════════════
+async function loadMasterReport() {
+  gel('mr-loading').style.display='block'; gel('mr-table-wrap').style.display='none';
+  try {
+    const [u1r, u2r, u3r, u7r, u8r, u9r] = await Promise.all([
+      sb('user1_booking','GET',null,'?order=id.desc'),
+      sb('user2_dispatch','GET',null,''),
+      sb('user3_settlement','GET',null,''),
+      sb('user7_finalbill','GET',null,''),
+      sb('user8_accounts','GET',null,''),
+      sb('user9_finalcheck','GET',null,'')
+    ]);
+    const u2map={},u3map={},u7map={},u8map={},u9map={};
+    u2r.forEach(r=>u2map[r.so_no]=r);
+    u3r.forEach(r=>u3map[r.so_no]=r);
+    u7r.forEach(r=>u7map[r.so_no]=r);
+    u8r.forEach(r=>u8map[r.so_no]=r);
+    u9r.forEach(r=>u9map[r.so_no]=r);
+    _mrData=u1r.map(r=>{
+      const u2=u2map[r.so_no]||{}, u3=u3map[r.so_no]||{}, u7=u7map[r.so_no]||{}, u8=u8map[r.so_no]||{}, u9=u9map[r.so_no]||{};
+      return {so_no:r.so_no,order_date:r.order_date,lorry_no:r.lorry_no||u2.lorry_no||'',consignor:r.consignor,consignee:r.consignee,from_place:r.from_place,destination:r.destination,broker_name:r.broker_name,mf_no:u3.mf_no||'',gc_no:u2.oppal_gc_no||'',loading_date:u2.loading_date||'',oppal_gc_no:u2.oppal_gc_no||'',invoice_no:u2.invoice_no||'',eway_bill:u2.eway_bill||'',items:u2.items||'',pkgs:u2.pkgs||'',mt:u2.mt||'',pmt_rate:u3.pmt_rate||0,total_freight:u3.total_freight||0,freight_mf:u3.freight_mf||0,advance:u3.advance||0,balance:u3.balance||0,total_cost:u3.total_cost||0,bilti_freight:u3.bilti_freight||0,total_renv:u8.total_renv||0,gross_profit:u8.gross_profit||0,gp_on_sale:u8.gp_on_sale||'',gp_on_purchase:u8.gp_on_purchase||'',status:u9.status||''};
+    });
+    filterMR();
+    gel('mr-loading').style.display='none'; gel('mr-table-wrap').style.display='block';
+  } catch(e) { toast('Error: '+e.message,'error'); gel('mr-loading').style.display='none'; }
+}
+
+function filterMR(){
+  const so=gv('mr_so').toLowerCase(), lo=gv('mr_lorry').toLowerCase();
+  _mrFiltered=_mrData.filter(r=>(!so||(r.so_no||'').toLowerCase().includes(so))&&(!lo||(r.lorry_no||'').toLowerCase().includes(lo)));
+  const tb=gel('mr-tbody'); if(!tb) return;
+  tb.innerHTML=_mrFiltered.map(r=>`<tr>
+    <td>${esc(r.order_date)}</td><td><strong style="font-family:var(--mono)">${esc(r.so_no)}</strong></td>
+    <td>${esc(r.lorry_no)}</td><td>${esc(r.consignor)}</td><td>${esc(r.consignee)}</td>
+    <td>${esc(r.from_place)}</td><td>${esc(r.destination)}</td><td>${esc(r.broker_name)}</td>
+    <td style="font-family:var(--mono)">${esc(r.mf_no)}</td><td style="font-family:var(--mono)">${esc(r.gc_no)}</td>
+    <td>${esc(r.loading_date)}</td><td style="font-family:var(--mono)">${esc(r.oppal_gc_no)}</td>
+    <td>${esc(r.invoice_no)}</td><td style="font-family:var(--mono)">${esc(r.eway_bill)}</td>
+    <td>${esc(r.items)}</td><td>${esc(r.pkgs)}</td><td>${esc(r.mt)}</td>
+    <td class="mono">₹${fmtN(r.pmt_rate)}</td><td class="mono">₹${fmtN(r.total_freight)}</td>
+    <td class="mono">₹${fmtN(r.freight_mf)}</td><td class="mono">₹${fmtN(r.advance)}</td>
+    <td class="mono">₹${fmtN(r.balance)}</td><td class="mono">₹${fmtN(r.total_cost)}</td>
+    <td class="mono">₹${fmtN(r.bilti_freight)}</td><td class="mono">₹${fmtN(r.total_renv)}</td>
+    <td class="mono" style="color:var(--green);font-weight:700">₹${fmtN(r.gross_profit)}</td>
+    <td>${esc(r.gp_on_sale)}</td><td>${esc(r.gp_on_purchase)}</td>
+    <td><span class="badge ${r.status==='SETTLED'?'b-ok':r.status?'b-balp':'b-info'}">${esc(r.status||'—')}</span></td>
+  </tr>`).join('');
+}
+
+function exportMRCSV(){
+  if(!_mrFiltered.length){ toast('No data to export','error'); return; }
+  const hdr=['SO No','Order Date','Lorry','Consignor','Consignee','From','Dest','Broker','MF No','GC No','Loading Date','OPPAL GC','Invoice','Eway Bill','Items','PKGS','MT','PMT Rate','Total Freight','Freight MF','Advance','Balance','Total Cost','Bilti Freight','Total RENV','Gross Profit','GP Sale','GP Purch','Status'];
+  const rows=[hdr,..._mrFiltered.map(r=>[r.so_no,r.order_date,r.lorry_no,r.consignor,r.consignee,r.from_place,r.destination,r.broker_name,r.mf_no,r.gc_no,r.loading_date,r.oppal_gc_no,r.invoice_no,r.eway_bill,r.items,r.pkgs,r.mt,r.pmt_rate,r.total_freight,r.freight_mf,r.advance,r.balance,r.total_cost,r.bilti_freight,r.total_renv,r.gross_profit,r.gp_on_sale,r.gp_on_purchase,r.status])];
+  const csv=rows.map(r=>r.map(c=>{ const s=String(c||''); return s.includes(',')?'"'+s+'"':s; }).join(',')).join('\n');
+  const a=document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='Master_Report_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  MASTERS PAGE
+// ═══════════════════════════════════════════════════════════════
+async function loadMastersPage() {
+  try {
+    const [custs,dests,items,brokers,cards] = await Promise.all([
+      sb('customer_db','GET',null,'?order=customer_name.asc'),
+      sb('destination_db','GET',null,'?order=destination.asc'),
+      sb('items_db','GET',null,'?order=item_name.asc'),
+      sb('account_db','GET',null,'?order=broker_name.asc'),
+      sb('cards_db','GET',null,'')
+    ]);
+    const fmt=d=>d?new Date(d).toLocaleDateString('en-IN'):'—';
+    const setTb=(id,rows,render)=>{ const t=gel(id); if(t) t.innerHTML=rows.length?rows.map(render).join(''):'<tr><td colspan="4" class="loading">No records</td></tr>'; };
+    setTb('cust-tbody',custs,r=>`<tr><td>${esc(r.customer_name)}</td><td>${fmt(r.added_on)}</td></tr>`);
+    setTb('dest-tbody',dests,r=>`<tr><td>${esc(r.destination)}</td><td>${fmt(r.added_on)}</td></tr>`);
+    setTb('items-tbody',items,r=>`<tr><td>${esc(r.item_name)}</td><td>${fmt(r.added_on)}</td></tr>`);
+    setTb('broker-tbody',brokers,r=>`<tr><td><strong>${esc(r.broker_name)}</strong></td><td style="font-family:var(--mono)">${esc(r.bal_account_no)}</td><td style="font-family:var(--mono)">${esc(r.bal_ifsc_code)}</td><td>${esc(r.contact_no||'—')}</td></tr>`);
+    setTb('cards-tbody',cards,r=>`<tr><td style="font-family:var(--mono)">${esc(r.card_number)}</td><td>${fmt(r.added_on)}</td></tr>`);
+  } catch(e) { toast('Error loading masters: '+e.message,'error'); }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  ADD MODAL
+// ═══════════════════════════════════════════════════════════════
+let _addType='', _addTarget='';
+
+function openAddModal(type, targetId) {
+  _addType=type; _addTarget=targetId;
+  gel('addSimple').style.display='none';
+  gel('addBrokerForm').style.display='none';
+  if(type==='broker'){ gel('addTitle').textContent='Add Broker'; gel('addBrokerForm').style.display='block'; }
+  else {
+    const labels={customer:'Customer / Consignor',destination:'Destination',item:'Item',card:'Card Number'};
+    gel('addTitle').textContent='Add '+labels[type];
+    gel('addSimple').style.display='block';
+    gel('addVal').value='';
+    setTimeout(()=>gel('addVal').focus(),100);
+  }
+  gel('addOv').classList.add('open');
+}
+
+function closeAddModal(){ gel('addOv').classList.remove('open'); }
+
+async function doAdd() {
+  try {
+    if(_addType==='broker'){
+      const name=document.getElementById('addBroker').value.trim();
+      const bacc=document.getElementById('addBalAcc').value.trim();
+      const bifsc=document.getElementById('addBalIfsc').value.trim();
+      const holder=document.getElementById('addAdvHolder').value.trim();
+      const contact=document.getElementById('addContact').value.trim();
+      if(!name||!bacc||!bifsc||!holder){ toast('Fill required fields','error'); return; }
+      await sb('account_db','POST',{broker_name:name,bal_account_no:bacc,bal_ifsc_code:bifsc,adv_holder_name:holder,contact_no:contact,added_on:new Date().toISOString()});
+      toast('✅ Broker added!');
+    } else {
+      const val=gv('addVal'); if(!val){ toast('Enter a value','error'); return; }
+      const tableMap={customer:'customer_db',destination:'destination_db',item:'items_db',card:'cards_db'};
+      const fieldMap={customer:'customer_name',destination:'destination',item:'item_name',card:'card_number'};
+      const t=tableMap[_addType], f=fieldMap[_addType];
+      if(!t){ toast('Unknown type','error'); return; }
+      await sb(t,'POST',{[f]:val,added_on:new Date().toISOString()});
+      toast('✅ Added!');
+      if(_addTarget){ const el=gel(_addTarget); if(el){ const o=document.createElement('option'); o.value=val; o.textContent=val; el.appendChild(o); } }
+    }
+    closeAddModal(); await initApp(); loadMastersPage();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  USER MANAGEMENT
+// ═══════════════════════════════════════════════════════════════
+let _editingUserId=null;
+
+async function renderUserMgmt() {
+  if(!auth.isAdmin()){ gel('um-tbody').innerHTML='<tr><td colspan="7" class="loading">Access denied</td></tr>'; return; }
+  try {
+    const users=await sb('user_master','GET',null,'?order=id.asc');
+    gel('um-tbody').innerHTML=users.map((u,idx)=>{
+      const roleMap={SUPERADMIN:'urb-sa',ADMIN:'urb-admin',USER:'urb-user'};
+      const roleCls=roleMap[u.role]||'urb-user';
+      const isSelf=auth.user&&u.id===auth.user.id;
+      // SUPERADMIN cannot be deleted by ADMIN (only SUPERADMIN can)
+      const canDelete=!isSelf&&(auth.isSuperAdmin()||u.role!=='SUPERADMIN');
+      return `<tr>
+        <td style="font-family:var(--mono)">${u.id}</td>
+        <td><strong>${esc(u.username)}</strong>${isSelf?' <span style="color:var(--ink4);font-size:10px">(you)</span>':''}</td>
+        <td>${esc(u.display_name||'—')}</td>
+        <td><span class="badge ${roleCls}">${esc(u.role)}</span></td>
+        <td><span class="badge ${u.status==='ACTIVE'?'b-ok':'b-pend'}">${esc(u.status)}</span></td>
+        <td>${u.created_at?new Date(u.created_at).toLocaleDateString('en-IN'):'—'}</td>
+        <td style="text-align:right">
+          <button class="btn btn-outline btn-sm" onclick="_umEdit(${idx})">✏️ Edit</button>
+          ${canDelete?`<button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="_umDel(${idx})">✗</button>`:''}
+        </td>
+      </tr>`;
+    }).join('');
+    window._umUsers=users;
+  } catch(e) { toast('Error: '+e.message,'error'); }
+}
+
+function showAddUserForm(){
+  _editingUserId=null;
+  gel('user-form-title').textContent='Add New User';
+  gel('uf-username').value=''; gel('uf-username').disabled=false;
+  gel('uf-displayname').value=''; gel('uf-password').value='';
+  gel('uf-password').placeholder='Enter password';
+  gel('uf-pw-label').textContent='Password *';
+  gel('uf-role').value='USER'; gel('uf-status').value='ACTIVE';
+  // Only SUPERADMIN can create SUPERADMIN
+  if(!auth.isSuperAdmin()){ const opt=gel('uf-role').querySelector('option[value="SUPERADMIN"]'); if(opt) opt.style.display='none'; }
+  gel('user-form-wrap').style.display='block';
+}
+
+function cancelUserForm(){ _editingUserId=null; gel('user-form-wrap').style.display='none'; }
+
+async function saveUser(){
+  const username=gel('uf-username').value.trim(), displayName=gel('uf-displayname').value.trim();
+  const password=gel('uf-password').value, role=gel('uf-role').value, status=gel('uf-status').value;
+  if(!displayName){ toast('Display name required','error'); return; }
+  // Only SUPERADMIN can assign SUPERADMIN role
+  if(role==='SUPERADMIN'&&!auth.isSuperAdmin()){ toast('Only SuperAdmin can assign SuperAdmin role','error'); return; }
+  try {
+    if(_editingUserId){
+      const updates={display_name:displayName,role,status};
+      if(password) updates.password_hash=password;
+      await sb('user_master','PATCH',updates,'?id=eq.'+_editingUserId);
+      if(auth.user&&auth.user.id===_editingUserId){ auth.user.display_name=displayName; auth.user.role=role; applyAuthToUI(); try{sessionStorage.setItem('tms5_auth',JSON.stringify(auth.user));}catch(e){} }
+      toast('✅ User updated!');
+    } else {
+      if(!username){ toast('Username required','error'); return; }
+      if(!password){ toast('Password required','error'); return; }
+      await sb('user_master','POST',{username,password_hash:password,display_name:displayName,role,status});
+      toast('✅ User created!');
+    }
+    cancelUserForm(); await renderUserMgmt();
+  } catch(e) { toast('Error: '+e.message,'error'); }
+}
+
+function _umEdit(idx){ const u=window._umUsers[idx]; if(!u) return; _editingUserId=u.id; gel('user-form-title').textContent='Edit User — '+u.username; gel('uf-username').value=u.username; gel('uf-username').disabled=true; gel('uf-displayname').value=u.display_name||''; gel('uf-password').value=''; gel('uf-password').placeholder='Leave blank to keep current'; gel('uf-pw-label').textContent='New Password (optional)'; gel('uf-role').value=u.role; gel('uf-status').value=u.status; if(!auth.isSuperAdmin()){ const opt=gel('uf-role').querySelector('option[value="SUPERADMIN"]'); if(opt) opt.style.display='none'; } gel('user-form-wrap').style.display='block'; gel('user-form-wrap').scrollIntoView({behavior:'smooth'}); }
+
+async function _umDel(idx){ const u=window._umUsers[idx]; if(!u) return; if(u.role==='SUPERADMIN'&&!auth.isSuperAdmin()){ toast('Cannot delete SuperAdmin','error'); return; } if(!confirm('Delete user "'+u.username+'"?')) return; try { await sb('user_master','DELETE',null,'?id=eq.'+u.id); toast('✅ User deleted!'); await renderUserMgmt(); } catch(e){ toast('Error: '+e.message,'error'); } }
+
+// ═══════════════════════════════════════════════════════════════
+//  CLEAR FORM
+// ═══════════════════════════════════════════════════════════════
+function clearForm(mod) {
+  const formInputs={
+    u1:['u1_od','u1_ot','u1_so','u1_ed','u1_et','u1_lorry','u1_from','u1_advAcc','u1_advIfsc','u1_advHolder','u1_balAcc','u1_balIfsc','u1_brkContact','u1_dcontact'],
+    u2:['u2_ld','u2_oppal','u2_inv','u2_eway','u2_ewayexpiry','u2_pkgs','u2_art'],
+    u3:['u3_mf','u3_rate','u3_oe','u3_part','u3_lm','u3_pm','u3_adv','u3_dsl','u3_oth','u3_ll','u3_food','u3_con','u3_unl','u3_xerox','u3_det','u3_ep','u3_ochrg','u3_el','u3_bpmt','u3_advAcc','u3_advIfsc','u3_balAcc','u3_balIfsc','u3_dslref'],
+    u6:['u6_oppaldate'],
+    u7:['u7_finalbilldate','u7_billno','u7_billdate'],
+    u8:['u8_ec','u8_ded','u8_prd'],
+    u9:['u9_amount','u9_txid','u9_balance','u9_baltxid'],
+    u10:['u10_gc','u10_remarks']
+  };
+  const computedIds=['u1_status','u1_hl','u2_mt','u2_lorry','u3_tf','u3_fmf','u3_bal','u3_te','u3_tc','u3_mt','u3_bf','u3_lorry','u3_broker','u3_advAcc','u3_advIfsc','u3_balAcc','u3_balIfsc','u6_mf','u6_advdate','u6_diff','u7_mf','u7_oppaldate','u7_diff1','u7_diff2','u8_mf','u8_ed','u8_tr','u8_gp','u8_int','u8_tax','u8_gps','u8_gpp','u9_mf','u9_so','u9_lorry','u9_broker','u9_advAcc','u9_advIfsc','u9_balAcc','u9_balIfsc','u9_advamt','u9_balamt','u9_advdiff','u9_baldiff','u10_so','u10_oppal','u10_mf'];
+  (formInputs[mod]||[]).forEach(id=>{ const e=gel(id); if(e){ if(e.type==='number') e.value='0'; else if(e.tagName==='SELECT') e.selectedIndex=0; else e.value=''; } });
+  computedIds.forEach(id=>{ const e=gel(id); if(e) e.value=''; });
+  if(mod==='u3'){ const dp=gel('dslPanel'); if(dp) dp.className='sub-panel'; const cb=gel('u3_dslpaid'); if(cb) cb.checked=false; }
+  if(mod==='u9'){ gel('u9_btnNew')&&(gel('u9_btnNew').disabled=false); gel('u9_btnUpd')&&(gel('u9_btnUpd').disabled=true); }
+  if(_saEditId[mod]) cancelSAEdit(mod);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  BOOT
+// ═══════════════════════════════════════════════════════════════
+window.onload = function() {
+  let saved=null;
+  try{ saved=sessionStorage.getItem('tms5_auth'); } catch(e){}
+  if(saved){
+    try{
+      auth.user=JSON.parse(saved);
+      applyAuthToUI();
+      document.getElementById('login-screen').style.display='none';
+      initApp().then(()=>renderDashboard());
+      return;
+    } catch(e){ try{sessionStorage.removeItem('tms5_auth');}catch(e2){} }
+  }
+  setTimeout(()=>{ const el=gel('login-username'); if(el) el.focus(); },150);
+};
+</script>
+</body>
+</html>
