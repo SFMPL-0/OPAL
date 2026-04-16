@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
 <!--
-╔══════════════════════════════════════════════════════════════════════╗
-║  SFMPL TMS v5 — Full Workflow Edition (Supabase Backend)            ║
-║  Transformed from GAS v7.1 logic → Supabase + TMS UI Style         ║
-╠══════════════════════════════════════════════════════════════════════╣
-║  ROLES:                                                             ║
-║  SUPERADMIN — Edit / Delete any record across all modules           ║
-║  ADMIN      — Full access + User Management, no delete              ║
-║  USER       — Assigned modules only, read+write                     ║
-╠══════════════════════════════════════════════════════════════════════╣
-║  SETUP:                                                             ║
-║  1. Replace SUPABASE_URL and SUPABASE_ANON below                    ║
-║  2. Run the SQL schema in Supabase SQL Editor                       ║
-║  3. Login: superadmin / superadmin123                               ║
-╚══════════════════════════════════════════════════════════════════════╝
+
+  SFMPL TMS v5 — Full Workflow Edition (Supabase Backend)            
+  Transformed from GAS v7.1 logic → Supabase + TMS UI Style         
+
+  ROLES:                                                             
+  SUPERADMIN — Edit / Delete any record across all modules           
+  ADMIN      — Full access + User Management, no delete              
+  USER       — Assigned modules only, read+write                     
+
+  SETUP:                                                             
+  1. Replace SUPABASE_URL and SUPABASE_ANON below                    
+  2. Run the SQL schema in Supabase SQL Editor                       
+  3. Login: superadmin / superadmin123                               
+
 -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +37,7 @@
 }
 body{font-family:var(--sans);background:var(--canvas);color:var(--ink);display:flex;height:100vh;overflow:hidden;font-size:13px;line-height:1.5}
 
-/* ── LOGIN ── */
+/*  LOGIN  */
 #login-screen{position:fixed;inset:0;background:var(--sb-bg);display:flex;align-items:center;justify-content:center;z-index:99999}
 .login-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:36px 40px;width:390px;box-shadow:0 12px 40px rgba(0,0,0,.45)}
 .login-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px}
@@ -52,7 +52,7 @@ body{font-family:var(--sans);background:var(--canvas);color:var(--ink);display:f
 .login-btn:hover{background:#1c3151}
 .login-error{background:var(--red-lt);color:var(--red);border:1px solid #ffcecb;border-radius:3px;padding:8px 11px;font-size:12px;font-weight:600;margin-bottom:14px;display:none}
 
-/* ── SIDEBAR ── */
+/*  SIDEBAR  */
 #sidebar{width:var(--sb-w);background:var(--sb-bg);border-right:1px solid var(--sb-border);display:flex;flex-direction:column;flex-shrink:0;z-index:10;overflow:hidden}
 .sidebar-logo{padding:14px 16px 12px;border-bottom:1px solid var(--sb-border)}
 .logo-wordmark{display:flex;align-items:center;gap:10px}
@@ -71,7 +71,7 @@ nav::-webkit-scrollbar-thumb{background:var(--sb-border);border-radius:2px}
 .nav-divider{height:1px;background:var(--sb-border);margin:5px 0}
 .sidebar-footer{padding:10px 16px;border-top:1px solid var(--sb-border);font-size:10px;color:var(--sb-muted)}
 
-/* ── MAIN ── */
+/*  MAIN  */
 #main{flex:1;display:flex;flex-direction:column;overflow:hidden}
 #topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;height:50px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .topbar-left{display:flex;align-items:center;gap:8px}
@@ -93,11 +93,11 @@ nav::-webkit-scrollbar-thumb{background:var(--sb-border);border-radius:2px}
 #content::-webkit-scrollbar{width:5px}
 #content::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 
-/* ── SECTIONS ── */
+/*  SECTIONS  */
 .section{display:none}
 .section.active{display:block}
 
-/* ── CARDS ── */
+/*  CARDS  */
 .section-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px 18px;margin-bottom:14px}
 .section-title{font-size:12px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--divider);display:flex;align-items:center;gap:8px;justify-content:space-between}
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
@@ -106,7 +106,7 @@ nav::-webkit-scrollbar-thumb{background:var(--sb-border);border-radius:2px}
 .stat-label{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
 .stat-value{font-size:26px;font-weight:700;color:var(--ink);font-family:var(--mono);line-height:1;letter-spacing:-.02em}
 
-/* ── FORMS ── */
+/*  FORMS  */
 .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(186px,1fr));gap:10px}
 .fgrid-2{grid-template-columns:repeat(2,1fr)}.fgrid-3{grid-template-columns:repeat(3,1fr)}.fgrid-4{grid-template-columns:repeat(4,1fr)}
 .fg{display:flex;flex-direction:column;gap:3px}
@@ -123,7 +123,7 @@ nav::-webkit-scrollbar-thumb{background:var(--sb-border);border-radius:2px}
 .cbg input[type=checkbox]{accent-color:var(--blue);cursor:pointer;width:14px;height:14px}
 .cbg span{font-size:12px;color:var(--ink2)}
 
-/* ── BUTTONS ── */
+/*  BUTTONS  */
 .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:3px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;font-family:var(--sans);text-transform:uppercase;letter-spacing:.04em}
 .btn:active{transform:scale(.97)}.btn:disabled{opacity:.38;cursor:not-allowed}
 .btn-primary{background:var(--blue);color:#fff;border-color:var(--blue-dk)}.btn-primary:hover:not(:disabled){background:var(--blue-dk)}
@@ -135,7 +135,7 @@ nav::-webkit-scrollbar-thumb{background:var(--sb-border);border-radius:2px}
 .btn-sm{padding:4px 10px;font-size:11px}
 .actions{display:flex;gap:8px;padding:12px 0 0;flex-wrap:wrap}
 
-/* ── TABLES ── */
+/*  TABLES  */
 .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:4px}
 .scroll-table-wrap{overflow-x:auto;overflow-y:auto;border:1px solid var(--border);border-radius:4px;max-height:320px}
 table{width:100%;border-collapse:collapse;font-size:12px}
@@ -147,7 +147,7 @@ tbody tr:last-child td{border-bottom:none}
 tbody tr:nth-child(even){background:#fafbfc}
 tbody tr:hover td{background:var(--blue-lt)}
 
-/* ── BADGES ── */
+/*  BADGES  */
 .badge{padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;display:inline-block}
 .b-ok{background:var(--green-lt);color:var(--green);border-color:#b7e4c7}
 .b-pend{background:var(--red-lt);color:var(--red);border-color:#ffcecb}
@@ -157,14 +157,14 @@ tbody tr:hover td{background:var(--blue-lt)}
 .b-new{background:var(--blue-lt);color:var(--blue-dk);border-color:#b6d4fb}
 .b-upd{background:var(--amber-lt);color:var(--amber);border-color:#f0dc8a}
 
-/* ── TOAST ── */
+/*  TOAST  */
 #toast-container{position:fixed;top:14px;right:14px;z-index:9999;display:flex;flex-direction:column;gap:6px;pointer-events:none}
 .toast{padding:9px 14px;border-radius:4px;font-size:12px;font-weight:700;min-width:200px;border-left:4px solid transparent;pointer-events:auto}
 .toast-success{background:var(--surface);color:var(--green);border:1px solid #b7e4c7;border-left-color:var(--green)}
 .toast-error{background:var(--surface);color:var(--red);border:1px solid #ffcecb;border-left-color:var(--red)}
 .toast-info{background:var(--surface);color:var(--blue);border:1px solid #b6d4fb;border-left-color:var(--blue)}
 
-/* ── LOADING ── */
+/*  LOADING  */
 .loading{text-align:center;padding:28px;color:var(--ink4);font-size:12px}
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin-right:6px;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -172,7 +172,7 @@ tbody tr:hover td{background:var(--blue-lt)}
 #ldr.on{opacity:1;animation:ldrA 1.2s ease-in-out infinite}
 @keyframes ldrA{0%{transform:scaleX(0)}60%{transform:scaleX(.7)}100%{transform:scaleX(1);opacity:0}}
 
-/* ── MODAL ── */
+/*  MODAL  */
 .ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;align-items:center;justify-content:center;padding:16px}
 .ov.open{display:flex}
 .modal{background:var(--surface);border:1px solid var(--border2);border-radius:6px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto}
@@ -182,12 +182,12 @@ tbody tr:hover td{background:var(--blue-lt)}
 .modal-bd{padding:16px;display:flex;flex-direction:column;gap:12px}
 .modal-ft{display:flex;gap:8px;justify-content:flex-end;padding:12px 16px;border-top:1px solid var(--border);background:var(--canvas)}
 
-/* ── SUPERADMIN EDIT PANEL ── */
+/*  SUPERADMIN EDIT PANEL  */
 .sa-edit-bar{display:none;background:#fbefff;border:1px solid #d0b0ff;border-radius:4px;padding:8px 14px;margin-bottom:12px;align-items:center;gap:10px;font-size:11px;font-weight:700;color:var(--purple)}
 .sa-edit-bar.show{display:flex}
 .sa-editing-badge{background:var(--purple);color:#fff;padding:2px 8px;border-radius:3px;font-size:10px;letter-spacing:.05em}
 
-/* ── GC PROGRESS ── */
+/*  GC PROGRESS  */
 .gc-prog{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--blue-lt);border:1px solid #b6d4fb;border-radius:4px;margin-bottom:10px;font-size:11px;color:var(--blue-dk)}
 .gc-pbar{flex:1;height:5px;background:var(--border2);border-radius:3px;overflow:hidden}
 .gc-pfill{height:100%;background:var(--blue);border-radius:3px;transition:width .35s ease}
@@ -196,7 +196,7 @@ tbody tr:hover td{background:var(--blue-lt)}
 .gc-tbl td{padding:6px 10px;border-bottom:1px solid var(--divider);vertical-align:middle}
 .gc-tbl tr:last-child td{border-bottom:none}
 
-/* ── FILTER BAR ── */
+/*  FILTER BAR  */
 .filter-bar{display:flex;gap:8px;margin-bottom:12px;align-items:flex-end;flex-wrap:wrap}
 .filter-bar .fg{flex:1;min-width:140px}
 .srch{position:relative}
@@ -207,34 +207,75 @@ tbody tr:hover td{background:var(--blue-lt)}
 .si:last-child{border-bottom:none}
 .si:hover,.si.hi{background:var(--canvas);color:var(--ink)}
 
-/* ── CLOCK ── */
+/*  CLOCK  */
 .hdr-clock{font-size:10px;color:var(--ink3);text-align:right;line-height:1.6}
 .hdr-clock .tc{font-size:12px;font-weight:700;color:var(--ink);font-family:var(--mono)}
 
-/* ── REPORT SECTIONS ── */
+/*  REPORT SECTIONS  */
 .rpt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin-bottom:14px}
 .rpt-card{background:var(--canvas);border:1px solid var(--border);border-radius:4px;padding:10px 14px}
 .rpt-label{font-size:10px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
 .rpt-val{font-size:13px;font-weight:700;color:var(--ink);font-family:var(--mono)}
 .rpt-val.hl-green{color:var(--green)}.rpt-val.hl-red{color:var(--red)}.rpt-val.hl-blue{color:var(--blue)}.rpt-val.hl-amber{color:var(--amber)}
 
-/* ── USER ROLE BADGES ── */
+/*  USER ROLE BADGES  */
 .urb-sa{background:#fbefff;color:var(--purple);border:1px solid #d0b0ff}
 .urb-admin{background:var(--gold-lt);color:var(--gold);border:1px solid #ffc107}
 .urb-user{background:var(--blue-lt);color:var(--blue-dk);border:1px solid #b6d4fb}
+
+/* ── SVG ICONS ── */
+.ic{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;flex-shrink:0;vertical-align:middle}
+.ic svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav-item .ic{width:15px;height:15px;opacity:.75}
+.nav-item.active .ic{opacity:1}
+
+/* ── THEME PANEL ── */
+#theme-panel{position:fixed;top:0;right:-340px;width:330px;height:100vh;background:var(--surface);border-left:1px solid var(--border);z-index:800;display:flex;flex-direction:column;transition:right .28s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 20px rgba(0,0,0,.12)}
+#theme-panel.open{right:0}
+.tp-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--canvas)}
+.tp-hd h3{font-size:12px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.08em}
+.tp-close{background:none;border:none;cursor:pointer;color:var(--ink3);font-size:16px;padding:0 2px;line-height:1}
+.tp-body{flex:1;overflow-y:auto;padding:16px 18px}
+.tp-section{margin-bottom:20px}
+.tp-section-label{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--divider)}
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.theme-swatch{border:2px solid transparent;border-radius:5px;padding:8px 6px;cursor:pointer;text-align:center;font-size:10px;font-weight:700;color:var(--ink3);transition:border-color .15s,transform .1s;background:var(--canvas)}
+.theme-swatch:hover{transform:scale(1.04)}
+.theme-swatch.active{border-color:var(--blue);color:var(--blue)}
+.swatch-dot{width:28px;height:28px;border-radius:50%;margin:0 auto 5px}
+.tp-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.tp-row label{font-size:11px;font-weight:600;color:var(--ink2)}
+.toggle-switch{position:relative;width:38px;height:20px;cursor:pointer}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;background:var(--border2);border-radius:10px;transition:background .2s}
+.toggle-switch input:checked + .toggle-track{background:var(--blue)}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle-switch input:checked ~ .toggle-thumb{left:20px}
+/* custom theme creator */
+.color-row{display:grid;grid-template-columns:1fr 40px;gap:8px;align-items:center;margin-bottom:8px}
+.color-row label{font-size:11px;color:var(--ink2);font-weight:600}
+.color-row input[type=color]{width:40px;height:30px;border:1px solid var(--border);border-radius:3px;cursor:pointer;padding:1px 2px;background:var(--surface)}
+.theme-btn-apply{width:100%;padding:9px;background:var(--blue);color:#fff;border:none;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;margin-top:4px}
+.theme-btn-apply:hover{background:var(--blue-dk)}
+.theme-btn-reset{width:100%;padding:7px;background:var(--canvas);color:var(--ink3);border:1px solid var(--border2);border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;margin-top:6px;text-transform:uppercase;letter-spacing:.04em}
+
+/* ── TOPBAR ICON BUTTONS ── */
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border:1px solid var(--border2);border-radius:3px;background:var(--canvas);cursor:pointer;color:var(--ink3);transition:background .12s,color .12s}
+.icon-btn:hover{background:var(--surface);color:var(--ink)}
+.icon-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 </style>
 </head>
 <body>
 <div id="ldr"></div>
 <div id="toast-container"></div>
 
-<!-- ═══════════════════ LOGIN SCREEN ═══════════════════ -->
+<!--  LOGIN SCREEN  -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">
       <div class="login-badge">SF</div>
       <div>
-        <div class="login-title">SFMPL OPPAL TMS</div>
+        <div class="login-title">SFMPL TMS v5</div>
         <div class="login-sub">Full Workflow Edition</div>
       </div>
     </div>
@@ -252,7 +293,7 @@ tbody tr:hover td{background:var(--blue-lt)}
   </div>
 </div>
 
-<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<!--  SIDEBAR  -->
 <div id="sidebar">
   <div class="sidebar-logo">
     <div class="logo-wordmark">
@@ -266,70 +307,69 @@ tbody tr:hover td{background:var(--blue-lt)}
   <nav id="main-nav">
     <div class="nav-group-label">Main</div>
     <button class="nav-item active" onclick="navigate('dashboard')" id="nav-dashboard">
-      <span class="nav-icon">📊</span>Dashboard
+      <span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>Dashboard
     </button>
-
     <div class="nav-divider"></div>
     <div class="nav-group-label">Workflow</div>
     <button class="nav-item" onclick="navigate('u1')" id="nav-u1">
-      <span class="nav-icon">📦</span>User 1 — Booking
+      <span class="ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></span>Booking
     </button>
     <button class="nav-item" onclick="navigate('u2')" id="nav-u2">
-      <span class="nav-icon">📋</span>User 2 — Dispatch
+      <span class="ic"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>Dispatch
     </button>
     <button class="nav-item" onclick="navigate('u3')" id="nav-u3">
-      <span class="nav-icon">💰</span>User 3 — Settlement
+      <span class="ic"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Settlement
     </button>
     <button class="nav-item" onclick="navigate('u4')" id="nav-u4">
-      <span class="nav-icon">🔖</span>User 4 — Eway Bill
+      <span class="ic"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>Eway Bill
     </button>
     <button class="nav-item" onclick="navigate('u5')" id="nav-u5">
-      <span class="nav-icon">📅</span>User 5 — Advise
+      <span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>Advise Date
     </button>
     <button class="nav-item" onclick="navigate('u6')" id="nav-u6">
-      <span class="nav-icon">📤</span>User 6 — OPPAL
+      <span class="ic"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg></span>OPPAL Submit
     </button>
     <button class="nav-item" onclick="navigate('u7')" id="nav-u7">
-      <span class="nav-icon">🧾</span>User 7 — Final Bill
+      <span class="ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>Final Bill
     </button>
     <button class="nav-item" onclick="navigate('u8')" id="nav-u8">
-      <span class="nav-icon">📊</span>User 8 — Accounts
+      <span class="ic"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Accounts
     </button>
     <button class="nav-item" onclick="navigate('u9')" id="nav-u9">
-      <span class="nav-icon">✅</span>User 9 — Final Check
+      <span class="ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>Final Check
     </button>
     <button class="nav-item" onclick="navigate('u10')" id="nav-u10">
-      <span class="nav-icon">📑</span>User 10 — GC Tracker
+      <span class="ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>GC Tracker
     </button>
-
     <div class="nav-divider"></div>
     <div class="nav-group-label">Reports</div>
     <button class="nav-item" onclick="navigate('balance')" id="nav-balance">
-      <span class="nav-icon">⚖️</span>Balance Report
+      <span class="ic"><svg viewBox="0 0 24 24"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></span>Balance Report
     </button>
     <button class="nav-item" onclick="navigate('tptreport')" id="nav-tptreport">
-      <span class="nav-icon">🚛</span>Transport Report
+      <span class="ic"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>Transport Report
     </button>
     <button class="nav-item" onclick="navigate('masterreport')" id="nav-masterreport">
-      <span class="nav-icon">📥</span>Master Report
+      <span class="ic"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span>Master Report
     </button>
-
     <div class="nav-divider"></div>
     <div class="nav-group-label">Masters</div>
     <button class="nav-item" onclick="navigate('masters')" id="nav-masters">
-      <span class="nav-icon">🗄️</span>Master Data
+      <span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></span>Master Data
     </button>
-
     <div class="nav-divider"></div>
     <div class="nav-group-label" id="nav-admin-group" style="display:none">Admin</div>
     <button class="nav-item" onclick="navigate('usermgmt')" id="nav-usermgmt" style="display:none">
-      <span class="nav-icon">👤</span>User Management
+      <span class="ic"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>User Management
+    </button>
+    <button class="nav-item" onclick="openThemePanel()" id="nav-settings">
+      <span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>Settings &amp; Theme
     </button>
   </nav>
-  <div class="sidebar-footer" id="sidebar-footer">SFMPL TMS v5 · Supabase</div>
+  <div class="sidebar-footer" id="sidebar-footer">SFMPL TMS v5 &middot; Supabase</div>
 </div>
 
-<!-- ═══════════════════ MAIN AREA ═══════════════════ -->
+<!--  MAIN AREA  -->
 <div id="main">
   <div id="topbar">
     <div class="topbar-left">
@@ -345,27 +385,27 @@ tbody tr:hover td{background:var(--blue-lt)}
           <div class="role-badge" id="topbar-rolebadge">USER</div>
         </div>
       </div>
-      <button class="btn btn-outline btn-sm" onclick="doLogout()">⏻ Logout</button>
+      <button class="btn btn-outline btn-sm" onclick="doLogout()"> Logout</button>
     </div>
   </div>
   <div id="content">
 
-    <!-- ─── DASHBOARD ─── -->
+    <!--  DASHBOARD  -->
     <div class="section active" id="sec-dashboard">
       <div class="loading"><span class="spinner"></span>Loading dashboard...</div>
     </div>
 
-    <!-- ─── USER 1 BOOKING ─── -->
+    <!--  USER 1 BOOKING  -->
     <div class="section" id="sec-u1">
       <div class="section-card">
         <div class="section-title">
-          <span>📦 Booking Entry — User 1</span>
-          <button class="btn btn-outline btn-sm" onclick="viewRecords('u1')">📋 View Records</button>
+          <span>Booking Entry</span>
+          <button class="btn btn-outline btn-sm" onclick=\"viewRecords('u1')\">View Records</button>
         </div>
         <div id="sa-u1-bar" class="sa-edit-bar">
           <span class="sa-editing-badge">SUPERADMIN MODE</span>
           <span>Editing row ID: <strong id="sa-u1-id"></strong></span>
-          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u1')">✕ Cancel Edit</button>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u1')">Cancel Edit</button>
         </div>
         <div class="fgrid">
           <div class="fg"><label>Order Date *</label><input type="date" id="u1_od" oninput="calcU1Status()"></div>
@@ -394,27 +434,27 @@ tbody tr:hover td{background:var(--blue-lt)}
           <div class="fg"><label>Driver Contact</label><input type="text" id="u1_dcontact" placeholder="Mobile No" autocomplete="off"></div>
         </div>
         <div class="actions">
-          <button class="btn btn-primary" id="u1_btn" onclick="saveU1()">💾 Save Booking</button>
-          <button class="btn btn-outline" onclick="clearForm('u1')">✕ Clear</button>
+          <button class="btn btn-primary" id="u1_btn" onclick="saveU1()">Save Booking</button>
+          <button class="btn btn-outline" onclick="clearForm('u1')">Clear</button>
         </div>
       </div>
       <div class="section-card" id="u1-records-card" style="display:none">
-        <div class="section-title"><span>📋 Booking Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u1-records-card').style.display='none'">✕ Close</button></div>
+        <div class="section-title"><span>Booking Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u1-records-card').style.display='none'"> Close</button></div>
         <div class="table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>Order Date</th><th>Lorry</th><th>Consignor</th><th>Consignee</th><th>From</th><th>Dest</th><th>Broker</th><th>Status</th><th>Hours</th><th id="u1-act-th" style="display:none">Actions</th></tr></thead><tbody id="u1-tbody"></tbody></table></div>
       </div>
     </div>
 
-    <!-- ─── USER 2 DISPATCH ─── -->
+    <!--  USER 2 DISPATCH  -->
     <div class="section" id="sec-u2">
       <div class="section-card">
         <div class="section-title">
-          <span>📋 Dispatch Entry — User 2</span>
-          <button class="btn btn-outline btn-sm" onclick="viewRecords('u2')">📋 View Records</button>
+          <span>Dispatch Entry</span>
+          <button class="btn btn-outline btn-sm" onclick=\"viewRecords('u2')\">View Records</button>
         </div>
         <div id="sa-u2-bar" class="sa-edit-bar">
           <span class="sa-editing-badge">SUPERADMIN MODE</span>
           <span>Editing row ID: <strong id="sa-u2-id"></strong></span>
-          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u2')">✕ Cancel Edit</button>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u2')">Cancel Edit</button>
         </div>
         <div class="fgrid">
           <div class="fg"><label>SO No * (Pending)</label><select id="u2_so" onchange="loadU2()"><option value="">Select SO</option></select></div>
@@ -432,27 +472,27 @@ tbody tr:hover td{background:var(--blue-lt)}
           <div class="fg"><label>MT (Auto)</label><input type="text" id="u2_mt" class="cmp" readonly></div>
         </div>
         <div class="actions">
-          <button class="btn btn-primary" id="u2_btn" onclick="saveU2()">💾 Save Dispatch</button>
-          <button class="btn btn-outline" onclick="clearForm('u2')">✕ Clear</button>
+          <button class="btn btn-primary" id="u2_btn" onclick="saveU2()">Save Dispatch</button>
+          <button class="btn btn-outline" onclick="clearForm('u2')">Clear</button>
         </div>
       </div>
       <div class="section-card" id="u2-records-card" style="display:none">
-        <div class="section-title"><span>📋 Dispatch Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u2-records-card').style.display='none'">✕ Close</button></div>
+        <div class="section-title"><span>Dispatch Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u2-records-card').style.display='none'"> Close</button></div>
         <div class="table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>Lorry</th><th>L Date</th><th>OPPAL GC</th><th>Invoice</th><th>Eway Bill</th><th>Expiry</th><th>Dest GC</th><th>Items</th><th>PKGS</th><th>Articles</th><th>MT</th><th id="u2-act-th" style="display:none">Actions</th></tr></thead><tbody id="u2-tbody"></tbody></table></div>
       </div>
     </div>
 
-    <!-- ─── USER 3 SETTLEMENT ─── -->
+    <!--  USER 3 SETTLEMENT  -->
     <div class="section" id="sec-u3">
       <div class="section-card">
         <div class="section-title">
-          <span>💰 Settlement Entry — User 3</span>
-          <button class="btn btn-outline btn-sm" onclick="viewRecords('u3')">📋 View Records</button>
+          <span>Settlement Entry</span>
+          <button class="btn btn-outline btn-sm" onclick=\"viewRecords('u3')\">View Records</button>
         </div>
         <div id="sa-u3-bar" class="sa-edit-bar">
           <span class="sa-editing-badge">SUPERADMIN MODE</span>
           <span>Editing row ID: <strong id="sa-u3-id"></strong></span>
-          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u3')">✕ Cancel Edit</button>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u3')">Cancel Edit</button>
         </div>
         <div class="fgrid">
           <div class="fg"><label>SO No * (Pending)</label><select id="u3_so" onchange="loadU3()"><option value="">Select SO</option></select></div>
@@ -506,22 +546,22 @@ tbody tr:hover td{background:var(--blue-lt)}
           <div class="fg"><label>Bal IFSC</label><input type="text" id="u3_balIfsc" placeholder="IFSC" autocomplete="off"></div>
         </div>
         <div class="actions">
-          <button class="btn btn-primary" id="u3_btn" onclick="saveU3()">💾 Save Settlement</button>
-          <button class="btn btn-outline" onclick="clearForm('u3')">✕ Clear</button>
+          <button class="btn btn-primary" id="u3_btn" onclick="saveU3()">Save Settlement</button>
+          <button class="btn btn-outline" onclick="clearForm('u3')">Clear</button>
         </div>
       </div>
       <div class="section-card" id="u3-records-card" style="display:none">
-        <div class="section-title"><span>📋 Settlement Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u3-records-card').style.display='none'">✕ Close</button></div>
+        <div class="section-title"><span>Settlement Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u3-records-card').style.display='none'"> Close</button></div>
         <div class="scroll-table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>MF No</th><th>Lorry</th><th>Broker</th><th>PMT Rate</th><th>Total Freight</th><th>Freight MF</th><th>Advance</th><th>Balance</th><th>Total Cost</th><th>Bilti Freight</th><th id="u3-act-th" style="display:none">Actions</th></tr></thead><tbody id="u3-tbody"></tbody></table></div>
       </div>
     </div>
 
-    <!-- ─── USER 4 EWAY BILL ─── -->
+    <!--  USER 4 EWAY BILL  -->
     <div class="section" id="sec-u4">
       <div class="section-card">
         <div class="section-title">
-          <span>🔖 Eway Bill Tracker — User 4</span>
-          <button class="btn btn-outline btn-sm" onclick="loadU4()">🔄 Refresh</button>
+          <span>Eway Bill Tracker</span>
+          <button class="btn btn-outline btn-sm" onclick="loadU4()">Refresh</button>
         </div>
         <div class="scroll-table-wrap">
           <table><thead class="sticky"><tr><th>SO No</th><th>MF No</th><th>Broker</th><th>Broker Contact</th><th>Driver Contact</th><th>Lorry No</th><th>Eway Bill</th><th>Eway Expiry</th><th>Unloading Date</th><th>Action</th></tr></thead>
@@ -530,12 +570,11 @@ tbody tr:hover td{background:var(--blue-lt)}
       </div>
     </div>
 
-    <!-- ─── USER 5 ADVISE ─── -->
+    <!--  USER 5 ADVISE  -->
     <div class="section" id="sec-u5">
       <div class="section-card">
-        <div class="section-title"><span>📅 Advise Date — User 5 (Multi-GC)</span></div>
-        <div style="background:var(--blue-lt);border:1px solid #b6d4fb;border-radius:4px;padding:8px 12px;margin-bottom:12px;font-size:11px;color:var(--blue-dk)">
-          📅 Each GC gets its own Advise Date. First date is <b>LOCKED</b> after save. SO clears only when <b>ALL GCs are advised</b>.
+        <div class="section-title"><span>Advise Date — Multi GC</span></div>
+        <div style="background:var(--blue-lt);border:1px solid #b6d4fb;border-radius:4px;padding:8px 12px;margin-bottom:12px;font-size:11px;color:var(--blue-dk)">Each GC gets its own Advise Date. First date is <b>LOCKED</b> after save. SO clears only when <b>ALL GCs are advised</b>.
         </div>
         <div class="fgrid fgrid-3" style="margin-bottom:12px">
           <div class="fg"><label>SO No * (Pending)</label><select id="u5_so" onchange="loadU5()"><option value="">Select Pending SO</option></select></div>
@@ -550,14 +589,14 @@ tbody tr:hover td{background:var(--blue-lt)}
       </div>
     </div>
 
-    <!-- ─── USER 6 OPPAL ─── -->
+    <!--  USER 6 OPPAL  -->
     <div class="section" id="sec-u6">
       <div class="section-card">
-        <div class="section-title"><span>📤 Bill Submit to OPPAL — User 6</span></div>
+        <div class="section-title"><span>Bill Submit to OPPAL</span></div>
         <div id="sa-u6-bar" class="sa-edit-bar">
           <span class="sa-editing-badge">SUPERADMIN MODE</span>
           <span>Editing row ID: <strong id="sa-u6-id"></strong></span>
-          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u6')">✕ Cancel Edit</button>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u6')">Cancel Edit</button>
         </div>
         <div class="fgrid fgrid-3">
           <div class="fg"><label>SO No * (Pending)</label><select id="u6_so" onchange="loadU6()"><option value="">Select SO</option></select></div>
@@ -567,20 +606,20 @@ tbody tr:hover td{background:var(--blue-lt)}
           <div class="fg"><label>OPPAL Diff Days (Auto)</label><input type="text" id="u6_diff" class="cmp" readonly></div>
         </div>
         <div class="actions">
-          <button class="btn btn-primary" id="u6_btn" onclick="saveU6()">💾 Save OPPAL Date</button>
-          <button class="btn btn-outline" onclick="clearForm('u6')">✕ Clear</button>
+          <button class="btn btn-primary" id="u6_btn" onclick="saveU6()">Save OPPAL Date</button>
+          <button class="btn btn-outline" onclick="clearForm('u6')">Clear</button>
         </div>
       </div>
     </div>
 
-    <!-- ─── USER 7 FINAL BILL ─── -->
+    <!--  USER 7 FINAL BILL  -->
     <div class="section" id="sec-u7">
       <div class="section-card">
-        <div class="section-title"><span>🧾 Final Bill Entry — User 7</span></div>
+        <div class="section-title"><span>Final Bill Entry</span></div>
         <div id="sa-u7-bar" class="sa-edit-bar">
           <span class="sa-editing-badge">SUPERADMIN MODE</span>
           <span>Editing row ID: <strong id="sa-u7-id"></strong></span>
-          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u7')">✕ Cancel Edit</button>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u7')">Cancel Edit</button>
         </div>
         <div class="fgrid fgrid-4">
           <div class="fg"><label>SO No * (Pending)</label><select id="u7_so" onchange="loadU7()"><option value="">Select SO</option></select></div>
@@ -593,23 +632,23 @@ tbody tr:hover td{background:var(--blue-lt)}
           <div class="fg"><label>Diff Bill − Final Bill (Auto)</label><input type="text" id="u7_diff2" class="cmp" readonly></div>
         </div>
         <div class="actions">
-          <button class="btn btn-primary" id="u7_btn" onclick="saveU7()">💾 Save Final Bill</button>
-          <button class="btn btn-outline" onclick="clearForm('u7')">✕ Clear</button>
+          <button class="btn btn-primary" id="u7_btn" onclick="saveU7()">Save Final Bill</button>
+          <button class="btn btn-outline" onclick="clearForm('u7')">Clear</button>
         </div>
       </div>
     </div>
 
-    <!-- ─── USER 8 ACCOUNTS ─── -->
+    <!--  USER 8 ACCOUNTS  -->
     <div class="section" id="sec-u8">
       <div class="section-card">
         <div class="section-title">
-          <span>📊 Accounts Entry — User 8</span>
-          <button class="btn btn-outline btn-sm" onclick="viewRecords('u8')">📋 View Records</button>
+          <span>Accounts Entry</span>
+          <button class="btn btn-outline btn-sm" onclick=\"viewRecords('u8')\">View Records</button>
         </div>
         <div id="sa-u8-bar" class="sa-edit-bar">
           <span class="sa-editing-badge">SUPERADMIN MODE</span>
           <span>Editing row ID: <strong id="sa-u8-id"></strong></span>
-          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u8')">✕ Cancel Edit</button>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u8')">Cancel Edit</button>
         </div>
         <div class="fgrid fgrid-4">
           <div class="fg"><label>SO No * (Completed)</label><select id="u8_so" onchange="loadU8()"><option value="">Select SO</option></select></div>
@@ -626,35 +665,35 @@ tbody tr:hover td{background:var(--blue-lt)}
           <div class="fg"><label>GP on Purchase (Auto)</label><input type="text" id="u8_gpp" class="cmp" readonly></div>
         </div>
         <div class="actions">
-          <button class="btn btn-primary" id="u8_btn" onclick="saveU8()">💾 Save Accounts</button>
-          <button class="btn btn-outline" onclick="clearForm('u8')">✕ Clear</button>
+          <button class="btn btn-primary" id="u8_btn" onclick="saveU8()">Save Accounts</button>
+          <button class="btn btn-outline" onclick="clearForm('u8')">Clear</button>
         </div>
       </div>
       <div class="section-card" id="u8-records-card" style="display:none">
-        <div class="section-title"><span>📋 Accounts Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u8-records-card').style.display='none'">✕ Close</button></div>
+        <div class="section-title"><span>Accounts Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u8-records-card').style.display='none'"> Close</button></div>
         <div class="scroll-table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>MF No</th><th>Total RENV</th><th>Gross Profit</th><th>GP on Sale</th><th>GP on Purch</th><th>PMT Date</th><th>Status</th><th id="u8-act-th" style="display:none">Actions</th></tr></thead><tbody id="u8-tbody"></tbody></table></div>
       </div>
     </div>
 
-    <!-- ─── USER 9 FINAL CHECK ─── -->
+    <!--  USER 9 FINAL CHECK  -->
     <div class="section" id="sec-u9">
       <div class="section-card">
         <div class="section-title">
-          <span>✅ Final Account Check — User 9</span>
+          <span>Final Account Check</span>
           <div style="display:flex;gap:8px;align-items:center">
             <span id="u9badge"></span>
-            <button class="btn btn-outline btn-sm" onclick="viewRecords('u9')">📋 View Records</button>
+            <button class="btn btn-outline btn-sm" onclick=\"viewRecords('u9')\">View Records</button>
           </div>
         </div>
         <div id="sa-u9-bar" class="sa-edit-bar">
           <span class="sa-editing-badge">SUPERADMIN MODE</span>
           <span>Editing row ID: <strong id="sa-u9-id"></strong></span>
-          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u9')">✕ Cancel Edit</button>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u9')">Cancel Edit</button>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px">
           <div class="fg" style="max-width:280px"><label>New MF No (Dropdown)</label><select id="u9_newso" onchange="if(this.value)selectU9MF(this.value)"><option value="">Select New MF No...</option></select></div>
           <div class="fg" style="max-width:280px;flex:1"><label>Search / Update Existing MF No</label>
-            <div class="srch"><span class="srch-ic">🔍</span><input type="text" id="u9_search" placeholder="Type MF No to search..." autocomplete="off" oninput="u9OnSearch()" onkeydown="u9OnKey(event)"><div class="sbox" id="u9Suggest" style="display:none"></div></div>
+            <div class="srch"><span class="srch-ic"></span><input type="text" id="u9_search" placeholder="Type MF No to search..." autocomplete="off" oninput="u9OnSearch()" onkeydown="u9OnKey(event)"><div class="sbox" id="u9Suggest" style="display:none"></div></div>
           </div>
         </div>
         <div class="fgrid fgrid-4">
@@ -676,45 +715,44 @@ tbody tr:hover td{background:var(--blue-lt)}
           <div class="fg"><label>Bal Transaction ID</label><input type="text" id="u9_baltxid" placeholder="Bal Tx ID" autocomplete="off"></div>
         </div>
         <div class="actions">
-          <button class="btn btn-primary" id="u9_btnNew" onclick="saveU9('new')">💾 Save NEW</button>
-          <button class="btn btn-warn" id="u9_btnUpd" onclick="saveU9('update')" disabled>✏️ Update</button>
-          <button class="btn btn-outline" onclick="clearForm('u9')">✕ Clear</button>
+          <button class="btn btn-primary" id="u9_btnNew" onclick="saveU9('new')">Save NEW</button>
+          <button class="btn btn-warn" id="u9_btnUpd" onclick="saveU9('update')" disabled>Update</button>
+          <button class="btn btn-outline" onclick="clearForm('u9')">Clear</button>
         </div>
       </div>
       <div class="section-card" id="u9-records-card" style="display:none">
         <div class="section-title">
-          <span>📋 Final Check Records</span>
+          <span>Final Check Records</span>
           <div style="display:flex;gap:8px;align-items:center">
             <input type="text" id="u9tfilter" placeholder="Filter MF/SO..." style="padding:5px 9px;background:var(--canvas);border:1px solid var(--border);border-radius:3px;color:var(--ink);font-size:12px;width:160px" oninput="filterU9Table()">
-            <button class="btn btn-outline btn-sm" onclick="document.getElementById('u9-records-card').style.display='none'">✕</button>
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('u9-records-card').style.display='none'"></button>
           </div>
         </div>
         <div class="scroll-table-wrap"><table><thead class="sticky"><tr><th>MF No</th><th>SO No</th><th>Lorry</th><th>Broker</th><th>Adv Acc</th><th>Adv IFSC</th><th>Bal Acc</th><th>Bal IFSC</th><th>Adv Amt</th><th>Paid</th><th>Adv Diff</th><th>Tx ID</th><th>Bal Amt</th><th>Balance</th><th>Bal Diff</th><th>Bal Tx</th><th>Type</th><th>Status</th><th id="u9-act-th" style="display:none">Actions</th></tr></thead><tbody id="u9-tbody"></tbody></table></div>
       </div>
     </div>
 
-    <!-- ─── USER 10 GC TRACKER ─── -->
+    <!--  USER 10 GC TRACKER  -->
     <div class="section" id="sec-u10">
       <div class="section-card">
         <div class="section-title">
-          <span>📑 GC Number Tracker — User 10</span>
+          <span>GC Number Tracker</span>
           <div style="display:flex;gap:8px;align-items:center">
             <span id="u10badge"></span>
-            <button class="btn btn-outline btn-sm" onclick="viewRecords('u10')">📋 View Records</button>
+            <button class="btn btn-outline btn-sm" onclick=\"viewRecords('u10')\">View Records</button>
           </div>
         </div>
         <div id="sa-u10-bar" class="sa-edit-bar">
           <span class="sa-editing-badge">SUPERADMIN MODE</span>
           <span>Editing row ID: <strong id="sa-u10-id"></strong></span>
-          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u10')">✕ Cancel Edit</button>
+          <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u10')">Cancel Edit</button>
         </div>
-        <div style="background:var(--blue-lt);border:1px solid #b6d4fb;border-radius:4px;padding:8px 12px;margin-bottom:12px;font-size:11px;color:var(--blue-dk)">
-          📑 Select any dispatched SO. OPPAL GC and MF No auto-fill. Enter Branch GC manually.
+        <div style="background:var(--blue-lt);border:1px solid #b6d4fb;border-radius:4px;padding:8px 12px;margin-bottom:12px;font-size:11px;color:var(--blue-dk)">Select any dispatched SO. OPPAL GC and MF No auto-fill. Enter Branch GC manually.
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px">
           <div class="fg" style="max-width:280px"><label>Select SO</label><select id="u10_sosel" onchange="if(this.value)selectU10SO(this.value)"><option value="">Select SO...</option></select></div>
           <div class="fg" style="max-width:280px;flex:1"><label>Or Search SO</label>
-            <div class="srch"><span class="srch-ic">🔍</span><input type="text" id="u10_search" placeholder="Type SO to search..." autocomplete="off" oninput="u10OnSearch()" onkeydown="u10OnKey(event)"><div class="sbox" id="u10Suggest" style="display:none"></div></div>
+            <div class="srch"><span class="srch-ic"></span><input type="text" id="u10_search" placeholder="Type SO to search..." autocomplete="off" oninput="u10OnSearch()" onkeydown="u10OnKey(event)"><div class="sbox" id="u10Suggest" style="display:none"></div></div>
           </div>
         </div>
         <div class="fgrid fgrid-3">
@@ -726,34 +764,34 @@ tbody tr:hover td{background:var(--blue-lt)}
           <div class="fg" style="grid-column:span 2"><label>Remarks</label><input type="text" id="u10_remarks" placeholder="Any remarks" autocomplete="off"></div>
         </div>
         <div class="actions">
-          <button class="btn btn-primary" id="u10_btn" onclick="saveU10()">💾 Save GC Record</button>
-          <button class="btn btn-outline" onclick="clearForm('u10')">✕ Clear</button>
+          <button class="btn btn-primary" id="u10_btn" onclick="saveU10()">Save GC Record</button>
+          <button class="btn btn-outline" onclick="clearForm('u10')">Clear</button>
         </div>
       </div>
       <div class="section-card" id="u10-records-card" style="display:none">
         <div class="section-title">
-          <span>📋 GC Tracker Records</span>
+          <span>GC Tracker Records</span>
           <div style="display:flex;gap:8px;align-items:center">
             <input type="text" id="u10tfilter" placeholder="Filter SO..." style="padding:5px 9px;background:var(--canvas);border:1px solid var(--border);border-radius:3px;color:var(--ink);font-size:12px;width:160px" oninput="filterU10Table()">
-            <button class="btn btn-outline btn-sm" onclick="document.getElementById('u10-records-card').style.display='none'">✕</button>
+            <button class="btn btn-outline btn-sm" onclick="document.getElementById('u10-records-card').style.display='none'"></button>
           </div>
         </div>
         <div class="scroll-table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>OPPAL GC</th><th>MF No</th><th>Branch GC</th><th>Entry Date</th><th>Remarks</th><th>Status</th><th id="u10-act-th" style="display:none">Actions</th></tr></thead><tbody id="u10-tbody"></tbody></table></div>
       </div>
     </div>
 
-    <!-- ─── BALANCE REPORT ─── -->
+    <!--  BALANCE REPORT  -->
     <div class="section" id="sec-balance">
       <div class="section-card">
-        <div class="section-title"><span>⚖️ Balance Report</span><button class="btn btn-outline btn-sm" onclick="loadBalanceReport()">🔄 Refresh</button></div>
+        <div class="section-title"><span>Balance Report</span><button class="btn btn-outline btn-sm" onclick="loadBalanceReport()">Refresh</button></div>
         <div class="filter-bar">
           <div class="fg"><label>From Date</label><input type="date" id="br_from"></div>
           <div class="fg"><label>To Date</label><input type="date" id="br_to"></div>
           <div class="fg"><label>Filter SO</label><input type="text" id="br_fso" placeholder="SO No..." oninput="filterBR()"></div>
           <div class="fg"><label>Filter Broker</label><input type="text" id="br_fbroker" placeholder="Broker name..." oninput="filterBR()"></div>
           <div class="fg"><label>Status</label><select id="br_fstatus" onchange="filterBR()"><option value="All">All</option><option>PENDING</option><option>BAL PENDING</option><option>SETTLED</option></select></div>
-          <button class="btn btn-primary" onclick="loadBalanceReport()">🔍 Filter</button>
-          <button class="btn btn-outline" onclick="exportBalanceCSV()">⬇ CSV</button>
+          <button class="btn btn-primary" onclick="loadBalanceReport()">Filter</button>
+          <button class="btn btn-outline" onclick="exportBalanceCSV()">CSV</button>
         </div>
         <div class="rpt-grid" id="br-stats-wrap">
           <div class="rpt-card"><div class="rpt-label">Total Records</div><div class="rpt-val hl-blue" id="br_s1">—</div></div>
@@ -770,14 +808,14 @@ tbody tr:hover td{background:var(--blue-lt)}
       </div>
     </div>
 
-    <!-- ─── TRANSPORT PAYMENT REPORT ─── -->
+    <!--  TRANSPORT PAYMENT REPORT  -->
     <div class="section" id="sec-tptreport">
       <div class="section-card">
-        <div class="section-title"><span>🚛 Transport Payment Report</span></div>
+        <div class="section-title"><span>Transport Payment Report</span></div>
         <div class="filter-bar">
           <div class="fg"><label>From Date</label><input type="date" id="tpr_from"></div>
           <div class="fg"><label>To Date</label><input type="date" id="tpr_to"></div>
-          <button class="btn btn-primary" onclick="genTPReport()">📊 Generate</button>
+          <button class="btn btn-primary" onclick="genTPReport()">Generate</button>
         </div>
         <div id="tpr-body" style="display:none">
           <div style="text-align:center;margin-bottom:12px"><div style="font-size:14px;font-weight:700;color:var(--ink)">MONTH OF <span id="tpr-month"></span></div><div style="font-size:11px;color:var(--ink3)" id="tpr-range"></div></div>
@@ -800,15 +838,15 @@ tbody tr:hover td{background:var(--blue-lt)}
       </div>
     </div>
 
-    <!-- ─── MASTER REPORT ─── -->
+    <!--  MASTER REPORT  -->
     <div class="section" id="sec-masterreport">
       <div class="section-card">
-        <div class="section-title"><span>📥 Master Report</span></div>
+        <div class="section-title"><span>Master Report</span></div>
         <div class="filter-bar">
           <div class="fg"><label>Search SO</label><input type="text" id="mr_so" placeholder="SO No..." oninput="filterMR()"></div>
           <div class="fg"><label>Search Lorry</label><input type="text" id="mr_lorry" placeholder="Lorry No..." oninput="filterMR()"></div>
-          <button class="btn btn-primary" onclick="loadMasterReport()">▶ Run Report</button>
-          <button class="btn btn-outline" onclick="exportMRCSV()">⬇ CSV</button>
+          <button class="btn btn-primary" onclick="loadMasterReport()">Run Report</button>
+          <button class="btn btn-outline" onclick="exportMRCSV()">CSV</button>
         </div>
         <div id="mr-loading" class="loading" style="display:none"><span class="spinner"></span>Loading master report...</div>
         <div class="scroll-table-wrap" id="mr-table-wrap" style="display:none">
@@ -826,41 +864,41 @@ tbody tr:hover td{background:var(--blue-lt)}
       </div>
     </div>
 
-    <!-- ─── MASTERS ─── -->
+    <!--  MASTERS  -->
     <div class="section" id="sec-masters">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
         <!-- Customers -->
         <div class="section-card">
-          <div class="section-title"><span>👤 Customer / Consignor DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('customer','')">+ Add</button></div>
+          <div class="section-title"><span>Customer / Consignor DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('customer','')">+ Add</button></div>
           <div class="scroll-table-wrap" style="max-height:220px"><table><thead><tr><th>Customer Name</th><th>Added On</th></tr></thead><tbody id="cust-tbody"><tr><td colspan="2" class="loading"><span class="spinner"></span></td></tr></tbody></table></div>
         </div>
         <!-- Destinations -->
         <div class="section-card">
-          <div class="section-title"><span>📍 Destination DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('destination','')">+ Add</button></div>
+          <div class="section-title"><span>Destination DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('destination','')">+ Add</button></div>
           <div class="scroll-table-wrap" style="max-height:220px"><table><thead><tr><th>Destination</th><th>Added On</th></tr></thead><tbody id="dest-tbody"><tr><td colspan="2" class="loading"><span class="spinner"></span></td></tr></tbody></table></div>
         </div>
         <!-- Items -->
         <div class="section-card">
-          <div class="section-title"><span>📦 Items DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('item','')">+ Add</button></div>
+          <div class="section-title"><span>Items DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('item','')">+ Add</button></div>
           <div class="scroll-table-wrap" style="max-height:220px"><table><thead><tr><th>Item Name</th><th>Added On</th></tr></thead><tbody id="items-tbody"><tr><td colspan="2" class="loading"><span class="spinner"></span></td></tr></tbody></table></div>
         </div>
         <!-- Brokers / Account DB -->
         <div class="section-card">
-          <div class="section-title"><span>🏦 Broker / Account DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('broker','')">+ Add</button></div>
+          <div class="section-title"><span>Broker / Account DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('broker','')">+ Add</button></div>
           <div class="scroll-table-wrap" style="max-height:220px"><table><thead><tr><th>Broker Name</th><th>Bal A/C</th><th>IFSC</th><th>Contact</th></tr></thead><tbody id="broker-tbody"><tr><td colspan="4" class="loading"><span class="spinner"></span></td></tr></tbody></table></div>
         </div>
         <!-- Cards -->
         <div class="section-card">
-          <div class="section-title"><span>💳 Cards DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('card','')">+ Add</button></div>
+          <div class="section-title"><span>Cards DB</span><button class="btn btn-primary btn-sm" onclick="openAddModal('card','')">+ Add</button></div>
           <div class="table-wrap"><table><thead><tr><th>Card Number</th><th>Added On</th></tr></thead><tbody id="cards-tbody"><tr><td colspan="2" class="loading"><span class="spinner"></span></td></tr></tbody></table></div>
         </div>
       </div>
     </div>
 
-    <!-- ─── USER MANAGEMENT ─── -->
+    <!--  USER MANAGEMENT  -->
     <div class="section" id="sec-usermgmt">
       <div class="section-card">
-        <div class="section-title"><span>👤 User Management</span><button class="btn btn-primary btn-sm" onclick="showAddUserForm()">+ Add User</button></div>
+        <div class="section-title"><span>User Management</span><button class="btn btn-primary btn-sm" onclick="showAddUserForm()">+ Add User</button></div>
         <div id="user-form-wrap" style="display:none;margin-bottom:16px;padding:14px;background:var(--canvas);border:1px solid var(--border);border-radius:4px">
           <div style="font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;margin-bottom:10px" id="user-form-title">Add New User</div>
           <div class="fgrid fgrid-3">
@@ -891,7 +929,7 @@ tbody tr:hover td{background:var(--blue-lt)}
   </div><!-- /content -->
 </div><!-- /main -->
 
-<!-- ─── ADD MODAL ─── -->
+<!--  ADD MODAL  -->
 <div class="ov" id="addOv">
   <div class="modal">
     <div class="modal-hd"><h3 id="addTitle">Add New</h3><button class="modal-x" onclick="closeAddModal()">×</button></div>
@@ -912,9 +950,9 @@ tbody tr:hover td{background:var(--blue-lt)}
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════
+// 
 //  SUPABASE CONFIG — Replace with your project credentials
-// ═══════════════════════════════════════════════════════════════
+// 
 const SUPABASE_URL  = 'https://oswzwanptjcmulkqlcwu.supabase.co';
 const SUPABASE_ANON = 'sb_publishable_P0LP9gaznl25JlXJq97X1Q_5BGV2Sxu';
 
@@ -933,9 +971,9 @@ async function sb(table, method, body, query) {
   return txt ? JSON.parse(txt) : [];
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  AUTH SYSTEM
-// ═══════════════════════════════════════════════════════════════
+// 
 const auth = {
   user: null,
   isSuperAdmin() { return this.user && this.user.role === 'SUPERADMIN'; },
@@ -991,7 +1029,7 @@ function applyAuthToUI() {
 
   // SuperAdmin mode hint in sidebar
   if (auth.isSuperAdmin()) {
-    document.getElementById('sidebar-footer').innerHTML = '<span style="color:#d0b0ff;font-weight:700">⚡ SUPERADMIN MODE</span><br>Edit any record';
+    document.getElementById('sidebar-footer').innerHTML = '<span style="color:#d0b0ff;font-weight:700">SUPERADMIN MODE</span><br>Edit any record';
   }
 
   // Show action columns in tables for SuperAdmin
@@ -1014,9 +1052,9 @@ function doLogout() {
   document.getElementById('nav-usermgmt').style.display = 'none';
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  GLOBALS
-// ═══════════════════════════════════════════════════════════════
+// 
 let _dd = { customers:[], destinations:[], brokers:[], items:[], cards:[] };
 let _u9List=[], _u9AllList=[], _u10AllList=[];
 let _brData=[], _brFiltered=[];
@@ -1024,9 +1062,9 @@ let _mrData=[], _mrFiltered=[];
 let _u8cache = null;
 let _saEditId = {}; // { u1: id, u2: id ... }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  UTILITIES
-// ═══════════════════════════════════════════════════════════════
+// 
 function gv(id){ const e=document.getElementById(id); return e?e.value.trim():''; }
 function sv(id,v){ const e=document.getElementById(id); if(e) e.value=(v==null)?'':v; }
 function se(id,v){ const e=document.getElementById(id); if(e) e.textContent=(v==null)?'':v; }
@@ -1070,7 +1108,7 @@ function navigate(page) {
     balance:'Balance Report',tptreport:'Transport Payment Report',masterreport:'Master Report',
     masters:'Master Data',usermgmt:'User Management'};
   gel('page-title').textContent = titles[page]||page;
-  gel('page-sub').textContent   = auth.isSuperAdmin() ? '⚡ SuperAdmin Mode — Edit Enabled' : '';
+  gel('page-sub').textContent   = auth.isSuperAdmin() ? ' SuperAdmin Mode — Edit Enabled' : '';
 
   if(page==='masters') loadMastersPage();
   if(page==='usermgmt') renderUserMgmt();
@@ -1092,9 +1130,9 @@ document.addEventListener('click', e=>{
   if(e.target.id==='addOv') closeAddModal();
 });
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  INIT APP
-// ═══════════════════════════════════════════════════════════════
+// 
 async function initApp() {
   loader(true);
   try {
@@ -1150,9 +1188,9 @@ async function initApp() {
   loader(false);
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  SUPABASE HELPER — PENDING SO QUEUES (mirrors Code.gs logic)
-// ═══════════════════════════════════════════════════════════════
+// 
 async function _soSet(table, col) {
   const rows = await sb(table,'GET',null,'?select='+col);
   const set = {};
@@ -1258,9 +1296,9 @@ async function getAllSOForUser10() {
   catch(e) { return []; }
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  DASHBOARD
-// ═══════════════════════════════════════════════════════════════
+// 
 async function renderDashboard() {
   const sec=gel('sec-dashboard');
   sec.innerHTML='<div class="loading"><span class="spinner"></span>Loading dashboard...</div>';
@@ -1295,19 +1333,19 @@ async function renderDashboard() {
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
         <div class="section-card">
-          <div class="section-title">💰 Advance / Balance Summary</div>
+          <div class="section-title">Advance / Balance Summary</div>
           <div class="rpt-grid" style="grid-template-columns:1fr 1fr">
             <div class="rpt-card"><div class="rpt-label">Total Advance</div><div class="rpt-val hl-amber">₹${fmtN(totalAdv)}</div></div>
             <div class="rpt-card"><div class="rpt-label">Total Balance</div><div class="rpt-val hl-blue">₹${fmtN(totalBal)}</div></div>
           </div>
         </div>
         <div class="section-card">
-          <div class="section-title">⚡ Quick Actions</div>
+          <div class="section-title">Quick Actions</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            <button class="btn btn-primary" onclick="navigate('u1')">📦 New Booking</button>
-            <button class="btn btn-outline" onclick="navigate('u2')">📋 Dispatch</button>
-            <button class="btn btn-outline" onclick="navigate('balance')">⚖️ Balance Report</button>
-            <button class="btn btn-outline" onclick="navigate('u9')">✅ Final Check</button>
+            <button class="btn btn-primary" onclick="navigate('u1')">New Booking</button>
+            <button class="btn btn-outline" onclick="navigate('u2')"> Dispatch</button>
+            <button class="btn btn-outline" onclick="navigate('balance')">Balance Report</button>
+            <button class="btn btn-outline" onclick="navigate('u9')">Final Check</button>
           </div>
         </div>
       </div>`;
@@ -1316,9 +1354,9 @@ async function renderDashboard() {
   }
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  BROKER DROPDOWN
-// ═══════════════════════════════════════════════════════════════
+// 
 function fillBrokerDropdown() {
   const el=gel('u1_broker'); if(!el) return;
   el.innerHTML='<option value="">Select Broker</option>';
@@ -1339,9 +1377,9 @@ function fillBrokerDetails() {
   sv('u1_advHolder', parts[4]||'');
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  USER 1 — BOOKING
-// ═══════════════════════════════════════════════════════════════
+// 
 function calcU1Status() {
   const od=gv('u1_od'), ot=gv('u1_ot'), ed=gv('u1_ed'), et=gv('u1_et');
   if(!od||!ot||!ed||!et){ sv('u1_status',''); sv('u1_hl',''); return; }
@@ -1380,20 +1418,20 @@ async function saveU1() {
   try {
     if(_saEditId.u1) {
       await sb('user1_booking','PATCH',fd,'?id=eq.'+_saEditId.u1);
-      toast('✅ Booking updated! (SuperAdmin)');
+      toast(' Booking updated! (SuperAdmin)');
       cancelSAEdit('u1');
     } else {
       await sb('user1_booking','POST',fd);
-      toast('✅ Booking saved!');
+      toast(' Booking saved!');
     }
     clearForm('u1'); await initApp();
   } catch(e) { toast('Error: '+e.message,'error'); }
   loader(false); if(btn) btn.disabled=false;
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  USER 2 — DISPATCH
-// ═══════════════════════════════════════════════════════════════
+// 
 async function loadU2() {
   const so=gv('u2_so'); if(!so) return;
   try {
@@ -1424,7 +1462,7 @@ async function saveU2() {
   try {
     if(_saEditId.u2) {
       await sb('user2_dispatch','PATCH',fd,'?id=eq.'+_saEditId.u2);
-      toast('✅ Dispatch updated! (SuperAdmin)'); cancelSAEdit('u2');
+      toast(' Dispatch updated! (SuperAdmin)'); cancelSAEdit('u2');
     } else {
       await sb('user2_dispatch','POST',fd);
       // Auto-create eway bill tracker entry
@@ -1433,16 +1471,16 @@ async function saveU2() {
         const b=u1[0]||{};
         await sb('user4_eway','POST',{so_no:fd.so_no,lorry_no:fd.lorry_no,broker_name:b.broker_name||'',broker_contact_no:b.broker_contact_no||'',driver_contact_no:b.driver_contact_no||'',eway_bill:fd.eway_bill,eway_bill_expiry:fd.eway_bill_expiry,status:'ACTIVE',created_by:auth.user?.username||'admin'});
       } catch(e2) {}
-      toast('✅ Dispatch saved!');
+      toast(' Dispatch saved!');
     }
     clearForm('u2'); await initApp();
   } catch(e) { toast('Error: '+e.message,'error'); }
   loader(false); if(btn) btn.disabled=false;
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  USER 3 — SETTLEMENT
-// ═══════════════════════════════════════════════════════════════
+// 
 async function loadU3() {
   const so=gv('u3_so'); if(!so) return;
   try {
@@ -1555,21 +1593,21 @@ async function saveU3() {
   try {
     if(_saEditId.u3) {
       await sb('user3_settlement','PATCH',fd,'?id=eq.'+_saEditId.u3);
-      toast('✅ Settlement updated! (SuperAdmin)'); cancelSAEdit('u3');
+      toast(' Settlement updated! (SuperAdmin)'); cancelSAEdit('u3');
     } else {
       await sb('user3_settlement','POST',fd);
       // Update eway tracker with MF No
       try { await sb('user4_eway','PATCH',{mf_no:mf},'?so_no=eq.'+encodeURIComponent(so)); } catch(e2){}
-      toast('✅ Settlement saved!');
+      toast(' Settlement saved!');
     }
     clearForm('u3'); await initApp();
   } catch(e) { toast('Error: '+e.message,'error'); }
   loader(false); if(btn) btn.disabled=false;
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  USER 4 — EWAY BILL TRACKER
-// ═══════════════════════════════════════════════════════════════
+// 
 async function loadU4() {
   loader(true);
   try {
@@ -1591,7 +1629,7 @@ async function loadU4() {
         <td><span class="badge ${expired?'b-pend':'b-info'}">${esc(r.eway_bill_expiry||'—')}</span></td>
         <td>${esc(r.unloading_date||'—')}</td>
         <td><input type="date" style="padding:4px 7px;background:var(--canvas);border:1px solid var(--border);border-radius:3px;font-size:11px" id="ew_${r.id}">
-            <button style="padding:4px 9px;background:var(--green);color:#fff;border:none;border-radius:3px;font-size:11px;cursor:pointer;margin-top:3px" onclick="updEway(${r.id},'${esc(r.so_no)}')">✔</button></td>
+            <button style="padding:4px 9px;background:var(--green);color:#fff;border:none;border-radius:3px;font-size:11px;cursor:pointer;margin-top:3px" onclick="updEway(${r.id},'${esc(r.so_no)}')"></button></td>
       </tr>`;
     }).join('');
   } catch(e) { toast('Error loading eway bills: '+e.message,'error'); }
@@ -1603,14 +1641,14 @@ async function updEway(id, soNo) {
   loader(true);
   try {
     await sb('user4_eway','PATCH',{unloading_date:di.value,status:'UNLOADED'},'?id=eq.'+id);
-    toast('✅ Unloading date saved!'); loadU4();
+    toast(' Unloading date saved!'); loadU4();
   } catch(e) { toast('Error: '+e.message,'error'); }
   loader(false);
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  USER 5 — ADVISE DATE (Multi-GC)
-// ═══════════════════════════════════════════════════════════════
+// 
 async function loadU5() {
   const so=gv('u5_so');
   if(!so){ gel('u5_progress').style.display='none'; gel('u5_noSO').style.display='block'; return; }
@@ -1638,7 +1676,7 @@ async function loadU5() {
     gel('u5_tbody').innerHTML=gcList.map((gc,i)=>{
       const adv=advisedMap[gc];
       if(adv){ return `<tr><td>${i+1}</td><td style="font-family:var(--mono);font-weight:700">${esc(gc)}</td><td><input type="date" value="${esc(adv.adviseDate||'')}" disabled style="padding:4px 7px;border:1px solid var(--border);border-radius:3px;background:#f0f0f0;font-size:12px;width:140px"></td><td>${esc(adv.diffDays||'')}</td><td><span class="badge b-ok">ADVISED</span></td><td><span class="badge b-ok">DONE</span></td></tr>`; }
-      return `<tr><td>${i+1}</td><td style="font-family:var(--mono);font-weight:700">${esc(gc)}</td><td><input type="date" id="gc_d_${i}" style="padding:4px 7px;border:1px solid var(--border);border-radius:3px;font-size:12px;width:140px"></td><td id="gc_diff_${i}">—</td><td><span class="badge b-pend">PENDING</span></td><td><button style="padding:4px 10px;background:var(--blue);color:#fff;border:none;border-radius:3px;font-size:11px;font-weight:700;cursor:pointer" onclick="saveGC('${esc(so)}','${esc(gc)}',${i},'${esc(entDate)}','${esc(u3.mf_no||'')}')">💾 Save</button></td></tr>`;
+      return `<tr><td>${i+1}</td><td style="font-family:var(--mono);font-weight:700">${esc(gc)}</td><td><input type="date" id="gc_d_${i}" style="padding:4px 7px;border:1px solid var(--border);border-radius:3px;font-size:12px;width:140px"></td><td id="gc_diff_${i}">—</td><td><span class="badge b-pend">PENDING</span></td><td><button style="padding:4px 10px;background:var(--blue);color:#fff;border:none;border-radius:3px;font-size:11px;font-weight:700;cursor:pointer" onclick="saveGC('${esc(so)}','${esc(gc)}',${i},'${esc(entDate)}','${esc(u3.mf_no||'')}')">Save</button></td></tr>`;
     }).join('');
   } catch(e) { toast('Error: '+e.message,'error'); }
   loader(false);
@@ -1658,14 +1696,14 @@ async function saveGC(soNo, gcNo, idx, entDate, mfNo) {
     } else {
       await sb('user5_advise','POST',{so_no:soNo,mf_no:mfNo,gc_no:gcNo,advise_date:di.value,diff_days:diffDays,status:'ADVISED',created_by:auth.user?.username||'admin'});
     }
-    toast('✅ GC saved!'); loadU5(); await initApp();
+    toast(' GC saved!'); loadU5(); await initApp();
   } catch(e) { toast('Error: '+e.message,'error'); }
   loader(false);
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  USER 6 — OPPAL
-// ═══════════════════════════════════════════════════════════════
+// 
 async function loadU6() {
   const so=gv('u6_so'); if(!so) return;
   loader(true);
@@ -1695,18 +1733,18 @@ async function saveU6() {
   try {
     if(_saEditId.u6){
       await sb('user6_oppal','PATCH',fd,'?id=eq.'+_saEditId.u6);
-      toast('✅ OPPAL updated! (SuperAdmin)'); cancelSAEdit('u6');
+      toast(' OPPAL updated! (SuperAdmin)'); cancelSAEdit('u6');
     } else {
-      await sb('user6_oppal','POST',fd); toast('✅ OPPAL date saved!');
+      await sb('user6_oppal','POST',fd); toast(' OPPAL date saved!');
     }
     clearForm('u6'); await initApp();
   } catch(e) { toast('Error: '+e.message,'error'); }
   loader(false); if(btn) btn.disabled=false;
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  USER 7 — FINAL BILL
-// ═══════════════════════════════════════════════════════════════
+// 
 async function loadU7() {
   const so=gv('u7_so'); if(!so) return;
   loader(true);
@@ -1736,18 +1774,18 @@ async function saveU7() {
   try {
     if(_saEditId.u7){
       await sb('user7_finalbill','PATCH',fd,'?id=eq.'+_saEditId.u7);
-      toast('✅ Final Bill updated! (SuperAdmin)'); cancelSAEdit('u7');
+      toast(' Final Bill updated! (SuperAdmin)'); cancelSAEdit('u7');
     } else {
-      await sb('user7_finalbill','POST',fd); toast('✅ Final Bill saved!');
+      await sb('user7_finalbill','POST',fd); toast(' Final Bill saved!');
     }
     clearForm('u7'); await initApp();
   } catch(e) { toast('Error: '+e.message,'error'); }
   loader(false); if(btn) btn.disabled=false;
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  USER 8 — ACCOUNTS
-// ═══════════════════════════════════════════════════════════════
+// 
 async function loadU8() {
   const so=gv('u8_so'); if(!so) return;
   loader(true);
@@ -1802,18 +1840,18 @@ async function saveU8() {
   try {
     if(_saEditId.u8){
       await sb('user8_accounts','PATCH',fd,'?id=eq.'+_saEditId.u8);
-      toast('✅ Accounts updated! (SuperAdmin)'); cancelSAEdit('u8');
+      toast(' Accounts updated! (SuperAdmin)'); cancelSAEdit('u8');
     } else {
-      await sb('user8_accounts','POST',fd); toast('✅ Accounts saved!');
+      await sb('user8_accounts','POST',fd); toast(' Accounts saved!');
     }
     clearForm('u8'); _u8cache=null; await initApp();
   } catch(e) { toast('Error: '+e.message,'error'); }
   loader(false); if(btn) btn.disabled=false;
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  USER 9 — FINAL CHECK
-// ═══════════════════════════════════════════════════════════════
+// 
 function updU9Badge(){ const b=gel('u9badge'); if(!b) return; const n=_u9List.length; b.innerHTML=n>0?`<span class="badge b-pend">${n} Pending</span>`:'<span class="badge b-ok">All Clear</span>'; }
 
 async function selectU9MF(mfRaw) {
@@ -1896,21 +1934,21 @@ async function saveU9(type) {
   try {
     if(_saEditId.u9){
       await sb('user9_finalcheck','PATCH',fd,'?id=eq.'+_saEditId.u9);
-      toast('✅ Final Check updated! (SuperAdmin)'); cancelSAEdit('u9');
+      toast(' Final Check updated! (SuperAdmin)'); cancelSAEdit('u9');
     } else if(type==='update'){
       await sb('user9_finalcheck','PATCH',fd,'?mf_no=eq.'+encodeURIComponent(mf));
-      toast('✅ Record updated!');
+      toast(' Record updated!');
     } else {
-      await sb('user9_finalcheck','POST',fd); toast('✅ Final Check saved!');
+      await sb('user9_finalcheck','POST',fd); toast(' Final Check saved!');
     }
     clearForm('u9'); sv('u9_search',''); await initApp();
   } catch(e) { toast('Error: '+e.message,'error'); }
   loader(false); if(btn) btn.disabled=false;
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  USER 10 — GC TRACKER
-// ═══════════════════════════════════════════════════════════════
+// 
 function updU10Badge(){ const b=gel('u10badge'); if(!b) return; b.innerHTML=''; }
 
 async function selectU10SO(so) {
@@ -1926,8 +1964,8 @@ async function selectU10SO(so) {
     sv('u10_oppal',(u2rows[0]||{}).oppal_gc_no||'');
     sv('u10_mf',(u3rows[0]||{}).mf_no||'');
     const today=new Date().toISOString().slice(0,10);
-    if(u10rows[0]){ const e=u10rows[0]; sv('u10_gc',e.gc_no||''); sv('u10_entrydate',e.entry_date||today); sv('u10_remarks',e.remarks||''); gel('u10_btn').textContent='✏️ Update GC'; }
-    else { sv('u10_gc',''); sv('u10_entrydate',today); sv('u10_remarks',''); gel('u10_btn').textContent='💾 Save GC Record'; }
+    if(u10rows[0]){ const e=u10rows[0]; sv('u10_gc',e.gc_no||''); sv('u10_entrydate',e.entry_date||today); sv('u10_remarks',e.remarks||''); gel('u10_btn').textContent=' Update GC'; }
+    else { sv('u10_gc',''); sv('u10_entrydate',today); sv('u10_remarks',''); gel('u10_btn').textContent=' Save GC Record'; }
   } catch(e) {}
   loader(false);
 }
@@ -1963,20 +2001,20 @@ async function saveU10() {
   try {
     if(_saEditId.u10){
       await sb('user10_gctracker','PATCH',fd,'?id=eq.'+_saEditId.u10);
-      toast('✅ GC Tracker updated! (SuperAdmin)'); cancelSAEdit('u10');
+      toast(' GC Tracker updated! (SuperAdmin)'); cancelSAEdit('u10');
     } else {
       const existing=await sb('user10_gctracker','GET',null,'?so_no=eq.'+encodeURIComponent(so)+'&limit=1');
-      if(existing.length){ await sb('user10_gctracker','PATCH',fd,'?so_no=eq.'+encodeURIComponent(so)); toast('✅ GC Tracker updated!'); }
-      else { await sb('user10_gctracker','POST',fd); toast('✅ GC Tracker saved!'); }
+      if(existing.length){ await sb('user10_gctracker','PATCH',fd,'?so_no=eq.'+encodeURIComponent(so)); toast(' GC Tracker updated!'); }
+      else { await sb('user10_gctracker','POST',fd); toast(' GC Tracker saved!'); }
     }
     clearForm('u10'); sv('u10_search',''); await initApp();
   } catch(e) { toast('Error: '+e.message,'error'); }
   loader(false); if(btn) btn.disabled=false;
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  VIEW RECORDS (all modules)
-// ═══════════════════════════════════════════════════════════════
+// 
 async function viewRecords(mod) {
   const card=gel(mod+'-records-card'); if(!card){ return; }
   card.style.display='block'; loader(true);
@@ -1993,7 +2031,7 @@ async function viewRecords(mod) {
           <td>${esc(r.broker_name)}</td>
           <td><span class="badge b-info">${esc(r.status||'')}</span></td>
           <td style="font-family:var(--mono)">${esc(r.hours_load||'')}</td>
-          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u1',${r.id})">✏️ Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user1_booking',${r.id},'u1')">✗</button></td>`:''}
+          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u1',${r.id})"> Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user1_booking',${r.id},'u1')"></button></td>`:''}
         </tr>`).join('');
         break;
       }
@@ -2008,7 +2046,7 @@ async function viewRecords(mod) {
           <td><span class="badge ${r.eway_bill_expiry&&new Date(r.eway_bill_expiry)<new Date()?'b-pend':'b-ok'}">${esc(r.eway_bill_expiry)}</span></td>
           <td>${esc(r.destination_gc)}</td><td>${esc(r.items)}</td><td>${esc(r.pkgs)}</td>
           <td>${esc(r.no_of_article)}</td><td>${esc(r.mt)}</td>
-          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u2',${r.id})">✏️ Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user2_dispatch',${r.id},'u2')">✗</button></td>`:''}
+          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u2',${r.id})"> Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user2_dispatch',${r.id},'u2')"></button></td>`:''}
         </tr>`).join('');
         break;
       }
@@ -2026,7 +2064,7 @@ async function viewRecords(mod) {
           <td class="mono">₹${fmtN(r.balance)}</td>
           <td class="mono">₹${fmtN(r.total_cost)}</td>
           <td class="mono">₹${fmtN(r.bilti_freight)}</td>
-          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u3',${r.id})">✏️ Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user3_settlement',${r.id},'u3')">✗</button></td>`:''}
+          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u3',${r.id})"> Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user3_settlement',${r.id},'u3')"></button></td>`:''}
         </tr>`).join('');
         break;
       }
@@ -2041,7 +2079,7 @@ async function viewRecords(mod) {
           <td>${esc(r.gp_on_sale)}</td><td>${esc(r.gp_on_purchase)}</td>
           <td>${esc(r.pmt_rec_date||'—')}</td>
           <td><span class="badge b-ok">${esc(r.status)}</span></td>
-          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u8',${r.id})">✏️ Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user8_accounts',${r.id},'u8')">✗</button></td>`:''}
+          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u8',${r.id})"> Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user8_accounts',${r.id},'u8')"></button></td>`:''}
         </tr>`).join('');
         break;
       }
@@ -2076,7 +2114,7 @@ function renderU9Table(rows){
       <td class="mono">${fmtN(r.balance_diff)}</td><td>${esc(r.bal_transaction_id)}</td>
       <td><span class="badge ${ttag}">${esc(type)}</span></td>
       <td><span class="badge ${tag}">${esc(st)}</span></td>
-      ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u9',${r.id})">✏️</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user9_finalcheck',${r.id},'u9')">✗</button></td>`:''}
+      ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u9',${r.id})"></button> <button class="btn btn-sm btn-danger" onclick="saDelete('user9_finalcheck',${r.id},'u9')"></button></td>`:''}
     </tr>`;
   }).join('');
 }
@@ -2093,7 +2131,7 @@ function renderU10Table(rows){
       <td style="font-family:var(--mono)">${esc(r.gc_no)}</td>
       <td>${esc(r.entry_date)}</td><td>${esc(r.remarks||'')}</td>
       <td><span class="badge ${tag}">${esc(st)}</span></td>
-      ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u10',${r.id});navigate('u10')">✏️ Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user10_gctracker',${r.id},'u10')">✗</button></td>`:''}
+      ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u10',${r.id});navigate('u10')"> Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user10_gctracker',${r.id},'u10')"></button></td>`:''}
     </tr>`;
   }).join('');
 }
@@ -2112,9 +2150,9 @@ async function filterU10Table(){
   renderU10Table(filtered);
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  SUPERADMIN — EDIT & DELETE
-// ═══════════════════════════════════════════════════════════════
+// 
 async function saEdit(mod, id) {
   if(!auth.isSuperAdmin()){ toast('SuperAdmin only','error'); return; }
   const tableMap={u1:'user1_booking',u2:'user2_dispatch',u3:'user3_settlement',u6:'user6_oppal',u7:'user7_finalbill',u8:'user8_accounts',u9:'user9_finalcheck',u10:'user10_gctracker'};
@@ -2166,18 +2204,18 @@ async function saEdit(mod, id) {
       sv('u10_so',r.so_no);sv('u10_oppal',r.oppal_gc_no);sv('u10_mf',r.mf_no);
       sv('u10_gc',r.gc_no);sv('u10_entrydate',r.entry_date);sv('u10_remarks',r.remarks);
     }
-    toast('⚡ SuperAdmin edit mode — record #'+id,'info');
+    toast(' SuperAdmin edit mode — record #'+id,'info');
   } catch(e) { toast('Error: '+e.message,'error'); }
   loader(false);
 }
 
 async function saDelete(table, id, mod) {
   if(!auth.isSuperAdmin()){ toast('SuperAdmin only','error'); return; }
-  if(!confirm(`DELETE record #${id} from ${table}?\n\n⚠️ This CANNOT be undone.`)) return;
+  if(!confirm(`DELETE record #${id} from ${table}?\n\n This CANNOT be undone.`)) return;
   loader(true);
   try {
     await sb(table,'DELETE',null,'?id=eq.'+id);
-    toast('✅ Record deleted (SuperAdmin)');
+    toast(' Record deleted (SuperAdmin)');
     viewRecords(mod); await initApp();
   } catch(e) { toast('Error: '+e.message,'error'); }
   loader(false);
@@ -2189,9 +2227,9 @@ function cancelSAEdit(mod) {
   clearForm(mod);
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  BALANCE REPORT
-// ═══════════════════════════════════════════════════════════════
+// 
 async function loadBalanceReport() {
   loader(true);
   try {
@@ -2256,9 +2294,9 @@ function exportBalanceCSV(){
   a.download='Balance_Report_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  TRANSPORT PAYMENT REPORT
-// ═══════════════════════════════════════════════════════════════
+// 
 async function genTPReport() {
   const from=gv('tpr_from'), to=gv('tpr_to');
   if(!from&&!to){ toast('Select date range','error'); return; }
@@ -2308,9 +2346,9 @@ async function genTPReport() {
   loader(false);
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  MASTER REPORT
-// ═══════════════════════════════════════════════════════════════
+// 
 async function loadMasterReport() {
   gel('mr-loading').style.display='block'; gel('mr-table-wrap').style.display='none';
   try {
@@ -2368,9 +2406,9 @@ function exportMRCSV(){
   a.download='Master_Report_'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  MASTERS PAGE
-// ═══════════════════════════════════════════════════════════════
+// 
 async function loadMastersPage() {
   try {
     const [custs,dests,items,brokers,cards] = await Promise.all([
@@ -2390,9 +2428,9 @@ async function loadMastersPage() {
   } catch(e) { toast('Error loading masters: '+e.message,'error'); }
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  ADD MODAL
-// ═══════════════════════════════════════════════════════════════
+// 
 let _addType='', _addTarget='';
 
 function openAddModal(type, targetId) {
@@ -2422,7 +2460,7 @@ async function doAdd() {
       const contact=document.getElementById('addContact').value.trim();
       if(!name||!bacc||!bifsc||!holder){ toast('Fill required fields','error'); return; }
       await sb('account_db','POST',{broker_name:name,bal_account_no:bacc,bal_ifsc_code:bifsc,adv_holder_name:holder,contact_no:contact,added_on:new Date().toISOString()});
-      toast('✅ Broker added!');
+      toast(' Broker added!');
     } else {
       const val=gv('addVal'); if(!val){ toast('Enter a value','error'); return; }
       const tableMap={customer:'customer_db',destination:'destination_db',item:'items_db',card:'cards_db'};
@@ -2430,16 +2468,16 @@ async function doAdd() {
       const t=tableMap[_addType], f=fieldMap[_addType];
       if(!t){ toast('Unknown type','error'); return; }
       await sb(t,'POST',{[f]:val,added_on:new Date().toISOString()});
-      toast('✅ Added!');
+      toast(' Added!');
       if(_addTarget){ const el=gel(_addTarget); if(el){ const o=document.createElement('option'); o.value=val; o.textContent=val; el.appendChild(o); } }
     }
     closeAddModal(); await initApp(); loadMastersPage();
   } catch(e) { toast('Error: '+e.message,'error'); }
 }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  USER MANAGEMENT
-// ═══════════════════════════════════════════════════════════════
+// 
 let _editingUserId=null;
 
 async function renderUserMgmt() {
@@ -2460,8 +2498,8 @@ async function renderUserMgmt() {
         <td><span class="badge ${u.status==='ACTIVE'?'b-ok':'b-pend'}">${esc(u.status)}</span></td>
         <td>${u.created_at?new Date(u.created_at).toLocaleDateString('en-IN'):'—'}</td>
         <td style="text-align:right">
-          <button class="btn btn-outline btn-sm" onclick="_umEdit(${idx})">✏️ Edit</button>
-          ${canDelete?`<button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="_umDel(${idx})">✗</button>`:''}
+          <button class="btn btn-outline btn-sm" onclick="_umEdit(${idx})"> Edit</button>
+          ${canDelete?`<button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="_umDel(${idx})"></button>`:''}
         </td>
       </tr>`;
     }).join('');
@@ -2496,12 +2534,12 @@ async function saveUser(){
       if(password) updates.password_hash=password;
       await sb('user_master','PATCH',updates,'?id=eq.'+_editingUserId);
       if(auth.user&&auth.user.id===_editingUserId){ auth.user.display_name=displayName; auth.user.role=role; applyAuthToUI(); try{sessionStorage.setItem('tms5_auth',JSON.stringify(auth.user));}catch(e){} }
-      toast('✅ User updated!');
+      toast(' User updated!');
     } else {
       if(!username){ toast('Username required','error'); return; }
       if(!password){ toast('Password required','error'); return; }
       await sb('user_master','POST',{username,password_hash:password,display_name:displayName,role,status});
-      toast('✅ User created!');
+      toast(' User created!');
     }
     cancelUserForm(); await renderUserMgmt();
   } catch(e) { toast('Error: '+e.message,'error'); }
@@ -2509,11 +2547,11 @@ async function saveUser(){
 
 function _umEdit(idx){ const u=window._umUsers[idx]; if(!u) return; _editingUserId=u.id; gel('user-form-title').textContent='Edit User — '+u.username; gel('uf-username').value=u.username; gel('uf-username').disabled=true; gel('uf-displayname').value=u.display_name||''; gel('uf-password').value=''; gel('uf-password').placeholder='Leave blank to keep current'; gel('uf-pw-label').textContent='New Password (optional)'; gel('uf-role').value=u.role; gel('uf-status').value=u.status; if(!auth.isSuperAdmin()){ const opt=gel('uf-role').querySelector('option[value="SUPERADMIN"]'); if(opt) opt.style.display='none'; } gel('user-form-wrap').style.display='block'; gel('user-form-wrap').scrollIntoView({behavior:'smooth'}); }
 
-async function _umDel(idx){ const u=window._umUsers[idx]; if(!u) return; if(u.role==='SUPERADMIN'&&!auth.isSuperAdmin()){ toast('Cannot delete SuperAdmin','error'); return; } if(!confirm('Delete user "'+u.username+'"?')) return; try { await sb('user_master','DELETE',null,'?id=eq.'+u.id); toast('✅ User deleted!'); await renderUserMgmt(); } catch(e){ toast('Error: '+e.message,'error'); } }
+async function _umDel(idx){ const u=window._umUsers[idx]; if(!u) return; if(u.role==='SUPERADMIN'&&!auth.isSuperAdmin()){ toast('Cannot delete SuperAdmin','error'); return; } if(!confirm('Delete user "'+u.username+'"?')) return; try { await sb('user_master','DELETE',null,'?id=eq.'+u.id); toast(' User deleted!'); await renderUserMgmt(); } catch(e){ toast('Error: '+e.message,'error'); } }
 
-// ═══════════════════════════════════════════════════════════════
+// 
 //  CLEAR FORM
-// ═══════════════════════════════════════════════════════════════
+// 
 function clearForm(mod) {
   const formInputs={
     u1:['u1_od','u1_ot','u1_so','u1_ed','u1_et','u1_lorry','u1_from','u1_advAcc','u1_advIfsc','u1_advHolder','u1_balAcc','u1_balIfsc','u1_brkContact','u1_dcontact'],
@@ -2534,9 +2572,135 @@ function clearForm(mod) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+//  THEME SYSTEM
+// ═══════════════════════════════════════════════════════════════
+const THEMES = {
+  classic: {
+    label: 'Classic Blue', dot: '#0969da',
+    vars: { '--sb-bg':'#13233a','--sb-active':'#1f4068','--sb-accent':'#539bf5','--blue':'#0969da','--blue-lt':'#ddf4ff','--blue-dk':'#0550ae','--green':'#1a7f37','--green-lt':'#dafbe1','--amber':'#9a6700','--amber-lt':'#fff8c5','--red':'#cf222e','--red-lt':'#ffebe9','--purple':'#6639ba','--purple-lt':'#fbefff','--canvas':'#f6f8fa','--surface':'#ffffff','--ink':'#0d1117','--ink2':'#24292f','--ink3':'#57606a','--ink4':'#8c959f','--border':'#d0d7de','--border2':'#b0b7be','--divider':'#eaeef2' }
+  },
+  slate: {
+    label: 'Slate Dark', dot: '#334155',
+    vars: { '--sb-bg':'#0f172a','--sb-active':'#1e3a5f','--sb-accent':'#60a5fa','--blue':'#3b82f6','--blue-lt':'#eff6ff','--blue-dk':'#1d4ed8','--green':'#16a34a','--green-lt':'#f0fdf4','--amber':'#d97706','--amber-lt':'#fffbeb','--red':'#dc2626','--red-lt':'#fef2f2','--purple':'#7c3aed','--purple-lt':'#f5f3ff','--canvas':'#f1f5f9','--surface':'#ffffff','--ink':'#0f172a','--ink2':'#1e293b','--ink3':'#64748b','--ink4':'#94a3b8','--border':'#e2e8f0','--border2':'#cbd5e1','--divider':'#f1f5f9' }
+  },
+  midnight: {
+    label: 'Midnight', dot: '#1e1b4b',
+    vars: { '--sb-bg':'#1e1b4b','--sb-active':'#312e81','--sb-accent':'#818cf8','--blue':'#4f46e5','--blue-lt':'#eef2ff','--blue-dk':'#3730a3','--green':'#059669','--green-lt':'#ecfdf5','--amber':'#d97706','--amber-lt':'#fffbeb','--red':'#dc2626','--red-lt':'#fef2f2','--purple':'#7c3aed','--purple-lt':'#f5f3ff','--canvas':'#f8fafc','--surface':'#ffffff','--ink':'#0f172a','--ink2':'#1e293b','--ink3':'#64748b','--ink4':'#94a3b8','--border':'#e2e8f0','--border2':'#cbd5e1','--divider':'#f1f5f9' }
+  },
+  forest: {
+    label: 'Forest', dot: '#14532d',
+    vars: { '--sb-bg':'#14532d','--sb-active':'#166534','--sb-accent':'#4ade80','--blue':'#16a34a','--blue-lt':'#f0fdf4','--blue-dk':'#15803d','--green':'#15803d','--green-lt':'#f0fdf4','--amber':'#92400e','--amber-lt':'#fffbeb','--red':'#dc2626','--red-lt':'#fef2f2','--purple':'#7c3aed','--purple-lt':'#f5f3ff','--canvas':'#f0fdf4','--surface':'#ffffff','--ink':'#0a1a0f','--ink2':'#14532d','--ink3':'#4d7c5f','--ink4':'#86aa96','--border':'#bbf7d0','--border2':'#86efac','--divider':'#dcfce7' }
+  },
+  crimson: {
+    label: 'Crimson', dot: '#7f1d1d',
+    vars: { '--sb-bg':'#7f1d1d','--sb-active':'#991b1b','--sb-accent':'#fca5a5','--blue':'#dc2626','--blue-lt':'#fef2f2','--blue-dk':'#b91c1c','--green':'#16a34a','--green-lt':'#f0fdf4','--amber':'#d97706','--amber-lt':'#fffbeb','--red':'#dc2626','--red-lt':'#fef2f2','--purple':'#7c3aed','--purple-lt':'#f5f3ff','--canvas':'#fff5f5','--surface':'#ffffff','--ink':'#1c0101','--ink2':'#450a0a','--ink3':'#7f1d1d','--ink4':'#b45309','--border':'#fecaca','--border2':'#fca5a5','--divider':'#fee2e2' }
+  },
+  ocean: {
+    label: 'Ocean', dot: '#0c4a6e',
+    vars: { '--sb-bg':'#0c4a6e','--sb-active':'#075985','--sb-accent':'#38bdf8','--blue':'#0284c7','--blue-lt':'#e0f2fe','--blue-dk':'#0369a1','--green':'#0d9488','--green-lt':'#f0fdfa','--amber':'#d97706','--amber-lt':'#fffbeb','--red':'#dc2626','--red-lt':'#fef2f2','--purple':'#7c3aed','--purple-lt':'#f5f3ff','--canvas':'#f0f9ff','--surface':'#ffffff','--ink':'#0c1825','--ink2':'#0c4a6e','--ink3':'#0369a1','--ink4':'#7dd3fc','--border':'#bae6fd','--border2':'#7dd3fc','--divider':'#e0f2fe' }
+  }
+};
+
+let _activeTheme = 'classic';
+
+function applyTheme(name) {
+  const theme = THEMES[name];
+  if (!theme) return;
+  _activeTheme = name;
+  const root = document.documentElement;
+  Object.entries(theme.vars).forEach(([k,v]) => root.style.setProperty(k, v));
+  // Update sidebar text colors for readability
+  root.style.setProperty('--sb-text', '#cdd9e5');
+  root.style.setProperty('--sb-muted', '#768390');
+  root.style.setProperty('--sb-hover', 'rgba(255,255,255,.07)');
+  root.style.setProperty('--sb-border', 'rgba(255,255,255,.08)');
+  // Sync ldr color
+  const ldr = gel('ldr'); if(ldr) ldr.style.background = theme.vars['--blue'];
+  // Update active swatch UI
+  document.querySelectorAll('.theme-swatch').forEach(s => s.classList.toggle('active', s.dataset.theme === name));
+  try { localStorage.setItem('tms5_theme', name); } catch(e) {}
+}
+
+function applyCustomTheme() {
+  const accent   = gel('ct-accent').value;
+  const sidebar  = gel('ct-sidebar').value;
+  const canvas   = gel('ct-canvas').value;
+  const surface  = gel('ct-surface').value;
+  const inkColor = gel('ct-ink').value;
+
+  // Derive lighter versions
+  function hexToRgb(hex){ const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16); return [r,g,b]; }
+  function lighten(hex, amt){ const [r,g,b]=hexToRgb(hex); return `rgb(${Math.min(255,r+amt)},${Math.min(255,g+amt)},${Math.min(255,b+amt)})`; }
+  function darken(hex, amt){ const [r,g,b]=hexToRgb(hex); return `rgb(${Math.max(0,r-amt)},${Math.max(0,g-amt)},${Math.max(0,b-amt)})`; }
+  function rgba(hex, a){ const [r,g,b]=hexToRgb(hex); return `rgba(${r},${g},${b},${a})`; }
+
+  const root = document.documentElement;
+  root.style.setProperty('--blue',      accent);
+  root.style.setProperty('--blue-lt',   lighten(accent, 155));
+  root.style.setProperty('--blue-dk',   darken(accent, 30));
+  root.style.setProperty('--sb-bg',     sidebar);
+  root.style.setProperty('--sb-active', lighten(sidebar, 20));
+  root.style.setProperty('--sb-accent', lighten(accent, 80));
+  root.style.setProperty('--sb-hover',  rgba('#fff', .07));
+  root.style.setProperty('--sb-border', rgba('#fff', .08));
+  root.style.setProperty('--sb-text',   '#cdd9e5');
+  root.style.setProperty('--sb-muted',  '#768390');
+  root.style.setProperty('--canvas',    canvas);
+  root.style.setProperty('--surface',   surface);
+  root.style.setProperty('--ink',       inkColor);
+  root.style.setProperty('--ink2',      lighten(inkColor, 30));
+  root.style.setProperty('--ink3',      lighten(inkColor, 90));
+  root.style.setProperty('--ink4',      lighten(inkColor, 140));
+  root.style.setProperty('--border',    lighten(inkColor, 190));
+  root.style.setProperty('--border2',   lighten(inkColor, 175));
+  root.style.setProperty('--divider',   lighten(inkColor, 200));
+
+  // Save custom theme
+  const custom = { accent, sidebar, canvas, surface, inkColor };
+  try { localStorage.setItem('tms5_custom_theme', JSON.stringify(custom)); } catch(e){}
+  document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
+  _activeTheme = 'custom';
+  toast('Custom theme applied');
+}
+
+function resetTheme() {
+  try { localStorage.removeItem('tms5_custom_theme'); } catch(e){}
+  applyTheme('classic');
+  toast('Theme reset to Classic Blue');
+}
+
+function openThemePanel() {
+  const panel = gel('theme-panel');
+  if(panel) panel.classList.add('open');
+}
+function closeThemePanel() {
+  const panel = gel('theme-panel');
+  if(panel) panel.classList.remove('open');
+}
+
+function loadSavedTheme() {
+  try {
+    const custom = localStorage.getItem('tms5_custom_theme');
+    if(custom) {
+      const d = JSON.parse(custom);
+      gel('ct-accent').value   = d.accent   || '#0969da';
+      gel('ct-sidebar').value  = d.sidebar  || '#13233a';
+      gel('ct-canvas').value   = d.canvas   || '#f6f8fa';
+      gel('ct-surface').value  = d.surface  || '#ffffff';
+      gel('ct-ink').value      = d.inkColor || '#0d1117';
+      applyCustomTheme(); return;
+    }
+    const saved = localStorage.getItem('tms5_theme');
+    if(saved && THEMES[saved]) applyTheme(saved);
+    else applyTheme('classic');
+  } catch(e) { applyTheme('classic'); }
+}
+
+// ═══════════════════════════════════════════════════════════════
 //  BOOT
 // ═══════════════════════════════════════════════════════════════
 window.onload = function() {
+  loadSavedTheme();
   let saved=null;
   try{ saved=sessionStorage.getItem('tms5_auth'); } catch(e){}
   if(saved){
@@ -2550,6 +2714,160 @@ window.onload = function() {
   }
   setTimeout(()=>{ const el=gel('login-username'); if(el) el.focus(); },150);
 };
+</script>
+
+<!-- ═══════════════════ THEME PANEL ═══════════════════ -->
+<div id="theme-panel">
+  <div class="tp-hd">
+    <h3>Settings &amp; Theme</h3>
+    <button class="tp-close" onclick="closeThemePanel()" title="Close">&times;</button>
+  </div>
+  <div class="tp-body">
+
+    <!-- Preset Themes -->
+    <div class="tp-section">
+      <div class="tp-section-label">Preset Themes</div>
+      <div class="theme-grid">
+        <div class="theme-swatch active" data-theme="classic" onclick="applyTheme('classic')">
+          <div class="swatch-dot" style="background:#13233a;border:3px solid #539bf5"></div>Classic Blue
+        </div>
+        <div class="theme-swatch" data-theme="slate" onclick="applyTheme('slate')">
+          <div class="swatch-dot" style="background:#0f172a;border:3px solid #60a5fa"></div>Slate Dark
+        </div>
+        <div class="theme-swatch" data-theme="midnight" onclick="applyTheme('midnight')">
+          <div class="swatch-dot" style="background:#1e1b4b;border:3px solid #818cf8"></div>Midnight
+        </div>
+        <div class="theme-swatch" data-theme="forest" onclick="applyTheme('forest')">
+          <div class="swatch-dot" style="background:#14532d;border:3px solid #4ade80"></div>Forest
+        </div>
+        <div class="theme-swatch" data-theme="crimson" onclick="applyTheme('crimson')">
+          <div class="swatch-dot" style="background:#7f1d1d;border:3px solid #fca5a5"></div>Crimson
+        </div>
+        <div class="theme-swatch" data-theme="ocean" onclick="applyTheme('ocean')">
+          <div class="swatch-dot" style="background:#0c4a6e;border:3px solid #38bdf8"></div>Ocean
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom Theme Creator -->
+    <div class="tp-section">
+      <div class="tp-section-label">Custom Theme Creator</div>
+      <div class="color-row">
+        <label>Accent / Primary Color</label>
+        <input type="color" id="ct-accent" value="#0969da" title="Primary accent color">
+      </div>
+      <div class="color-row">
+        <label>Sidebar Background</label>
+        <input type="color" id="ct-sidebar" value="#13233a" title="Sidebar background">
+      </div>
+      <div class="color-row">
+        <label>Page Background</label>
+        <input type="color" id="ct-canvas" value="#f6f8fa" title="Page canvas color">
+      </div>
+      <div class="color-row">
+        <label>Card / Surface Color</label>
+        <input type="color" id="ct-surface" value="#ffffff" title="Card surface color">
+      </div>
+      <div class="color-row">
+        <label>Text / Ink Color</label>
+        <input type="color" id="ct-ink" value="#0d1117" title="Primary text color">
+      </div>
+      <button class="theme-btn-apply" onclick="applyCustomTheme()">Apply Custom Theme</button>
+      <button class="theme-btn-reset" onclick="resetTheme()">Reset to Default</button>
+    </div>
+
+    <!-- Display Options -->
+    <div class="tp-section">
+      <div class="tp-section-label">Display</div>
+      <div class="tp-row">
+        <label>Compact Sidebar</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle-compact" onchange="toggleCompactSidebar(this.checked)">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+      <div class="tp-row">
+        <label>High Contrast Borders</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle-hc" onchange="toggleHighContrast(this.checked)">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+      <div class="tp-row">
+        <label>Large Font Size</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle-font" onchange="toggleLargeFont(this.checked)">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+      </div>
+    </div>
+
+    <!-- App Info -->
+    <div class="tp-section">
+      <div class="tp-section-label">Application Info</div>
+      <div style="font-size:11px;color:var(--ink3);line-height:1.8">
+        <div><strong style="color:var(--ink2)">SFMPL TMS</strong> v5.0</div>
+        <div>Full Workflow Edition</div>
+        <div>Supabase Backend</div>
+        <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--divider)">Logged in as: <strong id="tp-username" style="color:var(--blue)"></strong><br>Role: <strong id="tp-role" style="color:var(--ink2)"></strong>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Display toggles
+function toggleCompactSidebar(on) {
+  const sb = gel('sidebar');
+  if(on){ sb.style.setProperty('--sb-w','180px'); document.documentElement.style.setProperty('--sb-w','180px'); }
+  else{ document.documentElement.style.setProperty('--sb-w','230px'); }
+  try{ localStorage.setItem('tms5_compact', on?'1':'0'); }catch(e){}
+}
+function toggleHighContrast(on) {
+  const root = document.documentElement;
+  if(on){ root.style.setProperty('--border','#8c959f'); root.style.setProperty('--border2','#57606a'); }
+  else{ const t=THEMES[_activeTheme]; if(t){ root.style.setProperty('--border',t.vars['--border']); root.style.setProperty('--border2',t.vars['--border2']); } }
+  try{ localStorage.setItem('tms5_hc', on?'1':'0'); }catch(e){}
+}
+function toggleLargeFont(on) {
+  document.documentElement.style.fontSize = on ? '15px' : '13px';
+  try{ localStorage.setItem('tms5_font', on?'1':'0'); }catch(e){}
+}
+
+// Restore display prefs
+function restoreDisplayPrefs() {
+  try{
+    if(localStorage.getItem('tms5_compact')==='1'){ gel('toggle-compact').checked=true; toggleCompactSidebar(true); }
+    if(localStorage.getItem('tms5_hc')==='1'){ gel('toggle-hc').checked=true; toggleHighContrast(true); }
+    if(localStorage.getItem('tms5_font')==='1'){ gel('toggle-font').checked=true; toggleLargeFont(true); }
+  }catch(e){}
+}
+
+// Update theme panel user info when panel opens
+const _origOpenTP = openThemePanel;
+openThemePanel = function() {
+  _origOpenTP();
+  const u = auth.user;
+  if(u){ se('tp-username', u.display_name||u.username); se('tp-role', u.role); }
+};
+
+// Restore on page load (added after loadSavedTheme call)
+document.addEventListener('DOMContentLoaded', restoreDisplayPrefs);
+
+// Close theme panel when clicking outside
+document.addEventListener('click', function(e){
+  const panel = gel('theme-panel');
+  if(panel && panel.classList.contains('open')){
+    if(!panel.contains(e.target) && !e.target.closest('[onclick*="openThemePanel"]') && !e.target.closest('#nav-settings')){
+      closeThemePanel();
+    }
+  }
+});
 </script>
 </body>
 </html>
