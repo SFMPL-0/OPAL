@@ -385,7 +385,7 @@ tbody tr:hover td{background:var(--blue-lt)}
           <div class="role-badge" id="topbar-rolebadge">USER</div>
         </div>
       </div>
-      <button class="btn btn-outline btn-sm" onclick="doLogout()"> Logout</button>
+      <button class="btn btn-outline btn-sm" onclick="doLogout()">Logout</button>
     </div>
   </div>
   <div id="content">
@@ -439,7 +439,7 @@ tbody tr:hover td{background:var(--blue-lt)}
         </div>
       </div>
       <div class="section-card" id="u1-records-card" style="display:none">
-        <div class="section-title"><span>Booking Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u1-records-card').style.display='none'"> Close</button></div>
+        <div class="section-title"><span>Booking Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u1-records-card').style.display='none'">Close</button></div>
         <div class="table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>Order Date</th><th>Lorry</th><th>Consignor</th><th>Consignee</th><th>From</th><th>Dest</th><th>Broker</th><th>Status</th><th>Hours</th><th id="u1-act-th" style="display:none">Actions</th></tr></thead><tbody id="u1-tbody"></tbody></table></div>
       </div>
     </div>
@@ -477,7 +477,7 @@ tbody tr:hover td{background:var(--blue-lt)}
         </div>
       </div>
       <div class="section-card" id="u2-records-card" style="display:none">
-        <div class="section-title"><span>Dispatch Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u2-records-card').style.display='none'"> Close</button></div>
+        <div class="section-title"><span>Dispatch Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u2-records-card').style.display='none'">Close</button></div>
         <div class="table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>Lorry</th><th>L Date</th><th>OPPAL GC</th><th>Invoice</th><th>Eway Bill</th><th>Expiry</th><th>Dest GC</th><th>Items</th><th>PKGS</th><th>Articles</th><th>MT</th><th id="u2-act-th" style="display:none">Actions</th></tr></thead><tbody id="u2-tbody"></tbody></table></div>
       </div>
     </div>
@@ -551,7 +551,7 @@ tbody tr:hover td{background:var(--blue-lt)}
         </div>
       </div>
       <div class="section-card" id="u3-records-card" style="display:none">
-        <div class="section-title"><span>Settlement Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u3-records-card').style.display='none'"> Close</button></div>
+        <div class="section-title"><span>Settlement Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u3-records-card').style.display='none'">Close</button></div>
         <div class="scroll-table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>MF No</th><th>Lorry</th><th>Broker</th><th>PMT Rate</th><th>Total Freight</th><th>Freight MF</th><th>Advance</th><th>Balance</th><th>Total Cost</th><th>Bilti Freight</th><th id="u3-act-th" style="display:none">Actions</th></tr></thead><tbody id="u3-tbody"></tbody></table></div>
       </div>
     </div>
@@ -670,7 +670,7 @@ tbody tr:hover td{background:var(--blue-lt)}
         </div>
       </div>
       <div class="section-card" id="u8-records-card" style="display:none">
-        <div class="section-title"><span>Accounts Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u8-records-card').style.display='none'"> Close</button></div>
+        <div class="section-title"><span>Accounts Records</span><button class="btn btn-outline btn-sm" onclick="document.getElementById('u8-records-card').style.display='none'">Close</button></div>
         <div class="scroll-table-wrap"><table><thead class="sticky"><tr><th>SO No</th><th>MF No</th><th>Total RENV</th><th>Gross Profit</th><th>GP on Sale</th><th>GP on Purch</th><th>PMT Date</th><th>Status</th><th id="u8-act-th" style="display:none">Actions</th></tr></thead><tbody id="u8-tbody"></tbody></table></div>
       </div>
     </div>
@@ -953,8 +953,8 @@ tbody tr:hover td{background:var(--blue-lt)}
 // 
 //  SUPABASE CONFIG — Replace with your project credentials
 // 
-const SUPABASE_URL  = 'https://oswzwanptjcmulkqlcwu.supabase.co';
-const SUPABASE_ANON = 'sb_publishable_P0LP9gaznl25JlXJq97X1Q_5BGV2Sxu';
+const SUPABASE_URL  = 'https://izflzuoipmvxdftqdktm.supabase.co';
+const SUPABASE_ANON = 'sb_publishable_eJyLkpjw0Cwq06WVwpf3Bg_ZkmeXT9f';
 
 async function sb(table, method, body, query) {
   query = query || '';
@@ -1102,13 +1102,13 @@ function navigate(page) {
   document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
   const sec=gel('sec-'+page); if(sec) sec.classList.add('active');
   const nav=gel('nav-'+page); if(nav) nav.classList.add('active');
-  const titles={dashboard:'Dashboard',u1:'Booking — User 1',u2:'Dispatch — User 2',u3:'Settlement — User 3',
-    u4:'Eway Bill — User 4',u5:'Advise — User 5',u6:'OPPAL — User 6',u7:'Final Bill — User 7',
-    u8:'Accounts — User 8',u9:'Final Check — User 9',u10:'GC Tracker — User 10',
-    balance:'Balance Report',tptreport:'Transport Payment Report',masterreport:'Master Report',
-    masters:'Master Data',usermgmt:'User Management'};
+  const titles={dashboard:'Dashboard',u1:'Booking',u2:'Dispatch',u3:'Settlement',
+    u4:'Eway Bill',u5:'Advise Date',u6:'OPPAL Submit',u7:'Final Bill',
+    u8:'Accounts',u9:'Final Check',u10:'GC Tracker',
+    balance:'Balance Report',tptreport:'Transport Report',masterreport:'Master Report',
+    masters:'Master Data',usermgmt:'User Management',settings:'Settings & Theme'};
   gel('page-title').textContent = titles[page]||page;
-  gel('page-sub').textContent   = auth.isSuperAdmin() ? ' SuperAdmin Mode — Edit Enabled' : '';
+  gel('page-sub').textContent   = auth.isSuperAdmin() ? 'SuperAdmin Mode — Edit Enabled' : '';
 
   if(page==='masters') loadMastersPage();
   if(page==='usermgmt') renderUserMgmt();
@@ -1343,7 +1343,7 @@ async function renderDashboard() {
           <div class="section-title">Quick Actions</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <button class="btn btn-primary" onclick="navigate('u1')">New Booking</button>
-            <button class="btn btn-outline" onclick="navigate('u2')"> Dispatch</button>
+            <button class="btn btn-outline" onclick="navigate('u2')">Dispatch</button>
             <button class="btn btn-outline" onclick="navigate('balance')">Balance Report</button>
             <button class="btn btn-outline" onclick="navigate('u9')">Final Check</button>
           </div>
@@ -2031,7 +2031,7 @@ async function viewRecords(mod) {
           <td>${esc(r.broker_name)}</td>
           <td><span class="badge b-info">${esc(r.status||'')}</span></td>
           <td style="font-family:var(--mono)">${esc(r.hours_load||'')}</td>
-          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u1',${r.id})"> Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user1_booking',${r.id},'u1')"></button></td>`:''}
+          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u1',${r.id})">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user1_booking',${r.id},'u1')"></button></td>`:''}
         </tr>`).join('');
         break;
       }
@@ -2046,7 +2046,7 @@ async function viewRecords(mod) {
           <td><span class="badge ${r.eway_bill_expiry&&new Date(r.eway_bill_expiry)<new Date()?'b-pend':'b-ok'}">${esc(r.eway_bill_expiry)}</span></td>
           <td>${esc(r.destination_gc)}</td><td>${esc(r.items)}</td><td>${esc(r.pkgs)}</td>
           <td>${esc(r.no_of_article)}</td><td>${esc(r.mt)}</td>
-          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u2',${r.id})"> Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user2_dispatch',${r.id},'u2')"></button></td>`:''}
+          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u2',${r.id})">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user2_dispatch',${r.id},'u2')"></button></td>`:''}
         </tr>`).join('');
         break;
       }
@@ -2064,7 +2064,7 @@ async function viewRecords(mod) {
           <td class="mono">₹${fmtN(r.balance)}</td>
           <td class="mono">₹${fmtN(r.total_cost)}</td>
           <td class="mono">₹${fmtN(r.bilti_freight)}</td>
-          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u3',${r.id})"> Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user3_settlement',${r.id},'u3')"></button></td>`:''}
+          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u3',${r.id})">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user3_settlement',${r.id},'u3')"></button></td>`:''}
         </tr>`).join('');
         break;
       }
@@ -2079,7 +2079,7 @@ async function viewRecords(mod) {
           <td>${esc(r.gp_on_sale)}</td><td>${esc(r.gp_on_purchase)}</td>
           <td>${esc(r.pmt_rec_date||'—')}</td>
           <td><span class="badge b-ok">${esc(r.status)}</span></td>
-          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u8',${r.id})"> Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user8_accounts',${r.id},'u8')"></button></td>`:''}
+          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u8',${r.id})">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user8_accounts',${r.id},'u8')"></button></td>`:''}
         </tr>`).join('');
         break;
       }
@@ -2131,7 +2131,7 @@ function renderU10Table(rows){
       <td style="font-family:var(--mono)">${esc(r.gc_no)}</td>
       <td>${esc(r.entry_date)}</td><td>${esc(r.remarks||'')}</td>
       <td><span class="badge ${tag}">${esc(st)}</span></td>
-      ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u10',${r.id});navigate('u10')"> Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user10_gctracker',${r.id},'u10')"></button></td>`:''}
+      ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u10',${r.id});navigate('u10')">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user10_gctracker',${r.id},'u10')"></button></td>`:''}
     </tr>`;
   }).join('');
 }
@@ -2498,7 +2498,7 @@ async function renderUserMgmt() {
         <td><span class="badge ${u.status==='ACTIVE'?'b-ok':'b-pend'}">${esc(u.status)}</span></td>
         <td>${u.created_at?new Date(u.created_at).toLocaleDateString('en-IN'):'—'}</td>
         <td style="text-align:right">
-          <button class="btn btn-outline btn-sm" onclick="_umEdit(${idx})"> Edit</button>
+          <button class="btn btn-outline btn-sm" onclick="_umEdit(${idx})">Edit</button>
           ${canDelete?`<button class="btn btn-danger btn-sm" style="margin-left:4px" onclick="_umDel(${idx})"></button>`:''}
         </td>
       </tr>`;
