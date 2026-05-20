@@ -362,6 +362,10 @@ tbody tr:hover td{background:var(--blue-lt)}
     <button class="nav-item" onclick="navigate('usermgmt')" id="nav-usermgmt" style="display:none">
       <span class="ic"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>User Management
     </button>
+    <button class="nav-item" onclick="navigate('importdata')" id="nav-importdata">
+      <span class="ic"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>
+      Import Data
+    </button>
     <button class="nav-item" onclick="openThemePanel()" id="nav-settings">
       <span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>Settings &amp; Theme
     </button>
@@ -403,7 +407,7 @@ tbody tr:hover td{background:var(--blue-lt)}
           <button class="btn btn-outline btn-sm" onclick=\"viewRecords('u1')\">View Records</button>
         </div>
         <div id="sa-u1-bar" class="sa-edit-bar">
-          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span class="sa-editing-badge" id="sa-mode-badge">ADMIN EDIT MODE</span>
           <span>Editing row ID: <strong id="sa-u1-id"></strong></span>
           <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u1')">Cancel Edit</button>
         </div>
@@ -452,7 +456,7 @@ tbody tr:hover td{background:var(--blue-lt)}
           <button class="btn btn-outline btn-sm" onclick=\"viewRecords('u2')\">View Records</button>
         </div>
         <div id="sa-u2-bar" class="sa-edit-bar">
-          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span class="sa-editing-badge" id="sa-mode-badge">ADMIN EDIT MODE</span>
           <span>Editing row ID: <strong id="sa-u2-id"></strong></span>
           <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u2')">Cancel Edit</button>
         </div>
@@ -490,7 +494,7 @@ tbody tr:hover td{background:var(--blue-lt)}
           <button class="btn btn-outline btn-sm" onclick=\"viewRecords('u3')\">View Records</button>
         </div>
         <div id="sa-u3-bar" class="sa-edit-bar">
-          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span class="sa-editing-badge" id="sa-mode-badge">ADMIN EDIT MODE</span>
           <span>Editing row ID: <strong id="sa-u3-id"></strong></span>
           <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u3')">Cancel Edit</button>
         </div>
@@ -594,7 +598,7 @@ tbody tr:hover td{background:var(--blue-lt)}
       <div class="section-card">
         <div class="section-title"><span>Bill Submit to OPPAL</span></div>
         <div id="sa-u6-bar" class="sa-edit-bar">
-          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span class="sa-editing-badge" id="sa-mode-badge">ADMIN EDIT MODE</span>
           <span>Editing row ID: <strong id="sa-u6-id"></strong></span>
           <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u6')">Cancel Edit</button>
         </div>
@@ -617,7 +621,7 @@ tbody tr:hover td{background:var(--blue-lt)}
       <div class="section-card">
         <div class="section-title"><span>Final Bill Entry</span></div>
         <div id="sa-u7-bar" class="sa-edit-bar">
-          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span class="sa-editing-badge" id="sa-mode-badge">ADMIN EDIT MODE</span>
           <span>Editing row ID: <strong id="sa-u7-id"></strong></span>
           <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u7')">Cancel Edit</button>
         </div>
@@ -646,7 +650,7 @@ tbody tr:hover td{background:var(--blue-lt)}
           <button class="btn btn-outline btn-sm" onclick=\"viewRecords('u8')\">View Records</button>
         </div>
         <div id="sa-u8-bar" class="sa-edit-bar">
-          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span class="sa-editing-badge" id="sa-mode-badge">ADMIN EDIT MODE</span>
           <span>Editing row ID: <strong id="sa-u8-id"></strong></span>
           <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u8')">Cancel Edit</button>
         </div>
@@ -659,10 +663,15 @@ tbody tr:hover td{background:var(--blue-lt)}
           <div class="fg"><label>Gross Profit (Auto)</label><input type="text" id="u8_gp" class="cmp" readonly></div>
           <div class="fg"><label>Deduction</label><input type="number" id="u8_ded" step=".01" value="0" oninput="calcU8()"></div>
           <div class="fg"><label>PMT Rec Date</label><input type="date" id="u8_prd" onchange="calcU8()"></div>
-          <div class="fg"><label>INT (Auto)</label><input type="text" id="u8_int" class="cmp" readonly></div>
-          <div class="fg"><label>TAX 1% (Auto)</label><input type="text" id="u8_tax" class="cmp" readonly></div>
-          <div class="fg"><label>GP on Sale (Auto)</label><input type="text" id="u8_gps" class="cmp" readonly></div>
-          <div class="fg"><label>GP on Purchase (Auto)</label><input type="text" id="u8_gpp" class="cmp" readonly></div>
+          <div class="fg"><label>Payment Rec Days (Auto / Edit)</label><input type="number" id="u8_pdays" step="1" placeholder="Auto" oninput="overrideU8()"></div>
+          <div class="fg"><label>INT % (Auto / Edit)</label><input type="number" id="u8_int" step=".01" placeholder="Auto" oninput="overrideU8()"></div>
+          <div class="fg"><label>TAX 1% (Auto / Edit)</label><input type="number" id="u8_tax" step=".01" placeholder="Auto" oninput="overrideU8()"></div>
+          <div class="fg"><label>GP on Sale % (Auto / Edit)</label><input type="text" id="u8_gps" placeholder="Auto e.g. 12%" oninput="overrideU8()"></div>
+          <div class="fg"><label>GP on Purchase % (Auto / Edit)</label><input type="text" id="u8_gpp" placeholder="Auto e.g. 8%" oninput="overrideU8()"></div>
+          <div class="fg"><label>Any Remarks</label><input type="text" id="u8_remarks" placeholder="Optional remarks" autocomplete="off"></div>
+        </div>
+        <div style="background:var(--blue-lt);border:1px solid #b6d4fb;border-radius:4px;padding:7px 12px;margin-bottom:8px;font-size:11px;color:var(--blue-dk)">
+          INT%, TAX 1%, GP On Sale, GP On Purchase are auto-calculated. You can override any value manually before saving.
         </div>
         <div class="actions">
           <button class="btn btn-primary" id="u8_btn" onclick="saveU8()">Save Accounts</button>
@@ -686,7 +695,7 @@ tbody tr:hover td{background:var(--blue-lt)}
           </div>
         </div>
         <div id="sa-u9-bar" class="sa-edit-bar">
-          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span class="sa-editing-badge" id="sa-mode-badge">ADMIN EDIT MODE</span>
           <span>Editing row ID: <strong id="sa-u9-id"></strong></span>
           <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u9')">Cancel Edit</button>
         </div>
@@ -743,7 +752,7 @@ tbody tr:hover td{background:var(--blue-lt)}
           </div>
         </div>
         <div id="sa-u10-bar" class="sa-edit-bar">
-          <span class="sa-editing-badge">SUPERADMIN MODE</span>
+          <span class="sa-editing-badge" id="sa-mode-badge">ADMIN EDIT MODE</span>
           <span>Editing row ID: <strong id="sa-u10-id"></strong></span>
           <button class="btn btn-outline btn-sm" onclick="cancelSAEdit('u10')">Cancel Edit</button>
         </div>
@@ -926,6 +935,91 @@ tbody tr:hover td{background:var(--blue-lt)}
       </div>
     </div>
 
+
+    <!-- IMPORT DATA SECTION -->
+    <div class="section" id="sec-importdata">
+      <div class="section-card">
+        <div class="section-title">
+          <span>Import Data from CSV</span>
+          <span style="font-size:10px;font-weight:600;color:var(--green);background:var(--green-lt);padding:2px 8px;border-radius:3px;border:1px solid #b7e4c7">73-COLUMN FORMAT SUPPORTED</span>
+        </div>
+        <div style="background:var(--amber-lt);border:1px solid #f0dc8a;border-radius:4px;padding:10px 14px;margin-bottom:14px;font-size:11px;color:var(--amber)">
+          <strong>Before importing:</strong> Run the SQL schema first. Import maps all 73 CSV columns to the correct workflow tables automatically. Duplicate SO Numbers are skipped by default.
+        </div>
+        <div style="border:1px solid var(--border);border-radius:4px;margin-bottom:14px">
+          <div style="padding:10px 14px;background:var(--canvas);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;gap:8px">
+            <span style="width:20px;height:20px;background:var(--blue);color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0">1</span>
+            Upload CSV File
+          </div>
+          <div style="padding:14px">
+            <div style="border:2px dashed var(--border2);border-radius:4px;padding:24px;text-align:center;cursor:pointer;background:var(--canvas)" onclick="gel('imp-file').click()">
+              <div style="margin-bottom:8px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--ink4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto;display:block"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+              <div style="font-size:13px;font-weight:700;color:var(--ink2)" id="imp-file-label">Click to select CSV file</div>
+              <div style="font-size:11px;color:var(--ink4);margin-top:3px">Master_Report format — 73 columns</div>
+            </div>
+            <input type="file" id="imp-file" accept=".csv" style="display:none" onchange="loadImportCSV(this)">
+          </div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:4px;margin-bottom:14px;display:none" id="imp-preview-wrap">
+          <div style="padding:10px 14px;background:var(--canvas);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:20px;height:20px;background:var(--blue);color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0">2</span>Preview &amp; Validate</div>
+            <span id="imp-row-count" style="font-size:11px;color:var(--ink3);font-weight:600"></span>
+          </div>
+          <div style="padding:14px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:12px" id="imp-stats-grid"></div>
+            <div class="scroll-table-wrap" style="max-height:260px">
+              <table><thead class="sticky"><tr><th>SO No</th><th>MF No</th><th>Lorry</th><th>Broker</th><th>L Date</th><th>MT</th><th>PMT Rate</th><th>Advance</th><th>Balance</th><th>Bill No</th><th>Advise Date</th><th>Status</th></tr></thead>
+              <tbody id="imp-preview-tbody"></tbody></table>
+            </div>
+          </div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:4px;margin-bottom:14px;display:none" id="imp-options-wrap">
+          <div style="padding:10px 14px;background:var(--canvas);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;gap:8px">
+            <span style="width:20px;height:20px;background:var(--blue);color:#fff;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0">3</span>
+            Import Options
+          </div>
+          <div style="padding:14px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:14px">
+              <label class="cbg"><input type="checkbox" id="imp-u1" checked><span>Booking</span></label>
+              <label class="cbg"><input type="checkbox" id="imp-u2" checked><span>Dispatch</span></label>
+              <label class="cbg"><input type="checkbox" id="imp-u3" checked><span>Settlement</span></label>
+              <label class="cbg"><input type="checkbox" id="imp-u4" checked><span>Eway Bill</span></label>
+              <label class="cbg"><input type="checkbox" id="imp-u5" checked><span>Advise Date</span></label>
+              <label class="cbg"><input type="checkbox" id="imp-u6" checked><span>OPPAL Submit</span></label>
+              <label class="cbg"><input type="checkbox" id="imp-u7" checked><span>Final Bill</span></label>
+              <label class="cbg"><input type="checkbox" id="imp-u8" checked><span>Accounts</span></label>
+              <label class="cbg"><input type="checkbox" id="imp-u9" checked><span>Final Check</span></label>
+              <label class="cbg"><input type="checkbox" id="imp-masters" checked><span>Masters (Customers, Brokers etc)</span></label>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <label class="cbg" style="flex:none"><input type="checkbox" id="imp-skip-dup" checked><span>Skip duplicate SO Numbers</span></label>
+              <label class="cbg" style="flex:none"><input type="checkbox" id="imp-dry-run"><span>Dry Run (validate only, no save)</span></label>
+            </div>
+          </div>
+        </div>
+        <div id="imp-action-wrap" style="display:none">
+          <button class="btn btn-success" onclick="runImport()" id="imp-run-btn" style="width:100%;padding:12px;font-size:13px;justify-content:center;display:flex;align-items:center;gap:8px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Start Import
+          </button>
+          <div id="imp-progress-wrap" style="margin-top:14px;display:none">
+            <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--ink3);margin-bottom:5px"><span id="imp-prog-label">Importing...</span><span id="imp-prog-pct">0%</span></div>
+            <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden"><div id="imp-prog-bar" style="height:100%;background:var(--green);width:0%;transition:width .2s;border-radius:3px"></div></div>
+            <div id="imp-prog-detail" style="font-size:10px;color:var(--ink4);margin-top:4px;font-family:var(--mono)"></div>
+          </div>
+        </div>
+        <div id="imp-log-wrap" style="margin-top:14px;display:none">
+          <div style="font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Import Log</div>
+          <div id="imp-log" style="background:#0d1117;color:#57f287;font-family:var(--mono);font-size:11px;border-radius:4px;padding:12px 14px;max-height:200px;overflow-y:auto;line-height:1.7;white-space:pre-wrap"></div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn btn-outline btn-sm" onclick="gel('imp-log').innerHTML=''">Clear Log</button>
+            <button class="btn btn-outline btn-sm" onclick="resetImport()">Import Another File</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </div><!-- /content -->
 </div><!-- /main -->
 
@@ -953,8 +1047,8 @@ tbody tr:hover td{background:var(--blue-lt)}
 // 
 //  SUPABASE CONFIG — Replace with your project credentials
 // 
-const SUPABASE_URL  = 'https://izflzuoipmvxdftqdktm.supabase.co';
-const SUPABASE_ANON = 'sb_publishable_eJyLkpjw0Cwq06WVwpf3Bg_ZkmeXT9f';
+const SUPABASE_URL  = 'https://ysyebjlqoikxtodgxiqr.supabase.co';
+const SUPABASE_ANON = 'sb_publishable_YWFjaYCVtDalpP_FjbZ-8w_4C6xY8c4';
 
 async function sb(table, method, body, query) {
   query = query || '';
@@ -1035,7 +1129,7 @@ function applyAuthToUI() {
   // Show action columns in tables for SuperAdmin
   ['u1','u2','u3','u8','u9','u10'].forEach(m => {
     const th = document.getElementById(m + '-act-th');
-    if (th && auth.isSuperAdmin()) th.style.display = '';
+    if (th && auth.isAdmin()) th.style.display = '';
   });
 }
 
@@ -1106,9 +1200,9 @@ function navigate(page) {
     u4:'Eway Bill',u5:'Advise Date',u6:'OPPAL Submit',u7:'Final Bill',
     u8:'Accounts',u9:'Final Check',u10:'GC Tracker',
     balance:'Balance Report',tptreport:'Transport Report',masterreport:'Master Report',
-    masters:'Master Data',usermgmt:'User Management',settings:'Settings & Theme'};
+    masters:'Master Data',usermgmt:'User Management',importdata:'Import Data',settings:'Settings & Theme'};
   gel('page-title').textContent = titles[page]||page;
-  gel('page-sub').textContent   = auth.isSuperAdmin() ? 'SuperAdmin Mode — Edit Enabled' : '';
+  gel('page-sub').textContent   = auth.isSuperAdmin() ? 'SuperAdmin Mode — Edit Enabled' : auth.isAdmin() ? 'Admin Mode — Edit Enabled' : '';
 
   if(page==='masters') loadMastersPage();
   if(page==='usermgmt') renderUserMgmt();
@@ -1787,6 +1881,7 @@ async function saveU7() {
 //  USER 8 — ACCOUNTS
 // 
 async function loadU8() {
+  _u8Override=false;
   const so=gv('u8_so'); if(!so) return;
   loader(true);
   try {
@@ -1803,6 +1898,7 @@ async function loadU8() {
   loader(false);
 }
 
+let _u8Override = false;
 function calcU8() {
   if(!_u8cache) return;
   const bf=_u8cache.biltiFreight, tc=_u8cache.totalCost;
@@ -1810,15 +1906,22 @@ function calcU8() {
   const totalRenv=bf+ec;
   const grossProfit=bf-tc-ded;
   const prd=gv('u8_prd'), entDate=_u8cache.entDate;
-  let intVal=0, payDays=0;
+  let payDays=0, intVal=0;
   if(prd&&entDate){ payDays=Math.ceil((new Date(prd)-new Date(entDate))/86400000); intVal=((payDays*bf*0.12)/365); }
-  const tax=totalRenv>0?((totalRenv*0.01).toFixed(2)):0;
+  const tax=totalRenv>0?(totalRenv*0.01):0;
   const gpSale=totalRenv>0?Math.round(((totalRenv-tc)/totalRenv)*100)+'%':'0%';
   const gpPurch=tc>0?Math.round((grossProfit/tc)*100)+'%':'0%';
   sv('u8_tr',fmt2(totalRenv)); sv('u8_gp',fmt2(grossProfit));
-  sv('u8_int',fmt2(intVal)); sv('u8_tax',fmt2(tax));
-  sv('u8_gps',gpSale); sv('u8_gpp',gpPurch);
+  // Only auto-fill if user hasn't manually overridden
+  if(!_u8Override){
+    const pdEl=gel('u8_pdays'); if(pdEl&&!pdEl.value) pdEl.value=payDays||'';
+    const intEl=gel('u8_int');  if(intEl&&!intEl.value) sv('u8_int',intVal?intVal.toFixed(2):'');
+    const taxEl=gel('u8_tax');  if(taxEl&&!taxEl.value) sv('u8_tax',tax?tax.toFixed(2):'');
+    const gpsEl=gel('u8_gps');  if(gpsEl&&!gpsEl.value) sv('u8_gps',gpSale);
+    const gppEl=gel('u8_gpp');  if(gppEl&&!gppEl.value) sv('u8_gpp',gpPurch);
+  }
 }
+function overrideU8(){ _u8Override=true; }
 
 async function saveU8() {
   const so=gv('u8_so'); if(!so){ toast('Select SO','error'); return; }
@@ -1827,14 +1930,18 @@ async function saveU8() {
   const ec=parseFloat(gv('u8_ec'))||0, ded=parseFloat(gv('u8_ded'))||0;
   const totalRenv=bf+ec, grossProfit=bf-tc-ded;
   const prd=gv('u8_prd'), entDate=_u8cache.entDate;
-  let intVal=0;
-  if(prd&&entDate){ const pd=Math.ceil((new Date(prd)-new Date(entDate))/86400000); intVal=((pd*bf*0.12)/365); }
-  const tax=totalRenv>0?(totalRenv*0.01):0;
-  const gpSale=totalRenv>0?Math.round(((totalRenv-tc)/totalRenv)*100)+'%':'0%';
-  const gpPurch=tc>0?Math.round((grossProfit/tc)*100)+'%':'0%';
+  let autoPayDays=0, autoInt=0;
+  if(prd&&entDate){ autoPayDays=Math.ceil((new Date(prd)-new Date(entDate))/86400000); autoInt=((autoPayDays*bf*0.12)/365); }
+  // Use manual override values if entered, else auto
+  const payDays = parseFloat(gv('u8_pdays'))||autoPayDays;
+  const intVal  = parseFloat(gv('u8_int'))||autoInt;
+  const tax     = parseFloat(gv('u8_tax'))||(totalRenv>0?(totalRenv*0.01):0);
+  const gpSale  = gv('u8_gps')||(totalRenv>0?Math.round(((totalRenv-tc)/totalRenv)*100)+'%':'0%');
+  const gpPurch = gv('u8_gpp')||(tc>0?Math.round((grossProfit/tc)*100)+'%':'0%');
   const fd={so_no:so, mf_no:_u8cache.mfNo, extra_charge:ec, total_renv:totalRenv,
     gross_profit:grossProfit, deduction:ded, int_value:intVal, tax_1pct:tax,
     gp_on_sale:gpSale, gp_on_purchase:gpPurch, pmt_rec_date:prd||null,
+    payment_rec_days:payDays, remarks:gv('u8_remarks'),
     status:'COMPLETED', created_by:auth.user?.username||'admin'};
   loader(true); const btn=gel('u8_btn'); if(btn) btn.disabled=true;
   try {
@@ -2031,7 +2138,7 @@ async function viewRecords(mod) {
           <td>${esc(r.broker_name)}</td>
           <td><span class="badge b-info">${esc(r.status||'')}</span></td>
           <td style="font-family:var(--mono)">${esc(r.hours_load||'')}</td>
-          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u1',${r.id})">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user1_booking',${r.id},'u1')"></button></td>`:''}
+          ${auth.isAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u1',${r.id})">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user1_booking',${r.id},'u1')"></button></td>`:''}
         </tr>`).join('');
         break;
       }
@@ -2046,7 +2153,7 @@ async function viewRecords(mod) {
           <td><span class="badge ${r.eway_bill_expiry&&new Date(r.eway_bill_expiry)<new Date()?'b-pend':'b-ok'}">${esc(r.eway_bill_expiry)}</span></td>
           <td>${esc(r.destination_gc)}</td><td>${esc(r.items)}</td><td>${esc(r.pkgs)}</td>
           <td>${esc(r.no_of_article)}</td><td>${esc(r.mt)}</td>
-          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u2',${r.id})">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user2_dispatch',${r.id},'u2')"></button></td>`:''}
+          ${auth.isAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u2',${r.id})">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user2_dispatch',${r.id},'u2')"></button></td>`:''}
         </tr>`).join('');
         break;
       }
@@ -2064,7 +2171,7 @@ async function viewRecords(mod) {
           <td class="mono">₹${fmtN(r.balance)}</td>
           <td class="mono">₹${fmtN(r.total_cost)}</td>
           <td class="mono">₹${fmtN(r.bilti_freight)}</td>
-          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u3',${r.id})">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user3_settlement',${r.id},'u3')"></button></td>`:''}
+          ${auth.isAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u3',${r.id})">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user3_settlement',${r.id},'u3')"></button></td>`:''}
         </tr>`).join('');
         break;
       }
@@ -2079,7 +2186,7 @@ async function viewRecords(mod) {
           <td>${esc(r.gp_on_sale)}</td><td>${esc(r.gp_on_purchase)}</td>
           <td>${esc(r.pmt_rec_date||'—')}</td>
           <td><span class="badge b-ok">${esc(r.status)}</span></td>
-          ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u8',${r.id})">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user8_accounts',${r.id},'u8')"></button></td>`:''}
+          ${auth.isAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u8',${r.id})">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user8_accounts',${r.id},'u8')"></button></td>`:''}
         </tr>`).join('');
         break;
       }
@@ -2114,7 +2221,7 @@ function renderU9Table(rows){
       <td class="mono">${fmtN(r.balance_diff)}</td><td>${esc(r.bal_transaction_id)}</td>
       <td><span class="badge ${ttag}">${esc(type)}</span></td>
       <td><span class="badge ${tag}">${esc(st)}</span></td>
-      ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u9',${r.id})"></button> <button class="btn btn-sm btn-danger" onclick="saDelete('user9_finalcheck',${r.id},'u9')"></button></td>`:''}
+      ${auth.isAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u9',${r.id})"></button> <button class="btn btn-sm btn-danger" onclick="saDelete('user9_finalcheck',${r.id},'u9')"></button></td>`:''}
     </tr>`;
   }).join('');
 }
@@ -2131,7 +2238,7 @@ function renderU10Table(rows){
       <td style="font-family:var(--mono)">${esc(r.gc_no)}</td>
       <td>${esc(r.entry_date)}</td><td>${esc(r.remarks||'')}</td>
       <td><span class="badge ${tag}">${esc(st)}</span></td>
-      ${auth.isSuperAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u10',${r.id});navigate('u10')">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user10_gctracker',${r.id},'u10')"></button></td>`:''}
+      ${auth.isAdmin()?`<td><button class="btn btn-sm btn-warn" onclick="saEdit('u10',${r.id});navigate('u10')">Edit</button> <button class="btn btn-sm btn-danger" onclick="saDelete('user10_gctracker',${r.id},'u10')"></button></td>`:''}
     </tr>`;
   }).join('');
 }
@@ -2154,7 +2261,7 @@ async function filterU10Table(){
 //  SUPERADMIN — EDIT & DELETE
 // 
 async function saEdit(mod, id) {
-  if(!auth.isSuperAdmin()){ toast('SuperAdmin only','error'); return; }
+  if(!auth.isAdmin()){ toast('Admin access required','error'); return; }
   const tableMap={u1:'user1_booking',u2:'user2_dispatch',u3:'user3_settlement',u6:'user6_oppal',u7:'user7_finalbill',u8:'user8_accounts',u9:'user9_finalcheck',u10:'user10_gctracker'};
   const table=tableMap[mod]; if(!table) return;
   loader(true);
@@ -2210,7 +2317,7 @@ async function saEdit(mod, id) {
 }
 
 async function saDelete(table, id, mod) {
-  if(!auth.isSuperAdmin()){ toast('SuperAdmin only','error'); return; }
+  if(!auth.isAdmin()){ toast('Admin access required','error'); return; }
   if(!confirm(`DELETE record #${id} from ${table}?\n\n This CANNOT be undone.`)) return;
   loader(true);
   try {
@@ -2489,7 +2596,7 @@ async function renderUserMgmt() {
       const roleCls=roleMap[u.role]||'urb-user';
       const isSelf=auth.user&&u.id===auth.user.id;
       // SUPERADMIN cannot be deleted by ADMIN (only SUPERADMIN can)
-      const canDelete=!isSelf&&(auth.isSuperAdmin()||u.role!=='SUPERADMIN');
+      const canDelete=!isSelf&&(auth.isSuperAdmin()||(auth.isAdmin()&&u.role!=='SUPERADMIN'));
       return `<tr>
         <td style="font-family:var(--mono)">${u.id}</td>
         <td><strong>${esc(u.username)}</strong>${isSelf?' <span style="color:var(--ink4);font-size:10px">(you)</span>':''}</td>
@@ -2572,7 +2679,398 @@ function clearForm(mod) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-//  THEME SYSTEM
+//  IMPORT DATA ENGINE
+//  CSV → All 10 Workflow Tables + Masters
+//  Column mapping based on Master_Report format (73 cols)
+// ═══════════════════════════════════════════════════════════════
+let _impRows = [], _impParsed = [];
+
+function parseDate(s) {
+  if (!s || !s.trim()) return null;
+  // Formats: DD-Mon-YYYY, DD/MM/YYYY, YYYY-MM-DD
+  s = s.trim();
+  const months = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+  // DD-Mon-YYYY
+  const m1 = s.match(/^(\d{1,2})[\/\-]([A-Za-z]+)[\/\-](\d{4})$/);
+  if (m1) { const mo = months[m1[2].toLowerCase().slice(0,3)]; if(mo) return `${m1[3]}-${String(mo).padStart(2,'0')}-${m1[1].padStart(2,'0')}`; }
+  // DD/MM/YYYY or DD-MM-YYYY
+  const m2 = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  if (m2) return `${m2[3]}-${m2[2].padStart(2,'0')}-${m2[1].padStart(2,'0')}`;
+  // YYYY-MM-DD already
+  const m3 = s.match(/^\d{4}-\d{2}-\d{2}$/);
+  if (m3) return s;
+  return null;
+}
+
+function impNum(s) { if (!s || !s.trim()) return null; const n = parseFloat(String(s).replace(/,/g,'')); return isNaN(n) ? null : n; }
+function impStr(s) { return (s||'').trim() || null; }
+
+function loadImportCSV(input) {
+  const file = input.files[0]; if (!file) return;
+  gel('imp-file-label').textContent = file.name;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const text = e.target.result;
+      const lines = text.split(/\r?\n/).filter(l => l.trim());
+      const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g,''));
+      _impRows = [];
+      for (let i = 1; i < lines.length; i++) {
+        const vals = parseCSVLine(lines[i]);
+        if (vals.length < 3) continue;
+        const row = {};
+        headers.forEach((h,idx) => { row[h] = (vals[idx]||'').replace(/^"|"$/g,'').trim(); });
+        if (!row['SO NUMBER']) continue;
+        _impRows.push(row);
+      }
+      buildImportPreview();
+    } catch(err) { toast('CSV parse error: '+err.message,'error'); }
+  };
+  reader.readAsText(file);
+}
+
+function parseCSVLine(line) {
+  const result = []; let cur = ''; let inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') { inQ = !inQ; }
+    else if (ch === ',' && !inQ) { result.push(cur); cur = ''; }
+    else { cur += ch; }
+  }
+  result.push(cur);
+  return result;
+}
+
+function buildImportPreview() {
+  const total = _impRows.length;
+  gel('imp-row-count').textContent = total + ' rows loaded';
+
+  // Stats
+  const hasMF   = _impRows.filter(r => r['MF NO']).length;
+  const hasBill = _impRows.filter(r => r['BILL NO']).length;
+  const hasAdv  = _impRows.filter(r => r['ADVISE DATE']).length;
+  const hasSub  = _impRows.filter(r => r['BILL SUBMISSION']).length;
+  const hasAdvP = _impRows.filter(r => r['ADVANCE PAYMENT']).length;
+  gel('imp-stats-grid').innerHTML = [
+    ['Total SO Records', total, 'var(--blue)'],
+    ['With MF No', hasMF, 'var(--green)'],
+    ['With Bill No', hasBill, 'var(--amber)'],
+    ['Advise Date', hasAdv, 'var(--purple)'],
+    ['Bill Submitted', hasSub, 'var(--blue-dk)'],
+    ['Adv Payment', hasAdvP, 'var(--green)'],
+  ].map(([label,val,color]) => `
+    <div style="background:var(--canvas);border:1px solid var(--border);border-radius:4px;padding:8px 12px">
+      <div style="font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px">${label}</div>
+      <div style="font-size:16px;font-weight:700;color:${color};font-family:var(--mono)">${val}</div>
+    </div>`).join('');
+
+  // Preview table
+  const tbody = gel('imp-preview-tbody');
+  tbody.innerHTML = _impRows.slice(0,30).map((r,i) => {
+    const hasAll = r['MF NO'] && r['LORRY NO'] && r['PMT RATE'];
+    return `<tr>
+      <td><strong style="font-family:var(--mono)">${esc(r['SO NUMBER'])}</strong></td>
+      <td style="font-family:var(--mono)">${esc(r['MF NO']||'—')}</td>
+      <td>${esc(r['LORRY NO']||'—')}</td>
+      <td>${esc((r['BROKER NAME']||'').slice(0,18))}</td>
+      <td>${esc(r['L DATE']||'—')}</td>
+      <td>${esc(r['MT']||'—')}</td>
+      <td style="font-family:var(--mono)">${esc(r['PMT RATE']||'—')}</td>
+      <td style="font-family:var(--mono)">${esc(r['ADVANCE']||'—')}</td>
+      <td style="font-family:var(--mono)">${esc(r['BALANCE']||'—')}</td>
+      <td>${esc(r['BILL NO']||'—')}</td>
+      <td>${esc(r['ADVISE DATE']||'—')}</td>
+      <td><span class="badge ${hasAll?'b-ok':'b-pend'}">${hasAll?'FULL':'PARTIAL'}</span></td>
+    </tr>`;
+  }).join('');
+  if (_impRows.length > 30) {
+    tbody.innerHTML += `<tr><td colspan="12" style="text-align:center;color:var(--ink4);padding:8px;font-size:11px">... and ${_impRows.length-30} more rows</td></tr>`;
+  }
+
+  gel('imp-preview-wrap').style.display  = '';
+  gel('imp-options-wrap').style.display  = '';
+  gel('imp-action-wrap').style.display   = '';
+}
+
+function impLog(msg, type) {
+  const log = gel('imp-log');
+  if (!log) return;
+  const color = type==='error'?'#ff5555':type==='warn'?'#ffb86c':type==='ok'?'#50fa7b':'#8be9fd';
+  log.innerHTML += `<span style="color:${color}">${msg}</span>\n`;
+  log.scrollTop = log.scrollHeight;
+}
+
+function setImpProg(pct, label, detail) {
+  const bar = gel('imp-prog-bar'), pctEl = gel('imp-prog-pct'), lblEl = gel('imp-prog-label'), detEl = gel('imp-prog-detail');
+  if(bar) bar.style.width = pct+'%';
+  if(pctEl) pctEl.textContent = Math.round(pct)+'%';
+  if(lblEl) lblEl.textContent = label||'Importing...';
+  if(detEl) detEl.textContent = detail||'';
+}
+
+async function runImport() {
+  if (!_impRows.length) { toast('No CSV loaded','error'); return; }
+  const dryRun    = gel('imp-dry-run')?.checked;
+  const skipDup   = gel('imp-skip-dup')?.checked !== false;
+  const doU1      = gel('imp-u1')?.checked;
+  const doU2      = gel('imp-u2')?.checked;
+  const doU3      = gel('imp-u3')?.checked;
+  const doU4      = gel('imp-u4')?.checked;
+  const doU5      = gel('imp-u5')?.checked;
+  const doU6      = gel('imp-u6')?.checked;
+  const doU7      = gel('imp-u7')?.checked;
+  const doU8      = gel('imp-u8')?.checked;
+  const doU9      = gel('imp-u9')?.checked;
+  const doMasters = gel('imp-masters')?.checked;
+
+  const btn = gel('imp-run-btn'); if(btn) btn.disabled=true;
+  gel('imp-log-wrap').style.display='';
+  gel('imp-progress-wrap').style.display='';
+  gel('imp-log').innerHTML='';
+
+  impLog(`[START] ${dryRun?'DRY RUN — ':''}Importing ${_impRows.length} rows...`);
+  impLog(`[MODE] Skip duplicates: ${skipDup}`);
+
+  let existingSOs = new Set();
+  if (skipDup) {
+    try {
+      const existing = await sb('user1_booking','GET',null,'?select=so_no');
+      existing.forEach(r => existingSOs.add(String(r.so_no)));
+      impLog(`[CHECK] ${existingSOs.size} existing SO numbers found`);
+    } catch(e) { impLog('[WARN] Could not fetch existing SOs: '+e.message,'warn'); }
+  }
+
+  // Collect unique masters
+  const customers=new Set(), brokers=new Map(), dests=new Set(), items=new Set();
+  _impRows.forEach(r => {
+    if(r['CONSIGNEE']) customers.add(r['CONSIGNEE'].trim());
+    if(r['CONSIGNOR']) customers.add(r['CONSIGNOR'].trim());
+    if(r['DESTINATION AS PER GC']) dests.add(r['DESTINATION AS PER GC'].trim());
+    if(r['DESTINATION AS PER MF']) dests.add(r['DESTINATION AS PER MF'].trim());
+    if(r['ITEMS']) items.add(r['ITEMS'].trim());
+    if(r['BROKER NAME']) brokers.set(r['BROKER NAME'].trim(), r);
+  });
+
+  // Step 1: Import Masters
+  if (doMasters) {
+    impLog('\n[MASTERS] Importing master data...');
+    if (!dryRun) {
+      const custArr = [...customers].map(n => ({customer_name:n, added_on:new Date().toISOString()}));
+      const destArr = [...dests].map(n => ({destination:n, added_on:new Date().toISOString()}));
+      const itemArr = [...items].map(n => ({item_name:n, added_on:new Date().toISOString()}));
+      // Insert in batches of 50
+      for(let i=0;i<custArr.length;i+=50){ try{await sb('customer_db','POST',custArr.slice(i,i+50));}catch(e){} }
+      for(let i=0;i<destArr.length;i+=50){ try{await sb('destination_db','POST',destArr.slice(i,i+50));}catch(e){} }
+      for(let i=0;i<itemArr.length;i+=50){ try{await sb('items_db','POST',itemArr.slice(i,i+50));}catch(e){} }
+      // Brokers
+      for(const [name] of brokers){ try{await sb('account_db','POST',{broker_name:name,added_on:new Date().toISOString()});}catch(e){} }
+    }
+    impLog(`  Customers: ${customers.size} | Destinations: ${dests.size} | Items: ${items.size} | Brokers: ${brokers.size}`,'ok');
+  }
+
+  let ok=0, skip=0, err=0;
+  const total = _impRows.length;
+
+  for (let i=0; i<_impRows.length; i++) {
+    const r = _impRows[i];
+    const soNo = r['SO NUMBER'];
+    const pct  = ((i+1)/total)*100;
+    setImpProg(pct, `Row ${i+1} / ${total}`, soNo);
+
+    if (skipDup && existingSOs.has(String(soNo))) { skip++; impLog(`[SKIP] SO ${soNo} already exists`,'warn'); continue; }
+
+    try {
+      const by = auth.user?.username||'admin';
+      const now = new Date().toISOString();
+
+      // ── USER 1: BOOKING ──
+      if (doU1) {
+        const u1 = {
+          so_no: soNo, order_date: parseDate(r['ORDER DATE']), order_time: impStr(r['ORDER TIME']),
+          entry_date: parseDate(r['ENT DATE']), entry_time: impStr(r['ENT TIME']),
+          status: impStr(r['STATUS']), hours_load: impStr(r['HOURS LOAD']),
+          lorry_no: impStr(r['LORRY NO']), consignor: impStr(r['CONSIGNOR']),
+          consignee: impStr(r['CONSIGNEE']), from_place: impStr(r['CONSIGNOR']),
+          destination: impStr(r['DESTINATION AS PER GC']),
+          broker_name: impStr(r['BROKER NAME']),
+          created_by: by, created_at: now
+        };
+        if (!dryRun) await sb('user1_booking','POST',u1);
+      }
+
+      // ── USER 2: DISPATCH ──
+      if (doU2) {
+        const u2 = {
+          so_no: soNo, lorry_no: impStr(r['LORRY NO']),
+          loading_date: parseDate(r['L DATE']),
+          oppal_gc_no: impStr(r['OPPAL GC NO']||r['GC NO']),
+          invoice_no: impStr(r['INVOICE NO']),
+          eway_bill: impStr(r['E-WAY BILL NO']),
+          eway_bill_expiry: parseDate(r['E-WAY BILL VALIDITY']),
+          destination_gc: impStr(r['DESTINATION AS PER GC']),
+          items: impStr(r['ITEMS']), pkgs: impStr(r['PKGS']),
+          no_of_article: impNum(r['NO OF ARTICLE']),
+          mt: impStr(r['MT']), status:'Dispatched', created_by: by, created_at: now
+        };
+        if (!dryRun) await sb('user2_dispatch','POST',u2);
+      }
+
+      // ── USER 3: SETTLEMENT ──
+      if (doU3 && r['MF NO']) {
+        const u3 = {
+          so_no: soNo, lorry_no: impStr(r['LORRY NO']),
+          broker_name: impStr(r['BROKER NAME']), mf_no: impStr(r['MF NO']),
+          destination_mf: impStr(r['DESTINATION AS PER MF']),
+          pmt_rate: impNum(r['PMT RATE']), total_freight: impNum(r['TOTAL FREIGHT']),
+          other_expense: impNum(r['OTHER EXPENSES']),
+          particular: impStr(r['PARTICULAR']),
+          lm: impNum(r['L/M'])||0, pm: impNum(r['P/M'])||0,
+          freight_mf: impNum(r['FREIGHT MF']),
+          advance: impNum(r['ADVANCE']), diesel: impNum(r['DIESEL']),
+          other: impNum(r['OTHER'])||0, balance: impNum(r['BALANCE']),
+          loading_labour: impNum(r['LOADING LABOUR'])||0,
+          fooding: impNum(r['FOODING'])||0, con: impNum(r['CONV'])||0,
+          unloading: impNum(r['UNLOAD'])||0, xerox: impNum(r['XEROX'])||0,
+          detention: impNum(r['DETE'])||0,
+          extra_point: impNum(r['EXTRA POINT/WEIGHT'])||0,
+          other_chrg: impNum(r['OTHER CHRG'])||0,
+          total_exp: impNum(r['TOTAL EXP'])||0,
+          extra_labour: impNum(r['EXTRA LABOUR'])||0,
+          total_cost: impNum(r['TOTAL COST']),
+          mt: impNum(r['MT (SETTLEMENT)'])||impNum(r['MT']),
+          bill_pmt: impNum(r['BILL PMT']),
+          bilti_freight: impNum(r['BILTI FREIGHT']),
+          settlement_status:'Settled', created_by: by, created_at: now
+        };
+        if (!dryRun) await sb('user3_settlement','POST',u3);
+      }
+
+      // ── USER 4: EWAY BILL ──
+      if (doU4 && r['E-WAY BILL NO']) {
+        const u4 = {
+          so_no: soNo, mf_no: impStr(r['MF NO']),
+          lorry_no: impStr(r['LORRY NO']),
+          broker_name: impStr(r['BROKER NAME']),
+          eway_bill: impStr(r['E-WAY BILL NO']),
+          eway_bill_expiry: parseDate(r['E-WAY BILL VALIDITY']),
+          status:'ACTIVE', created_by: by, created_at: now
+        };
+        if (!dryRun) await sb('user4_eway','POST',u4);
+      }
+
+      // ── USER 5: ADVISE DATE ──
+      if (doU5 && r['ADVISE DATE']) {
+        const gcStr = r['OPPAL GC NO']||r['GC NO']||'';
+        const gcList = gcStr.split(/[\r\n,;]+/).map(g=>g.trim()).filter(Boolean);
+        const advDate = parseDate(r['ADVISE DATE']);
+        const diffDays = impStr(r['ADVISE NO OF DAYS']);
+        for (const gc of (gcList.length?gcList:[gcStr])) {
+          if (!gc) continue;
+          const u5 = {
+            so_no: soNo, mf_no: impStr(r['MF NO']), gc_no: gc,
+            advise_date: advDate, diff_days: diffDays?diffDays+' days':null,
+            status:'ADVISED', created_by: by, created_at: now
+          };
+          if (!dryRun) await sb('user5_advise','POST',u5);
+        }
+      }
+
+      // ── USER 6: OPPAL ──
+      if (doU6 && r['BILL SUBMISSION']) {
+        const u6 = {
+          so_no: soNo, mf_no: impStr(r['MF NO']),
+          bill_submit_date: parseDate(r['BILL SUBMISSION']),
+          diff_days: impStr(r['BILL SUB NO OF DAYS'])?r['BILL SUB NO OF DAYS']+' days':null,
+          status:'OPPAL SUBMITTED', created_by: by, created_at: now
+        };
+        if (!dryRun) await sb('user6_oppal','POST',u6);
+      }
+
+      // ── USER 7: FINAL BILL ──
+      if (doU7 && r['BILL NO']) {
+        const u7 = {
+          so_no: soNo, mf_no: impStr(r['MF NO']),
+          bill_no: impStr(r['BILL NO']),
+          bill_date: parseDate(r['BILL DATE']),
+          diff_final_oppal: impStr(r['DIFF BW ADVISE - BILL']),
+          status:'COMPLETED', created_by: by, created_at: now
+        };
+        if (!dryRun) await sb('user7_finalbill','POST',u7);
+      }
+
+      // ── USER 8: ACCOUNTS ──
+      if (doU8 && (r['EXTRA CHRG']||r['TOTAL RENV']||r['GROSS P'])) {
+        const u8 = {
+          so_no: soNo, mf_no: impStr(r['MF NO']),
+          extra_charge: impNum(r['EXTRA CHRG'])||0,
+          total_renv: impNum(r['TOTAL RENV']),
+          gross_profit: impNum(r['GROSS P']),
+          deduction: impNum(r['DEDUCTION'])||0,
+          pmt_rec_date: parseDate(r['PMT REC DATE']),
+          payment_rec_days: impNum(r['PAYMENT REC DAYS']),
+          int_value: impNum(r['INT %']),
+          tax_1pct: impNum(r['TAX 1%']),
+          gp_on_sale: impStr(r['GP ON SALE']),
+          gp_on_purchase: impStr(r['GP ON PURCHASE']),
+          remarks: impStr(r['ANY REMARKS']),
+          status:'COMPLETED', created_by: by, created_at: now
+        };
+        if (!dryRun) await sb('user8_accounts','POST',u8);
+      }
+
+      // ── USER 9: FINAL CHECK ──
+      if (doU9 && r['ADVANCE PAYMENT']) {
+        const advAmt = impNum(r['ADVANCE'])||0;
+        const advPaid = impNum(r['ADVANCE PAYMENT'])||0;
+        const balAmt = impNum(r['BALANCE'])||0;
+        const balPaid = impNum(r['BALANCE AMOUNT'])||0;
+        const advDiff = advAmt - advPaid;
+        const balDiff = balAmt - balPaid;
+        let status = 'SETTLED';
+        if(advDiff!==0&&balDiff!==0) status='BOTH PENDING';
+        else if(advDiff!==0) status='ADV PENDING';
+        else if(balDiff!==0) status='BAL PENDING';
+        const u9 = {
+          so_no: soNo, mf_no: impStr(r['MF NO']),
+          lorry_no: impStr(r['LORRY NO']), broker_name: impStr(r['BROKER NAME']),
+          advance_amount: advAmt, amount_paid: advPaid, advance_diff: advDiff,
+          transaction_id: impStr(r['TRANSACTION NO (ADV)']),
+          balance_amount: balAmt, balance_paid: balPaid, balance_diff: balDiff,
+          bal_transaction_id: impStr(r['TRANSACTION DETAILS (BAL)']),
+          entry_type:'IMPORT', status, created_by: by, created_at: now
+        };
+        if (!dryRun) await sb('user9_finalcheck','POST',u9);
+      }
+
+      ok++;
+      if ((i+1) % 10 === 0 || i === total-1) {
+        impLog(`[OK] Rows ${Math.max(1,i-8)}–${i+1} imported`,'ok');
+      }
+    } catch(e) {
+      err++;
+      impLog(`[ERROR] SO ${soNo}: ${e.message}`,'error');
+    }
+  }
+
+  setImpProg(100, 'Complete!', '');
+  impLog(`\n[DONE] Total: ${total} | Imported: ${ok} | Skipped: ${skip} | Errors: ${err}`,
+         err>0?'warn':'ok');
+  if (dryRun) impLog('[DRY RUN] No data was saved to database','warn');
+  else { toast(`Import complete — ${ok} rows imported, ${skip} skipped, ${err} errors`, err>0?'info':'success'); await initApp(); }
+  if(btn) btn.disabled=false;
+}
+
+function resetImport() {
+  _impRows=[]; _impParsed=[];
+  gel('imp-file').value='';
+  gel('imp-file-label').textContent='Click to select CSV file';
+  gel('imp-preview-wrap').style.display='none';
+  gel('imp-options-wrap').style.display='none';
+  gel('imp-action-wrap').style.display='none';
+  gel('imp-progress-wrap').style.display='none';
+  gel('imp-log-wrap').style.display='none';
+  gel('imp-log').innerHTML='';
+}
 // ═══════════════════════════════════════════════════════════════
 const THEMES = {
   classic: {
